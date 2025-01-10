@@ -1,0 +1,68 @@
+{
+    "name": "hetznercloud/client",
+    "description": "A PHP client for the Hetzner Cloud API.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "HetznerCloud\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Joey McKenzie",
+            "email": "joey.mckenzie27@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^8.4"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.7",
+        "rector/rector": "^2.0",
+        "laravel/pint": "^1.19",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpstan/phpstan-deprecation-rules": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/extension-installer": "^1.4"
+    },
+    "scripts": {
+        "prepare": "git config core.hookspath .githooks && lefthook install",
+        "test:unit": "vendor/bin/pest --parallel",
+        "test:uwatch": "vendor/bin/pest --parallel --watch",
+        "test:coverage": "vendor/bin/pest --coverage --parallel",
+        "test:watch": "vendor/bin/pest --watch --parallel --mutate",
+        "test:types": "vendor/bin/pest --type-coverage --min=100 --parallel",
+        "test:mutate": "vendor/bin/pest --mutate --min=100 --parallel",
+        "test:integration": "php examples/testing.php",
+        "test": [
+            "@test:mutate",
+            "@test:coverage"
+        ],
+        "fmt": "vendor/bin/pint",
+        "fmt:test": "./vendor/bin/pint --test",
+        "lint": "vendor/bin/phpstan analyze",
+        "lint:watch": "find src phpstan.neon.dist | entr -s \"composer run lint\"",
+        "refactor": "vendor/bin/rector process",
+        "refactor:test": "vendor/bin/rector process --dry-run",
+        "check": [
+            "@test",
+            "@fmt:test",
+            "@lint",
+            "@refactor:test"
+        ],
+        "fix": [
+            "@refactor",
+            "@fmt"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true,
+            "phpstan/extension-installer": true
+        }
+    }
+}
