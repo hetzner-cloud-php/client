@@ -18,7 +18,7 @@ describe(ResourceUri::class, function (): void {
     describe('get', function (): void {
         it('can get a resource without suffix', function (): void {
             // Arrange & Act
-            $uri = ResourceUri::get('com.example.resource');
+            $uri = ResourceUri::list('com.example.resource');
 
             // Assert
             expect((string) $uri)->toBe('com.example.resource');
@@ -26,7 +26,7 @@ describe(ResourceUri::class, function (): void {
 
         it('can get a resource with suffix', function (): void {
             // Arrange & Act
-            $uri = ResourceUri::get('com.example.resource', 'list');
+            $uri = ResourceUri::list('com.example.resource', 'list');
 
             // Assert
             expect((string) $uri)->toBe('com.example.resource/list');
@@ -34,7 +34,7 @@ describe(ResourceUri::class, function (): void {
 
         it('handles null suffix correctly', function (): void {
             // Arrange & Act
-            $uri = ResourceUri::get('com.example.resource', null);
+            $uri = ResourceUri::list('com.example.resource', null);
 
             // Assert
             expect((string) $uri)->toBe('com.example.resource');
