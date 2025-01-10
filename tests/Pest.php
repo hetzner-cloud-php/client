@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+foreach (glob(__DIR__.'/Fixtures/**/*Data.php') as $fixture) {
+    require_once $fixture;
+}
+
+foreach (glob(__DIR__.'/Mocks/*Mock.php') as $mock) {
+    require_once $mock;
+}
+
 /*
 |--------------------------------------------------------------------------
 | Test Case

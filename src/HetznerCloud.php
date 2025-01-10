@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace HetznerCloud;
 
+use HetznerCloud\Exceptions\ApiKeyMissingException;
+
 final class HetznerCloud
 {
     /**
      * Creates a new default client instance.
+     *
+     * @throws ApiKeyMissingException
      */
     public static function client(string $apiKey): Client
     {

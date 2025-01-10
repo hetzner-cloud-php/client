@@ -6,8 +6,8 @@ namespace Tests\ValueObjects;
 
 use GuzzleHttp\Client as GuzzleClient;
 use HetznerCloud\Builder;
-use HetznerCloud\Client;
 use HetznerCloud\Exceptions\ApiKeyMissingException;
+use HetznerCloud\HttpClientUtilities\Http\Handlers\JsonResponseHandler;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -20,6 +20,17 @@ describe(Builder::class, function (): void {
         // Arrange & Act & Assert
         expect(fn () => $this->builder->build())
             ->toThrow(ApiKeyMissingException::class);
+    });
+
+    it('is constructed with a JSON request handler', function (): void {
+        // Arrange & Act
+        $this->builder
+            ->withApiKey('apiKey')
+            ->build();
+
+        // Assert
+        expect($this->builder->getConnector()->getResponseHandler())
+            ->toBeInstanceOf(JsonResponseHandler::class);
     });
 
     it('sets custom HTTP client', function (): void {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use HetznerCloud\Contracts\ResponseContract;
+use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 
 arch('All source files are strictly typed')
     ->expect('HetznerCloud\\')

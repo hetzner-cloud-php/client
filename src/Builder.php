@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace HetznerCloud;
 
 use HetznerCloud\Exceptions\ApiKeyMissingException;
-use HetznerCloud\Http\Connector;
-use HetznerCloud\ValueObjects\Connector\BaseUri;
-use HetznerCloud\ValueObjects\Connector\Headers;
-use HetznerCloud\ValueObjects\Connector\QueryParams;
+use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
+use HetznerCloud\HttpClientUtilities\Http\Connector;
+use HetznerCloud\HttpClientUtilities\Http\Handlers\JsonResponseHandler;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\BaseUri;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Headers;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\QueryParams;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -45,6 +47,8 @@ final class Builder
      * API key associated to client authenticated requests.
      */
     private ?string $apiKey = null;
+
+    private ?ConnectorContract $connector = null;
 
     /**
      * Sets the HTTP client for the requests. If no client is provided the
@@ -112,14 +116,19 @@ final class Builder
         }
 
         $client = $this->httpClient ??= Psr18ClientDiscovery::find();
-        $connector = new Connector($client, $baseUri, $headers, $queryParams);
+        $this->connector = new Connector($client, $baseUri, $headers, $queryParams, new JsonResponseHandler);
 
-        return new Client($connector);
+        return new Client($this->connector, $this->apiKey);
     }
 
     public function getHttpClient(): ?ClientInterface
     {
         return $this->httpClient;
+    }
+
+    public function getConnector(): ?ConnectorContract
+    {
+        return $this->connector;
     }
 
     /**
