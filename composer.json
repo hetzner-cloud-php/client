@@ -1,11 +1,21 @@
 {
     "name": "hetznercloud/client",
     "description": "A PHP client for the Hetzner Cloud API.",
+    "keywords": [
+        "hetzner",
+        "cloud",
+        "sdk"
+    ],
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
             "HetznerCloud\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "authors": [
@@ -16,7 +26,13 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^8.4"
+        "php": "^8.4",
+        "php-http/discovery": "^1.20",
+        "php-http/multipart-stream-builder": "^1.4",
+        "psr/http-client": "^1.0",
+        "psr/http-client-implementation": "^1.0",
+        "psr/http-factory-implementation": "^1.0",
+        "psr/http-message": "^2.0"
     },
     "require-dev": {
         "pestphp/pest": "^3.7",
@@ -26,7 +42,8 @@
         "phpstan/phpstan-strict-rules": "^2.0",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/phpstan-phpunit": "^2.0",
-        "phpstan/extension-installer": "^1.4"
+        "phpstan/extension-installer": "^1.4",
+        "guzzlehttp/guzzle": "^7.9"
     },
     "scripts": {
         "prepare": "git config core.hookspath .githooks && lefthook install",
