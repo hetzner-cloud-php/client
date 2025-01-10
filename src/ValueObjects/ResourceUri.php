@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\ValueObjects;
 
+use Override;
 use Stringable;
 
 /**
@@ -36,7 +37,7 @@ final readonly class ResourceUri implements Stringable
     /**
      * Creates a new resource URI value object that lists the given resource.
      */
-    public static function get(string $resource, ?string $suffix = null): self
+    public static function list(string $resource, ?string $suffix = null): self
     {
         $uri = isset($suffix)
             ? "$resource/$suffix"
