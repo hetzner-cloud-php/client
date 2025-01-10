@@ -68,8 +68,8 @@ final class ClientMock
 
     public static function createForGet(
         string $resource,
-        array $params,
         Response|ResponseInterface|string $response,
+        array $params = [],
         string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
         array $additionalHeaders = []

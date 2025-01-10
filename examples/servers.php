@@ -15,3 +15,6 @@ $client = HetznerCloud::client($apiKey);
 
 $servers = $client->servers()->getServers();
 var_dump($servers);
+
+$server = $client->servers()->getServer($servers->servers[0]['id']);
+var_dump($server);

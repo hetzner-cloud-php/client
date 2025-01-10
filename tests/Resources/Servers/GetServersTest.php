@@ -16,11 +16,11 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
+            Response::from(servers()),
             [
                 'page' => 1,
                 'per_page' => 25,
-            ],
-            Response::from(servers()),
+            ]
         );
 
         // Act
@@ -37,11 +37,11 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
+            Response::from(servers()),
             [
                 'page' => 2,
                 'per_page' => 25,
             ],
-            Response::from(servers()),
         );
 
         // Act
@@ -58,11 +58,11 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
+            Response::from(servers()),
             [
                 'page' => 1,
                 'per_page' => 69,
             ],
-            Response::from(servers()),
         );
 
         // Act

@@ -8,9 +8,11 @@ use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Response;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Payload;
+use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 
 /**
+ * @phpstan-import-type GetServerResponseSchema from GetServerResponse
  * @phpstan-import-type GetServersResponseSchema from GetServersResponse
  */
 final readonly class ServersResource implements ServersResourceContract
@@ -36,5 +38,18 @@ final readonly class ServersResource implements ServersResourceContract
         $data = $response->data();
 
         return GetServersResponse::from($data);
+    }
+
+    public function getServer(int $id): GetServerResponse
+    {
+        $payload = Payload::retrieve('servers', $id);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->makeRequest($payload, $this->apiKey);
+
+        /** @var GetServerResponseSchema $data */
+        $data = $response->data();
+
+        return GetServerResponse::from($data);
     }
 }
