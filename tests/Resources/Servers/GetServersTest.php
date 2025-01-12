@@ -5,9 +5,8 @@ declare(strict_types=1);
 use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServersResponse;
+use Tests\Fixtures\Servers\GetServersFixture;
 use Tests\Mocks\ClientMock;
-
-use function Tests\Fixtures\Servers\servers;
 
 covers(ServersResource::class);
 
@@ -16,7 +15,7 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
-            Response::from(servers()),
+            Response::from(GetServersFixture::data()),
             [
                 'page' => 1,
                 'per_page' => 25,
@@ -37,7 +36,7 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
-            Response::from(servers()),
+            Response::from(GetServersFixture::data()),
             [
                 'page' => 2,
                 'per_page' => 25,
@@ -58,7 +57,7 @@ describe('servers', function (): void {
         // Arrange
         $client = ClientMock::createForGet(
             'servers',
-            Response::from(servers()),
+            Response::from(GetServersFixture::data()),
             [
                 'page' => 1,
                 'per_page' => 69,

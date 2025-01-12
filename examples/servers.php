@@ -13,8 +13,18 @@ $dotenv->load();
 $apiKey = $_ENV['HETZNER_CLOUD_API_KEY'];
 $client = HetznerCloud::client($apiKey);
 
+// Get a list of servers
 $servers = $client->servers()->getServers();
 var_dump($servers);
 
+// Get a single server
 $server = $client->servers()->getServer($servers->servers[0]['id']);
+var_dump($server);
+
+// Create a server
+$createdServer = $client->servers()->createServer(
+    name: 'test-server',
+    image: 'ubuntu-24.04',
+    serverType: 'cpx11',
+);
 var_dump($server);

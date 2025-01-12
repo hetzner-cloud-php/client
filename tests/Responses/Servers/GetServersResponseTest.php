@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\GetServersResponse;
-
-use function Tests\Fixtures\Servers\servers;
+use Tests\Fixtures\Servers\GetServersFixture;
 
 covers(GetServersResponse::class);
 
 describe(GetServersResponse::class, function (): void {
     it('returns a valid typed object', function (): void {
         // Arrange & Act
-        $response = GetServersResponse::from(servers());
+        $response = GetServersResponse::from(GetServersFixture::data());
 
         // Assert
         expect($response)->toBeInstanceOf(GetServersResponse::class)
@@ -23,7 +22,7 @@ describe(GetServersResponse::class, function (): void {
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = GetServersResponse::from(servers());
+        $response = GetServersResponse::from(GetServersFixture::data());
 
         // Assert
         expect($response['meta'])->toBeArray()
@@ -32,7 +31,7 @@ describe(GetServersResponse::class, function (): void {
 
     it('prints to an array', function (): void {
         // Arrange
-        $data = servers();
+        $data = GetServersFixture::data();
 
         // Act
         $response = GetServersResponse::from($data);
