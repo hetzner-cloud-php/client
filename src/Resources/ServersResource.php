@@ -6,24 +6,24 @@ namespace HetznerCloud\Resources;
 
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
-use HetznerCloud\HttpClientUtilities\Enums\MediaType;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Response;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Payload;
+use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
+use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 use Override;
 
 /**
  * @phpstan-import-type CreateServerResponseSchema from CreateServerResponse
+ * @phpstan-import-type Action from CreateServerResponse
  * @phpstan-import-type GetServerResponseSchema from GetServerResponse
  * @phpstan-import-type GetServersResponseSchema from GetServersResponse
  */
 final readonly class ServersResource implements ServersResourceContract
 {
     public function __construct(
-        private ConnectorContract $connector,
-        private string $apiKey,
+        public ConnectorContract $connector
     ) {
         //
     }
@@ -31,13 +31,14 @@ final readonly class ServersResource implements ServersResourceContract
     #[Override]
     public function getServers(int $page = 1, int $perPage = 25): GetServersResponse
     {
-        $payload = Payload::list('servers', [
-            'page' => $page,
-            'per_page' => $perPage,
-        ]);
+        $request = ClientRequestBuilder::get('servers')
+            ->withQueryParams([
+                'page' => $page,
+                'per_page' => $perPage,
+            ]);
 
         /** @var Response<array<array-key, mixed>> $response */
-        $response = $this->connector->makeRequest($payload, $this->apiKey);
+        $response = $this->connector->sendClientRequest($request);
 
         /** @var GetServersResponseSchema $data */
         $data = $response->data();
@@ -48,10 +49,10 @@ final readonly class ServersResource implements ServersResourceContract
     #[Override]
     public function getServer(int $id): GetServerResponse
     {
-        $payload = Payload::retrieve('servers', $id);
+        $request = ClientRequestBuilder::get('servers', $id);
 
         /** @var Response<array<array-key, mixed>> $response */
-        $response = $this->connector->makeRequest($payload, $this->apiKey);
+        $response = $this->connector->sendClientRequest($request);
 
         /** @var GetServerResponseSchema $data */
         $data = $response->data();
@@ -77,30 +78,64 @@ final readonly class ServersResource implements ServersResourceContract
         ?array $sshKeys = null,
         ?string $userData = null,
     ): CreateServerResponse {
-        $payload = Payload::post('servers', [
+        $payload = [
             'name' => $name,
             'image' => $image,
             'server_type' => $serverType,
-        ], contentType: MediaType::JSON)
-            ->withOptionalParameter('automount', $automount)
-            ->withOptionalParameter('start_after_create', $automount)
-            ->withOptionalParameter('datacenter', $datacenter)
-            ->withOptionalParameter('firewalls', $firewalls)
-            ->withOptionalParameter('labels', $labels)
-            ->withOptionalParameter('location', $location)
-            ->withOptionalParameter('networks', $networks)
-            ->withOptionalParameter('placement_group', $placementGroup)
-            ->withOptionalParameter('public_net', $publicNet)
-            ->withOptionalParameter('ssh_keys', $sshKeys)
-            ->withOptionalParameter('user_data', $userData)
-            ->withOptionalParameter('volumes', $volumes);
+            'automount' => $automount,
+            'start_after_create' => $automount,
+            'datacenter' => $datacenter,
+            'firewalls' => $firewalls,
+            'labels' => $labels,
+            'location' => $location,
+            'networks' => $networks,
+            'placement_group' => $placementGroup,
+            'public_net' => $publicNet,
+            'ssh_keys' => $sshKeys,
+            'user_data' => $userData,
+            'volumes' => $volumes,
+        ];
+
+        $payload = array_filter($payload, fn (mixed $value): bool => $value !== null);
+        $request = ClientRequestBuilder::post('servers')
+            ->withRequestContent($payload);
 
         /** @var Response<array<array-key, mixed>> $response */
-        $response = $this->connector->makeRequest($payload, $this->apiKey);
+        $response = $this->connector->sendClientRequest($request);
 
         /** @var CreateServerResponseSchema $data */
         $data = $response->data();
 
         return CreateServerResponse::from($data);
+    }
+
+    public function deleteServer(int $id): DeleteServerResponse
+    {
+        $request = ClientRequestBuilder::delete('servers', $id);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var array{action: Action} $data */
+        $data = $response->data();
+
+        return DeleteServerResponse::from($data);
+    }
+
+    public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse
+    {
+        $payload = ClientRequestBuilder::put('servers', $id)
+            ->withRequestContent([
+                'name' => $name,
+                'labels' => $labels,
+            ]);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($payload);
+
+        /** @var GetServerResponseSchema $data */
+        $data = $response->data();
+
+        return GetServerResponse::from($data);
     }
 }

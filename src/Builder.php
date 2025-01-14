@@ -8,9 +8,9 @@ use HetznerCloud\Exceptions\ApiKeyMissingException;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Http\Connector;
 use HetznerCloud\HttpClientUtilities\Http\Handlers\JsonResponseHandler;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\BaseUri;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Headers;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\QueryParams;
+use HetznerCloud\HttpClientUtilities\ValueObjects\BaseUri;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Headers;
+use HetznerCloud\HttpClientUtilities\ValueObjects\QueryParams;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -22,73 +22,62 @@ final class Builder
     /**
      * The HTTP client for the requests.
      */
-    private ?ClientInterface $httpClient = null;
+    public private(set) ?ClientInterface $httpClient = null;
 
     /**
      * The HTTP headers for the requests.
      *
      * @var array<string, string>
      */
-    private array $headers = [];
+    public private(set) array $headers = [];
 
     /**
      * The query parameters to be included on each outgoing request.
      *
      * @var array<string, string|int>
      */
-    private array $queryParams = [];
-
-    /**
-     * The endpoint to send calls to. Bluesky offers a public API as well, but we default to the authenticated API.
-     */
-    private string $baseUri = Client::API_BASE_URL;
+    public private(set) array $queryParams = [];
 
     /**
      * API key associated to client authenticated requests.
      */
-    private ?string $apiKey = null;
-
-    private ?ConnectorContract $connector = null;
+    public private(set) ?string $apiKey = null;
 
     /**
-     * Sets the HTTP client for the requests. If no client is provided the
-     * factory will try to find one using PSR-18 HTTP Client Discovery.
+     * Client connector optionally configured with global defaults.
      */
+    public private(set) ?ConnectorContract $connector = null;
+
     public function withHttpClient(ClientInterface $client): self
     {
-        $this->httpClient = $client;
+        $clone = clone $this;
+        $clone->httpClient = $client;
 
-        return $this;
+        return $clone;
     }
 
-    /**
-     * Adds a custom header to each outgoing request.
-     */
     public function withHeader(string $name, string $value): self
     {
-        $this->headers[$name] = $value;
+        $clone = clone $this;
+        $clone->headers[$name] = $value;
 
-        return $this;
+        return $clone;
     }
 
-    /**
-     * Adds a custom query parameter to the request url for each outgoing request.
-     */
     public function withQueryParam(string $name, string $value): self
     {
-        $this->queryParams[$name] = $value;
+        $clone = clone $this;
+        $clone->queryParams[$name] = $value;
 
-        return $this;
+        return $clone;
     }
 
-    /**
-     * The username associated to the client instance.
-     */
     public function withApiKey(string $apiKey): self
     {
-        $this->apiKey = $apiKey;
+        $clone = clone $this;
+        $clone->apiKey = $apiKey;
 
-        return $this;
+        return $clone;
     }
 
     /**
@@ -107,7 +96,9 @@ final class Builder
             $headers = $headers->withCustomHeader($name, $value);
         }
 
-        $baseUri = BaseUri::from($this->baseUri);
+        // Add the API key as a default header to be included on every request
+        $headers = $headers->withCustomHeader('Authorization', "Bearer $this->apiKey");
+        $baseUri = BaseUri::from(Client::API_BASE_URL);
         $queryParams = QueryParams::create();
 
         // As with the headers, we'll also include any query params configured on each request
@@ -115,45 +106,13 @@ final class Builder
             $queryParams = $queryParams->withParam($name, $value);
         }
 
-        $client = $this->httpClient ??= Psr18ClientDiscovery::find();
+        if (!$this->httpClient instanceof \Psr\Http\Client\ClientInterface) {
+            $this->httpClient = Psr18ClientDiscovery::find();
+        }
+
+        $client = $this->httpClient;
         $this->connector = new Connector($client, $baseUri, $headers, $queryParams, new JsonResponseHandler);
 
-        return new Client($this->connector, $this->apiKey);
-    }
-
-    public function getHttpClient(): ?ClientInterface
-    {
-        return $this->httpClient;
-    }
-
-    public function getConnector(): ?ConnectorContract
-    {
-        return $this->connector;
-    }
-
-    /**
-     * @return array<string, string>
-     */
-    public function getHeaders(): array
-    {
-        return $this->headers;
-    }
-
-    /**
-     * @return array<string, string|int>
-     */
-    public function getQueryParams(): array
-    {
-        return $this->queryParams;
-    }
-
-    public function getApiKey(): ?string
-    {
-        return $this->apiKey;
-    }
-
-    public function getBaseUri(): string
-    {
-        return $this->baseUri;
+        return new Client($this->connector);
     }
 }

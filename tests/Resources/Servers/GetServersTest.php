@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Response;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 use Tests\Fixtures\Servers\GetServersFixture;
@@ -13,7 +13,7 @@ covers(ServersResource::class);
 describe('servers', function (): void {
     it('can retrieve servers for a project', function (): void {
         // Arrange
-        $client = ClientMock::createForGet(
+        $client = ClientMock::get(
             'servers',
             Response::from(GetServersFixture::data()),
             [
@@ -34,7 +34,7 @@ describe('servers', function (): void {
 
     it('can retrieve servers from a page', function (): void {
         // Arrange
-        $client = ClientMock::createForGet(
+        $client = ClientMock::get(
             'servers',
             Response::from(GetServersFixture::data()),
             [
@@ -55,7 +55,7 @@ describe('servers', function (): void {
 
     it('can retrieve servers with a per page parameter', function (): void {
         // Arrange
-        $client = ClientMock::createForGet(
+        $client = ClientMock::get(
             'servers',
             Response::from(GetServersFixture::data()),
             [

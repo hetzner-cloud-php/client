@@ -13,7 +13,7 @@ pre-commit:
     fix:
       tags: backend code quality fixes
       glob: "*.php"
-      run: composer run fix {staged_files}
+      run: composer run fix
       stage_fixed: true
 
 commit-msg:

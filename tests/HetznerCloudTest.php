@@ -4,36 +4,31 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use GuzzleHttp\Client as GuzzleClient;
 use HetznerCloud\Builder;
 use HetznerCloud\Client;
 use HetznerCloud\HetznerCloud;
-use Tests\Mocks\ClientMock;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Headers;
+use HetznerCloud\HttpClientUtilities\ValueObjects\QueryParams;
 
 covers(HetznerCloud::class);
 
 describe(HetznerCloud::class, function (): void {
-    beforeEach(function (): void {
-        ClientMock::reset();
-    });
-
     it('creates default client with an API key', function (): void {
-        // Act
+        // Arrange & Act
         $client = HetznerCloud::client('apiKey');
 
         // Assert
-        expect($client)
-            ->toBeInstanceOf(Client::class)
-            ->and($client->apiKey)->toBe('apiKey');
-
-        // Verify default API endpoint
-        $baseUri = $client->connector->getBaseUri();
-        expect((string) $baseUri)->toBe('https://api.hetzner.cloud/v1/');
-
-        // Verify User-Agent header
-        $headers = $client->connector->getHeaders()->toArray();
-        expect($headers)
-            ->toHaveKey('User-Agent')
-            ->and($headers['User-Agent'])->toMatch('/^hetzner-cloud-php-client\/\d+\.\d+\.\d+$/');
+        expect($client)->toBeInstanceOf(Client::class)
+            ->and((string) $client->connector->baseUri)->toBe(Client::API_BASE_URL.'/')
+            ->and($client->connector->client)->toBeInstanceOf(GuzzleClient::class)
+            ->and($client->connector->headers)->toBeInstanceOf(Headers::class)
+            ->and($client->connector->headers->hasAnyHeaders())->toBeTrue()
+            ->and($client->connector->headers->contains('Authorization'))->toBeTrue()
+            ->and($client->connector->headers->contains('User-Agent'))->toBeTrue()
+            ->and($client->connector->headers->toArray()['User-Agent'])->toMatch('/^hetzner-cloud-php-client\/\d+\.\d+\.\d+$/')
+            ->and($client->connector->queryParams)->toBeInstanceOf(QueryParams::class)
+            ->and($client->connector->queryParams->hasAnyParams())->toBeFalse();
     });
 
     it('creates builder instance', function (): void {
@@ -43,10 +38,8 @@ describe(HetznerCloud::class, function (): void {
         // Assert
         expect($builder)
             ->toBeInstanceOf(Builder::class)
-            // Verify builder starts with default values
-            ->and($builder->getHeaders())->toBe([])
-            ->and($builder->getQueryParams())->toBe([])
-            ->and($builder->getBaseUri())->toBe(Client::API_BASE_URL);
+            ->and($builder->headers)->toBe([])
+            ->and($builder->queryParams)->toBe([]);
     });
 
     it('maintains builder customizations', function (): void {
@@ -59,22 +52,18 @@ describe(HetznerCloud::class, function (): void {
             ->build();
 
         // Assert
-        expect($client->apiKey)->toBe('apiKey');
-
-        // Verify headers
-        $headers = $client->connector->getHeaders()->toArray();
+        $headers = $client->connector->headers->toArray();
         expect($headers)
             ->toHaveKey('X-Custom')
             ->toHaveKey('User-Agent')
             ->and($headers['X-Custom'])->toBe('value');
 
         // Verify query params
-        $params = $client->connector->getQueryParams()->toArray();
+        $params = $client->connector->queryParams->toArray();
         expect($params)->toHaveKey('test')
             ->and($params['test'])->toBe('value');
 
         // Verify API endpoint
-        $baseUri = $client->connector->getBaseUri();
-        expect((string) $baseUri)->toBe('https://api.hetzner.cloud/v1/');
+        expect((string) $client->connector->baseUri)->toBe(Client::API_BASE_URL.'/');
     });
 });

@@ -11,15 +11,27 @@ use Tests\Mocks\ClientMock;
 covers(ServersResource::class);
 
 describe('servers', function (): void {
-    it('can retrieve a single server from a project', function (): void {
+    it('can update a server for a project', function (): void {
         // Arrange
-        $client = ClientMock::get(
+        $client = ClientMock::put(
             'servers/42069',
+            [
+                'name' => 'test-server-1',
+                'labels' => [
+                    'foo' => 'bar',
+                ],
+            ],
             Response::from(GetServerFixture::data()),
         );
 
         // Act
-        $result = $client->servers()->getServer(42069);
+        $result = $client->servers()->updateServer(
+            42069,
+            name: 'test-server-1',
+            labels: [
+                'foo' => 'bar',
+            ]
+        );
 
         // Assert
         expect($result)

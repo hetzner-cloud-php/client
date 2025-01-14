@@ -28,3 +28,9 @@ $createdServer = $client->servers()->createServer(
     serverType: 'cpx11',
 );
 var_dump($server);
+
+// TODO: Update a server
+
+// TODO: Get server metrics
+
+// TODO Delete a server

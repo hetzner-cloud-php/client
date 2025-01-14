@@ -8,7 +8,8 @@ use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use Override;
 
-/** @phpstan-type GetServerResponseSchema array{
+/**
+ * @phpstan-type GetServerResponseSchema array{
  *    server: array{
  *      backup_window: string,
  *      created: string,

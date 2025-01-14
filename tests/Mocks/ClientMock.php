@@ -7,111 +7,90 @@ namespace Tests\Mocks;
 use HetznerCloud\Client;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Enums\HttpMethod;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\BaseUri;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Headers;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\QueryParams;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Connector\Response;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Payload;
+use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
+use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use Mockery;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 final class ClientMock
 {
-    private const string BASE_URI = 'api.hetzner.cloud/v1';
-
-    private const string DEFAULT_METHOD = 'makeRequest';
-
-    private static ?Payload $lastPayload = null;
-
-    public static function getLastPayload(): ?Payload
-    {
-        return self::$lastPayload;
-    }
-
-    public static function createForPost(
+    /**
+     * @param  array<string, string>  $params
+     * @param  array<string, string>  $additionalHeaders
+     */
+    public static function post(
         string $resource,
         array $params,
         Response|ResponseInterface|string|null $response,
-        string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
-        array $additionalHeaders = []
     ): Client {
-        return self::create(HttpMethod::POST, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
+        return self::create(HttpMethod::POST, $resource, $params, $response, $validateParams);
     }
 
+    /**
+     * @param  array<string, string>  $params
+     * @param  array<string, string>  $additionalHeaders
+     */
     public static function create(
         HttpMethod $method,
         string $resource,
         array $params,
         Response|ResponseInterface|string|null $response,
-        string $methodName = self::DEFAULT_METHOD,
         bool $validateParams = true,
-        array $additionalHeaders = [],
-        bool $shouldCall = true
     ): Client {
         $connector = Mockery::mock(ConnectorContract::class);
+        $connector
+            ->shouldReceive('sendClientRequest')
+            ->once()
+            ->withArgs(fn (ClientRequestBuilder $requestBuilder): bool => self::validateRequest($requestBuilder, $method, $resource, $params, $validateParams))
+            ->andReturn($response);
 
-        if ($shouldCall) {
-            $connector
-                ->shouldReceive($methodName)
-                ->once()
-                ->withArgs(function (Payload $payload) use ($method, $resource, $params, $validateParams, $additionalHeaders): bool {
-                    self::setLastPayload($payload);
-
-                    return self::validatePayload($payload, $method, $resource, $params, $validateParams, $additionalHeaders);
-                })
-                ->andReturn($response);
-        }
-
-        return new Client($connector, 'apiKey');
+        return new Client($connector);
     }
 
-    public static function createForGet(
+    /**
+     * @param  array<string, string>  $params
+     * @param  array<string, string>  $additionalHeaders
+     */
+    public static function put(
+        string $resource,
+        array $params,
+        Response|ResponseInterface|string|null $response,
+        bool $validateParams = true,
+    ): Client {
+        return self::create(HttpMethod::PUT, $resource, $params, $response, $validateParams);
+    }
+
+    /**
+     * @param  array<string, string>  $params
+     * @param  array<string, string>  $additionalHeaders
+     */
+    public static function delete(
+        string $resource,
+        Response|ResponseInterface|string|null $response,
+        bool $validateParams = true,
+    ): Client {
+        return self::create(HttpMethod::DELETE, $resource, [], $response, $validateParams);
+    }
+
+    public static function get(
         string $resource,
         Response|ResponseInterface|string $response,
         array $params = [],
-        string $methodName = self::DEFAULT_METHOD,
-        bool $validateParams = true,
-        array $additionalHeaders = []
+        bool $validateParams = true
     ): Client {
-        return self::create(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
+        return self::create(HttpMethod::GET, $resource, $params, $response, $validateParams);
     }
 
-    public static function mockClientGet(
-        string $resource,
-        array $params,
-        Response|ResponseInterface|string $response,
-        string $methodName = self::DEFAULT_METHOD,
-        bool $validateParams = true,
-        array $additionalHeaders = []
-    ): Client {
-        return self::create(HttpMethod::GET, $resource, $params, $response, $methodName, $validateParams, $additionalHeaders);
-    }
-
-    public static function reset(): void
-    {
-        self::$lastPayload = null;
-    }
-
-    private static function setLastPayload(Payload $payload): void
-    {
-        self::$lastPayload = $payload;
-    }
-
-    private static function validatePayload(
-        Payload $payload,
+    private static function validateRequest(
+        ClientRequestBuilder $requestBuilder,
         HttpMethod $method,
         string $resource,
         array $params,
-        bool $validateParams,
-        array $additionalHeaders
+        bool $validateParams
     ): bool {
-        $headers = self::buildHeaders($additionalHeaders);
-        $request = $payload->toRequest(
-            BaseUri::from(self::BASE_URI),
-            $headers,
-            QueryParams::create()
-        );
+        $request = $requestBuilder->build();
 
         if (! self::validateRequestBasics($request, $method, $resource)) {
             return false;
@@ -122,30 +101,25 @@ final class ClientMock
         }
 
         return match ($method) {
-            HttpMethod::GET => self::validateGetParams($request, $params),
-            HttpMethod::POST => self::validatePostBody($request, $payload, $params),
+            HttpMethod::GET => self::validateParams($request, $params),
+            HttpMethod::DELETE => self::validateParams($request, $params),
+            HttpMethod::POST => self::validateRequestBody($request, $params),
+            HttpMethod::PUT => self::validateRequestBody($request, $params),
         };
     }
 
-    private static function buildHeaders(array $additionalHeaders): Headers
-    {
-        $headers = Headers::create()->withAccessToken('token');
-
-        foreach ($additionalHeaders as $name => $value) {
-            $headers = $headers->withCustomHeader($name, $value);
-        }
-
-        return $headers;
-    }
-
-    private static function validateRequestBasics(mixed $request, HttpMethod $method, string $resource): bool
+    private static function validateRequestBasics(RequestInterface $request, HttpMethod $method, string $resource): bool
     {
         $path = $request->getUri()->getPath();
+        $requestMethod = $request->getMethod();
 
-        return $request->getMethod() === $method->value && $path === "/v1/$resource";
+        return $requestMethod === $method->value && $path === $resource;
     }
 
-    private static function validateGetParams(mixed $request, array $params): bool
+    /**
+     * @param  array<string, string>  $params
+     */
+    private static function validateParams(RequestInterface $request, array $params): bool
     {
         $query = $request->getUri()->getQuery();
         $expectedQuery = http_build_query($params);
@@ -153,17 +127,48 @@ final class ClientMock
         return $query === $expectedQuery;
     }
 
-    private static function validatePostBody(mixed $request, Payload $payload, array $params): bool
+    /**
+     * @param  array<array-key, mixed>  $params
+     */
+    private static function validateRequestBody(RequestInterface $request, array $params): bool
     {
-        if ($payload->includeBody) {
-            $requestContents = $request->getBody()->getContents();
-            $encodedParams = json_encode($params);
+        $requestContents = $request->getBody()->getContents();
+        $requestArray = json_decode($requestContents, true);
+        $paramsArray = json_decode(json_encode($params), true);
 
-            return $requestContents === $encodedParams;
+        return self::compareArraysRecursively($requestArray, $paramsArray);
+    }
+
+    /**
+     * Recursively compares two arrays ignoring the order of keys
+     *
+     * @param  array<array-key, mixed>  $array1
+     * @param  array<array-key, mixed>  $array2
+     */
+    private static function compareArraysRecursively(array $array1, array $array2): bool
+    {
+        if (count($array1) !== count($array2)) {
+            return false;
         }
 
-        $size = $request->getBody()->getSize();
+        foreach ($array1 as $key => $value) {
+            if (! array_key_exists($key, $array2)) {
+                return false;
+            }
 
-        return $size === null || $size === 0;
+            if (is_array($value) && is_array($array2[$key])) {
+                if (! self::compareArraysRecursively($value, $array2[$key])) {
+                    return false;
+                }
+
+                continue;
+            }
+
+            if ($value !== $array2[$key]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

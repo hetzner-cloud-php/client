@@ -18,24 +18,7 @@ final class CreateServerFixture extends AbstractDataFixture
         $serverId = fake()->numberBetween(1, 1000);
 
         return [
-            'action' => [
-                'command' => 'create_server',
-                'error' => fake()->boolean(20) ? [
-                    'code' => fake()->randomElement(['action_failed', 'server_creation_failed', 'resource_unavailable']),
-                    'message' => fake()->sentence(),
-                ] : null,
-                'finished' => fake()->boolean(70) ? fake()->iso8601() : null,
-                'id' => fake()->numberBetween(1, 1000),
-                'progress' => fake()->numberBetween(0, 100),
-                'resources' => [
-                    [
-                        'id' => $serverId,
-                        'type' => 'server',
-                    ],
-                ],
-                'started' => fake()->iso8601(),
-                'status' => fake()->randomElement(['running', 'success', 'error']),
-            ],
+            'action' => self::action($serverId),
             'next_actions' => array_map(
                 fn (): array => [
                     'command' => fake()->randomElement([
@@ -64,6 +47,33 @@ final class CreateServerFixture extends AbstractDataFixture
             ),
             'root_password' => fake()->password(20, 20),
             'server' => GetServerFixture::data()['server'],
+        ];
+    }
+
+    /**
+     * @return array<array-key, mixed>
+     */
+    public static function action(int $serverId): array
+    {
+        return [
+            'action' => [
+                'command' => 'create_server',
+                'error' => fake()->boolean(20) ? [
+                    'code' => fake()->randomElement(['action_failed', 'server_creation_failed', 'resource_unavailable']),
+                    'message' => fake()->sentence(),
+                ] : null,
+                'finished' => fake()->boolean(70) ? fake()->iso8601() : null,
+                'id' => fake()->numberBetween(1, 1000),
+                'progress' => fake()->numberBetween(0, 100),
+                'resources' => [
+                    [
+                        'id' => $serverId,
+                        'type' => 'server',
+                    ],
+                ],
+                'started' => fake()->iso8601(),
+                'status' => fake()->randomElement(['running', 'success', 'error']),
+            ],
         ];
     }
 }

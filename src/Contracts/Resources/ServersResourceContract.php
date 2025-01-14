@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HetznerCloud\Contracts\Resources;
 
 use HetznerCloud\Responses\Servers\CreateServerResponse;
+use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 
@@ -39,4 +40,11 @@ interface ServersResourceContract
     public function getServers(int $page = 1, int $perPage = 25): GetServersResponse;
 
     public function getServer(int $id): GetServerResponse;
+
+    public function deleteServer(int $id): DeleteServerResponse;
+
+    /**
+     * @param  string[]|null  $labels
+     */
+    public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse;
 }
