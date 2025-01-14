@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
+use Carbon\Carbon;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
+use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 
@@ -47,4 +49,9 @@ interface ServersResourceContract
      * @param  string[]|null  $labels
      */
     public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse;
+
+    /**
+     * @param  string[]  $types
+     */
+    public function getServerMetrics(int $id, array $types, Carbon $start, Carbon $end, ?int $step = null): GetServerMetricsResponse;
 }

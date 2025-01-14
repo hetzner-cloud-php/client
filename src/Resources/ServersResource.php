@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Resources;
 
+use Carbon\Carbon;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
+use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 use Override;
@@ -19,6 +21,7 @@ use Override;
  * @phpstan-import-type Action from CreateServerResponse
  * @phpstan-import-type GetServerResponseSchema from GetServerResponse
  * @phpstan-import-type GetServersResponseSchema from GetServersResponse
+ * @phpstan-import-type GetServerMetricsResponseSchema from GetServerMetricsResponse
  */
 final readonly class ServersResource implements ServersResourceContract
 {
@@ -49,7 +52,7 @@ final readonly class ServersResource implements ServersResourceContract
     #[Override]
     public function getServer(int $id): GetServerResponse
     {
-        $request = ClientRequestBuilder::get('servers', $id);
+        $request = ClientRequestBuilder::get("servers/$id");
 
         /** @var Response<array<array-key, mixed>> $response */
         $response = $this->connector->sendClientRequest($request);
@@ -111,7 +114,7 @@ final readonly class ServersResource implements ServersResourceContract
 
     public function deleteServer(int $id): DeleteServerResponse
     {
-        $request = ClientRequestBuilder::delete('servers', $id);
+        $request = ClientRequestBuilder::delete("servers/$id");
 
         /** @var Response<array<array-key, mixed>> $response */
         $response = $this->connector->sendClientRequest($request);
@@ -124,7 +127,7 @@ final readonly class ServersResource implements ServersResourceContract
 
     public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse
     {
-        $payload = ClientRequestBuilder::put('servers', $id)
+        $payload = ClientRequestBuilder::put("servers/$id")
             ->withRequestContent([
                 'name' => $name,
                 'labels' => $labels,
@@ -137,5 +140,24 @@ final readonly class ServersResource implements ServersResourceContract
         $data = $response->data();
 
         return GetServerResponse::from($data);
+    }
+
+    public function getServerMetrics(int $id, array $types, Carbon $start, Carbon $end, ?int $step = null): GetServerMetricsResponse
+    {
+        $request = ClientRequestBuilder::get("servers/$id", 'metrics')
+            ->withQueryParams([
+                'type' => $types,
+                'start' => $start->toIso8601String(),
+                'end' => $end->toIso8601String(),
+                'step' => $step,
+            ]);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var GetServerMetricsResponseSchema $data */
+        $data = $response->data();
+
+        return GetServerMetricsResponse::from($data);
     }
 }
