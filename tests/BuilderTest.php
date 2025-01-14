@@ -131,5 +131,35 @@ describe(Builder::class, function (): void {
                 ->and($client->connector->queryParams->hasAnyParams())->toBeTrue()
                 ->and($client->connector->queryParams->contains('foo'))->toBeTrue();
         });
+
+        it('does not replace existing HTTP client with PSR-18 discovery', function (): void {
+            // Arrange
+            $customClient = mock(ClientInterface::class);
+
+            $builder = $this->builder
+                ->withApiKey($this->apiKey)
+                ->withHttpClient($customClient);
+
+            // Act
+            $client = $builder->build();
+
+            // Assert
+            expect($client)->toBeInstanceOf(Client::class)
+                ->and($client->connector->client)->toBe($customClient) // Verify it's the exact same instance
+                ->and($client->connector->client)->not->toBeInstanceOf(GuzzleHttp\Client::class); // Verify it's not replaced with a Guzzle client
+        });
+
+        it('uses PSR-18 discovery when no HTTP client is provided', function (): void {
+            // Arrange
+            $builder = $this->builder
+                ->withApiKey($this->apiKey);
+
+            // Act
+            $client = $builder->build();
+
+            // Assert
+            expect($client)->toBeInstanceOf(Client::class)
+                ->and($client->connector->client)->toBeInstanceOf(GuzzleHttp\Client::class);
+        });
     });
 });

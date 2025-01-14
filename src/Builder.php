@@ -106,7 +106,7 @@ final class Builder
             $queryParams = $queryParams->withParam($name, $value);
         }
 
-        if (!$this->httpClient instanceof \Psr\Http\Client\ClientInterface) {
+        if (!$this->httpClient instanceof ClientInterface) {
             $this->httpClient = Psr18ClientDiscovery::find();
         }
 
