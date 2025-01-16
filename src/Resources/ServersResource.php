@@ -18,7 +18,7 @@ use Override;
 
 /**
  * @phpstan-import-type CreateServerResponseSchema from CreateServerResponse
- * @phpstan-import-type Action from CreateServerResponse
+ * @phpstan-import-type DeleteServerResponseSchema from DeleteServerResponse
  * @phpstan-import-type GetServerResponseSchema from GetServerResponse
  * @phpstan-import-type GetServersResponseSchema from GetServersResponse
  * @phpstan-import-type GetServerMetricsResponseSchema from GetServerMetricsResponse
@@ -32,12 +32,13 @@ final readonly class ServersResource implements ServersResourceContract
     }
 
     #[Override]
-    public function getServers(int $page = 1, int $perPage = 25): GetServersResponse
+    public function getServers(int $page = 1, int $perPage = 25, ?string $sort = null): GetServersResponse
     {
         $request = ClientRequestBuilder::get('servers')
             ->withQueryParams([
                 'page' => $page,
                 'per_page' => $perPage,
+                'sort' => $sort,
             ]);
 
         /** @var Response<array<array-key, mixed>> $response */
@@ -119,7 +120,7 @@ final readonly class ServersResource implements ServersResourceContract
         /** @var Response<array<array-key, mixed>> $response */
         $response = $this->connector->sendClientRequest($request);
 
-        /** @var array{action: Action} $data */
+        /** @var DeleteServerResponseSchema $data */
         $data = $response->data();
 
         return DeleteServerResponse::from($data);

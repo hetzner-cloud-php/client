@@ -5,6 +5,8 @@ declare(strict_types=1);
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\ValueObjects\Meta;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Tests\Fixtures\Servers\GetServersFixture;
 use Tests\Mocks\ClientMock;
 
@@ -28,8 +30,8 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServersResponse::class)
-            ->meta->toBeArray()
-            ->servers->toBeArray();
+            ->meta->toBeInstanceOf(Meta::class)
+            ->servers->toBeArray()->each->toBeInstanceOf(Server::class);
     });
 
     it('can retrieve servers from a page', function (): void {
@@ -49,8 +51,8 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServersResponse::class)
-            ->meta->toBeArray()
-            ->servers->toBeArray();
+            ->meta->toBeInstanceOf(Meta::class)
+            ->servers->toBeArray()->each->toBeInstanceOf(Server::class);
     });
 
     it('can retrieve servers with a per page parameter', function (): void {
@@ -70,7 +72,29 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServersResponse::class)
-            ->meta->toBeArray()
-            ->servers->toBeArray();
+            ->meta->toBeInstanceOf(Meta::class)
+            ->servers->toBeArray()->each->toBeInstanceOf(Server::class);
+    });
+
+    it('can retrieve servers with a sort parameter', function (): void {
+        // Arrange
+        $client = ClientMock::get(
+            'servers',
+            Response::from(GetServersFixture::data()),
+            [
+                'page' => 1,
+                'per_page' => 25,
+                'sort' => 'status:asc',
+            ],
+        );
+
+        // Act
+        $result = $client->servers()->getServers(sort: 'status:asc');
+
+        // Assert
+        expect($result)
+            ->toBeInstanceOf(GetServersResponse::class)
+            ->meta->toBeInstanceOf(Meta::class)
+            ->servers->toBeArray()->each->toBeInstanceOf(Server::class);
     });
 });

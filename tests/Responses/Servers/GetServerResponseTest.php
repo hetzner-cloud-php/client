@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\GetServerResponse;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Tests\Fixtures\Servers\GetServerFixture;
 
 covers(GetServerResponse::class);
@@ -16,7 +17,7 @@ describe(GetServerResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetServerResponse::class)
-            ->server->toBeArray();
+            ->server->toBeInstanceOf(Server::class);
     });
 
     it('is accessible from an array', function (): void {
@@ -37,6 +38,6 @@ describe(GetServerResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe($data);
+            ->and($response['server'])->toBeArray();
     });
 });

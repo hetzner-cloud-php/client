@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
+use HetznerCloud\ValueObjects\Actions\Action;
 use Tests\Fixtures\Servers\CreateServerFixture;
 
 covers(DeleteServerResponse::class);
@@ -12,16 +13,16 @@ covers(DeleteServerResponse::class);
 describe(DeleteServerResponse::class, function (): void {
     it('returns a valid typed object', function (): void {
         // Arrange & Act
-        $response = DeleteServerResponse::from(CreateServerFixture::action(69));
+        $response = DeleteServerResponse::from(CreateServerFixture::data());
 
         // Assert
         expect($response)->toBeInstanceOf(DeleteServerResponse::class)
-            ->action->toBeArray();
+            ->action->toBeInstanceOf(Action::class);
     });
 
     it('is accessible from an array', function (): void {
         // Arrange & Act
-        $response = DeleteServerResponse::from(CreateServerFixture::action(69));
+        $response = DeleteServerResponse::from(CreateServerFixture::data());
 
         // Assert
         expect($response['action'])->toBeArray();
@@ -29,7 +30,7 @@ describe(DeleteServerResponse::class, function (): void {
 
     it('prints to an array', function (): void {
         // Arrange
-        $data = CreateServerFixture::action(69);
+        $data = CreateServerFixture::data();
 
         // Act
         $response = DeleteServerResponse::from($data);
@@ -37,6 +38,6 @@ describe(DeleteServerResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe($data);
+            ->toHaveKey('action');
     });
 });

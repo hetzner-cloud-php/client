@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Carbon\Carbon;
 use HetznerCloud\HetznerCloud;
 
 require_once __DIR__.'/../vendor/autoload.php';
@@ -18,7 +19,7 @@ $servers = $client->servers()->getServers();
 var_dump($servers);
 
 // Get a single server
-$server = $client->servers()->getServer($servers->servers[0]['id']);
+$server = $client->servers()->getServer($servers->servers[0]->id);
 var_dump($server);
 
 // Create a server
@@ -30,7 +31,19 @@ $createdServer = $client->servers()->createServer(
 var_dump($server);
 
 // TODO: Update a server
+$serverId = $createdServer->server->id;
+$updatedServer = $client->servers()->updateServer($serverId, 'test-server-updated', [
+    'foo' => 'bar',
+]);
+var_dump($updatedServer);
 
 // TODO: Get server metrics
+$serverMetrics = $client->servers()->getServerMetrics(
+    $serverId,
+    ['disk', 'cpu'],
+    Carbon::now()->subDays(),
+    Carbon::now()
+);
 
 // TODO Delete a server
+$deletedServer = $client->servers()->deleteServer($serverId);

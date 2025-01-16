@@ -6,60 +6,19 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\ValueObjects\Actions\Action;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Override;
 
 /**
- * @phpstan-import-type GetServerResponseSchema from GetServerResponse
+ * @phpstan-import-type ActionSchema from Action
+ * @phpstan-import-type ServerSchema from Server
  *
- * @phpstan-type Action array{
- *   command: string,
- *   error: array{
- *     code: string,
- *     message: string
- *   }|null,
- *   finished: string|null,
- *   id: positive-int,
- *   progress: int<0, 100>,
- *   resources: array<int, array{
- *     id: positive-int,
- *     type: string
- *   }>,
- *   started: string,
- *   status: string
- * }
- * @phpstan-type ServerType array{
- *   architecture: string,
- *   cores: positive-int,
- *   cpu_type: string,
- *   deprecated: bool,
- *   description: string,
- *   disk: positive-int,
- *   id: positive-int,
- *   memory: positive-int,
- *   name: string,
- *   prices: array<int, array{
- *     included_traffic: positive-int,
- *     location: string,
- *     price_hourly: array{
- *       gross: string,
- *       net: string
- *     },
- *     price_monthly: array{
- *       gross: string,
- *       net: string
- *     },
- *     price_per_tb_traffic: array{
- *       gross: string,
- *       net: string
- *     }
- *   }>,
- *   storage_type: string
- * }
  * @phpstan-type CreateServerResponseSchema array{
- *   action: Action,
- *   next_actions: array<int, Action>,
- *   root_password: string,
- *   server: GetServerResponseSchema['server']
+ *     action: ActionSchema,
+ *     next_actions: ActionSchema[],
+ *     root_password: string,
+ *     server: ServerSchema
  * }
  *
  * @implements ResponseContract<CreateServerResponseSchema>
@@ -72,15 +31,13 @@ final readonly class CreateServerResponse implements ResponseContract
     use ArrayAccessible;
 
     /**
-     * @param  CreateServerResponseSchema['action']  $action
-     * @param  CreateServerResponseSchema['next_actions']  $nextActions
-     * @param  GetServerResponseSchema['server']  $server
+     * @param  Action[]  $nextActions
      */
     private function __construct(
-        public array $action,
+        public Action $action,
         public array $nextActions,
         public string $rootPassword,
-        public array $server,
+        public Server $server,
     ) {
         //
     }
@@ -91,10 +48,10 @@ final readonly class CreateServerResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['action'],
-            $attributes['next_actions'],
+            Action::from($attributes['action']),
+            array_map(fn (array $action): Action => Action::from($action), $attributes['next_actions']),
             $attributes['root_password'],
-            $attributes['server'],
+            Server::from($attributes['server']),
         );
     }
 
@@ -105,10 +62,10 @@ final readonly class CreateServerResponse implements ResponseContract
     public function toArray(): array
     {
         return [
-            'action' => $this->action,
-            'next_actions' => $this->nextActions,
+            'action' => $this->action->toArray(),
+            'next_actions' => array_map(fn (Action $action): array => $action->toArray(), $this->nextActions),
             'root_password' => $this->rootPassword,
-            'server' => $this->server,
+            'server' => $this->server->toArray(),
         ];
     }
 }

@@ -6,209 +6,197 @@ namespace Tests\Fixtures\Servers;
 
 use Tests\Fixtures\AbstractDataFixture;
 
-use function Pest\Faker\fake;
-
 final class GetServerFixture extends AbstractDataFixture
 {
     public static function data(): array
     {
         return [
             'server' => [
-                'backup_window' => sprintf('%02d-%02d', fake()->numberBetween(0, 23), fake()->numberBetween(0, 23)),
-                'created' => fake()->iso8601(),
+                'backup_window' => '22-02',
+                'created' => '2016-01-30T23:55:00+00:00',
                 'datacenter' => [
-                    'description' => fake()->word().' DC Park '.fake()->numberBetween(1, 10),
-                    'id' => fake()->numberBetween(1, 100),
+                    'description' => 'Falkenstein DC Park 8',
+                    'id' => 42,
                     'location' => [
-                        'city' => fake()->city(),
-                        'country' => fake()->countryCode(),
-                        'description' => fake()->sentence(),
-                        'id' => fake()->numberBetween(1, 100),
-                        'latitude' => fake()->latitude(),
-                        'longitude' => fake()->longitude(),
-                        'name' => strtolower(fake()->lexify('???')).fake()->numberBetween(1, 5),
-                        'network_zone' => fake()->randomElement(['eu-central', 'us-east', 'us-west', 'ap-south']),
+                        'city' => 'Falkenstein',
+                        'country' => 'DE',
+                        'description' => 'Falkenstein DC Park 1',
+                        'id' => 42,
+                        'latitude' => 50.47612,
+                        'longitude' => 12.370071,
+                        'name' => 'fsn1',
+                        'network_zone' => 'eu-central',
                     ],
-                    'name' => sprintf(
-                        '%s-dc%d',
-                        strtolower(fake()->lexify('???')),
-                        fake()->numberBetween(1, 10)
-                    ),
+                    'name' => 'fsn1-dc8',
                     'server_types' => [
-                        'available' => array_map(
-                            fn (): int => fake()->numberBetween(1, 10),
-                            range(1, 3)
-                        ),
-                        'available_for_migration' => array_map(
-                            fn (): int => fake()->numberBetween(1, 10),
-                            range(1, 3)
-                        ),
-                        'supported' => array_map(
-                            fn (): int => fake()->numberBetween(1, 10),
-                            range(1, 3)
-                        ),
+                        'available' => [
+                            1,
+                            2,
+                            3,
+                        ],
+                        'available_for_migration' => [
+                            1,
+                            2,
+                            3,
+                        ],
+                        'supported' => [
+                            1,
+                            2,
+                            3,
+                        ],
                     ],
                 ],
-                'id' => fake()->numberBetween(1, 1000),
+                'id' => 42,
                 'image' => [
-                    'architecture' => fake()->randomElement(['x86', 'arm']),
+                    'architecture' => 'x86',
                     'bound_to' => null,
-                    'created' => fake()->iso8601(),
+                    'created' => '2016-01-30T23:55:00+00:00',
                     'created_from' => [
-                        'id' => fake()->numberBetween(1, 100),
+                        'id' => 1,
                         'name' => 'Server',
                     ],
                     'deleted' => null,
-                    'deprecated' => fake()->iso8601(),
-                    'description' => sprintf(
-                        '%s %s Standard %s bit',
-                        fake()->randomElement(['Ubuntu', 'Debian', 'CentOS']),
-                        fake()->semver(),
-                        fake()->randomElement(['32', '64'])
-                    ),
-                    'disk_size' => fake()->numberBetween(10, 100),
-                    'id' => fake()->numberBetween(1, 1000),
-                    'image_size' => fake()->randomFloat(1, 1, 10),
+                    'deprecated' => '2018-02-28T00:00:00+00:00',
+                    'description' => 'Ubuntu 20.04 Standard 64 bit',
+                    'disk_size' => 10,
+                    'id' => 42,
+                    'image_size' => 2.3,
                     'labels' => [
-                        'environment' => fake()->randomElement(['prod', 'staging', 'dev']),
-                        sprintf('%s/my', fake()->domainName()) => fake()->word(),
+                        'environment' => 'prod',
+                        'example.com/my' => 'label',
                         'just-a-key' => '',
                     ],
-                    'name' => sprintf(
-                        '%s-%s',
-                        strtolower((string) fake()->randomElement(['ubuntu', 'debian', 'centos'])),
-                        fake()->semver()
-                    ),
-                    'os_flavor' => fake()->randomElement(['ubuntu', 'debian', 'centos']),
-                    'os_version' => fake()->semver(),
+                    'name' => 'ubuntu-20.04',
+                    'os_flavor' => 'ubuntu',
+                    'os_version' => '20.04',
                     'protection' => [
-                        'delete' => fake()->boolean(),
+                        'delete' => false,
                     ],
-                    'rapid_deploy' => fake()->boolean(),
-                    'status' => fake()->randomElement(['available', 'creating', 'deprecated']),
+                    'rapid_deploy' => false,
+                    'status' => 'available',
                     'type' => 'snapshot',
                 ],
-                'included_traffic' => fake()->numberBetween(100000, 1000000),
-                'ingoing_traffic' => fake()->numberBetween(10000, 500000),
+                'included_traffic' => 654321,
+                'ingoing_traffic' => 123456,
                 'iso' => [
-                    'architecture' => fake()->randomElement(['x86', 'arm']),
+                    'architecture' => 'x86',
                     'deprecation' => [
-                        'announced' => fake()->iso8601(),
-                        'unavailable_after' => fake()->iso8601(),
+                        'announced' => '2023-06-01T00:00:00+00:00',
+                        'unavailable_after' => '2023-09-01T00:00:00+00:00',
                     ],
-                    'description' => sprintf(
-                        '%s %s x64',
-                        fake()->randomElement(['FreeBSD', 'Ubuntu', 'Debian']),
-                        fake()->semver()
-                    ),
-                    'id' => fake()->numberBetween(1, 100),
-                    'name' => sprintf(
-                        '%s-%s-RELEASE-amd64-dvd1',
-                        fake()->randomElement(['FreeBSD', 'Ubuntu', 'Debian']),
-                        fake()->semver()
-                    ),
+                    'description' => 'FreeBSD 11.0 x64',
+                    'id' => 42,
+                    'name' => 'FreeBSD-11.0-RELEASE-amd64-dvd1',
                     'type' => 'public',
                 ],
                 'labels' => [
-                    'environment' => fake()->randomElement(['prod', 'staging', 'dev']),
-                    sprintf('%s/my', fake()->domainName()) => fake()->word(),
+                    'environment' => 'prod',
+                    'example.com/my' => 'label',
                     'just-a-key' => '',
                 ],
-                'load_balancers' => [fake()->numberBetween(0, 10)],
-                'locked' => fake()->boolean(),
-                'name' => sprintf('server-%s', fake()->slug()),
-                'outgoing_traffic' => fake()->numberBetween(10000, 500000),
+                'load_balancers' => [
+                    0,
+                ],
+                'locked' => false,
+                'name' => 'my-resource',
+                'outgoing_traffic' => 123456,
                 'placement_group' => [
-                    'created' => fake()->iso8601(),
-                    'id' => fake()->numberBetween(1, 100),
+                    'created' => '2016-01-30T23:55:00+00:00',
+                    'id' => 42,
                     'labels' => [
-                        'environment' => fake()->randomElement(['prod', 'staging', 'dev']),
-                        sprintf('%s/my', fake()->domainName()) => fake()->word(),
+                        'environment' => 'prod',
+                        'example.com/my' => 'label',
                         'just-a-key' => '',
                     ],
-                    'name' => sprintf('group-%s', fake()->slug()),
-                    'servers' => [fake()->numberBetween(1, 100)],
+                    'name' => 'my-resource',
+                    'servers' => [
+                        42,
+                    ],
                     'type' => 'spread',
                 ],
-                'primary_disk_size' => fake()->numberBetween(20, 500),
+                'primary_disk_size' => 50,
                 'private_net' => [
                     [
                         'alias_ips' => [
-                            sprintf('10.0.0.%d', fake()->numberBetween(2, 254)),
-                            sprintf('10.0.0.%d', fake()->numberBetween(2, 254)),
+                            '10.0.0.3',
+                            '10.0.0.4',
                         ],
-                        'ip' => sprintf('10.0.0.%d', fake()->numberBetween(2, 254)),
-                        'mac_address' => fake()->macAddress(),
-                        'network' => fake()->numberBetween(1000, 9999),
+                        'ip' => '10.0.0.2',
+                        'mac_address' => '86:00:ff:2a:7d:e1',
+                        'network' => 4711,
                     ],
                 ],
                 'protection' => [
-                    'delete' => fake()->boolean(),
-                    'rebuild' => fake()->boolean(),
+                    'delete' => false,
+                    'rebuild' => false,
                 ],
                 'public_net' => [
                     'firewalls' => [
                         [
-                            'id' => fake()->numberBetween(1, 100),
-                            'status' => fake()->randomElement(['applied', 'pending']),
+                            'id' => 42,
+                            'status' => 'applied',
                         ],
                     ],
-                    'floating_ips' => [fake()->numberBetween(1, 1000)],
+                    'floating_ips' => [
+                        478,
+                    ],
                     'ipv4' => [
-                        'blocked' => fake()->boolean(),
-                        'dns_ptr' => sprintf('server%d.%s', fake()->numberBetween(1, 100), fake()->domainName()),
-                        'id' => fake()->numberBetween(1, 100),
-                        'ip' => fake()->ipv4(),
+                        'blocked' => false,
+                        'dns_ptr' => 'server01.example.com',
+                        'id' => 42,
+                        'ip' => '1.2.3.4',
                     ],
                     'ipv6' => [
-                        'blocked' => fake()->boolean(),
+                        'blocked' => false,
                         'dns_ptr' => [
                             [
-                                'dns_ptr' => sprintf('server.%s', fake()->domainName()),
-                                'ip' => fake()->ipv6(),
+                                'dns_ptr' => 'server.example.com',
+                                'ip' => '2001:db8::1',
                             ],
                         ],
-                        'id' => fake()->numberBetween(1, 100),
-                        'ip' => sprintf('%s/64', fake()->ipv6()),
+                        'id' => 42,
+                        'ip' => '2001:db8::/64',
                     ],
                 ],
-                'rescue_enabled' => fake()->boolean(),
+                'rescue_enabled' => false,
                 'server_type' => [
-                    'architecture' => fake()->randomElement(['x86', 'arm']),
-                    'cores' => fake()->numberBetween(1, 32),
-                    'cpu_type' => fake()->randomElement(['shared', 'dedicated']),
-                    'deprecated' => fake()->boolean(),
+                    'architecture' => 'x86',
+                    'cores' => 2,
+                    'cpu_type' => 'shared',
+                    'deprecated' => false,
                     'deprecation' => [
-                        'announced' => fake()->iso8601(),
-                        'unavailable_after' => fake()->iso8601(),
+                        'announced' => '2023-06-01T00:00:00+00:00',
+                        'unavailable_after' => '2023-09-01T00:00:00+00:00',
                     ],
-                    'description' => sprintf('CPX%d', fake()->numberBetween(11, 51)),
-                    'disk' => fake()->numberBetween(20, 500),
-                    'id' => fake()->numberBetween(1, 100),
-                    'memory' => fake()->numberBetween(2, 256),
-                    'name' => sprintf('cpx%d', fake()->numberBetween(11, 51)),
+                    'description' => 'CPX11',
+                    'disk' => 40,
+                    'id' => 1,
+                    'memory' => 2,
+                    'name' => 'cpx11',
                     'prices' => [
                         [
-                            'included_traffic' => fake()->numberBetween(100000, 1000000),
-                            'location' => strtolower(fake()->lexify('???')).fake()->numberBetween(1, 5),
+                            'included_traffic' => 654321,
+                            'location' => 'fsn1',
                             'price_hourly' => [
-                                'gross' => sprintf('%.4f', fake()->randomFloat(4, 0, 10)),
-                                'net' => sprintf('%.4f', fake()->randomFloat(4, 0, 10)),
+                                'gross' => '1.1900',
+                                'net' => '1.0000',
                             ],
                             'price_monthly' => [
-                                'gross' => sprintf('%.4f', fake()->randomFloat(4, 0, 500)),
-                                'net' => sprintf('%.4f', fake()->randomFloat(4, 0, 500)),
+                                'gross' => '1.1900',
+                                'net' => '1.0000',
                             ],
                             'price_per_tb_traffic' => [
-                                'gross' => sprintf('%.4f', fake()->randomFloat(4, 0, 10)),
-                                'net' => sprintf('%.4f', fake()->randomFloat(4, 0, 10)),
+                                'gross' => '1.1900',
+                                'net' => '1.0000',
                             ],
                         ],
                     ],
-                    'storage_type' => fake()->randomElement(['local', 'network']),
+                    'storage_type' => 'local',
                 ],
-                'status' => fake()->randomElement(['running', 'stopped', 'starting', 'stopping']),
-                'volumes' => [fake()->numberBetween(0, 10)],
+                'status' => 'running',
+                'volumes' => [
+                    0,
+                ],
             ],
         ];
     }

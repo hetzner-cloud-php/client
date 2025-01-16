@@ -39,7 +39,7 @@ interface ServersResourceContract
         ?string $userData = null,
     ): CreateServerResponse;
 
-    public function getServers(int $page = 1, int $perPage = 25): GetServersResponse;
+    public function getServers(int $page = 1, int $perPage = 25, ?string $sort = null): GetServersResponse;
 
     public function getServer(int $id): GetServerResponse;
 

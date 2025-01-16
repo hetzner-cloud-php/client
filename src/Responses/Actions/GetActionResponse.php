@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\Responses\Servers;
+namespace HetznerCloud\Responses\Actions;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
@@ -12,25 +12,25 @@ use Override;
 /**
  * @phpstan-import-type ActionSchema from Action
  *
- * @phpstan-type DeleteServerResponseSchema array{action: ActionSchema}
+ * @phpstan-type GetActionResponseSchema array{action: ActionSchema}
  *
- * @implements ResponseContract<DeleteServerResponseSchema>
+ * @implements ResponseContract<GetActionResponseSchema>
  */
-final readonly class DeleteServerResponse implements ResponseContract
+final readonly class GetActionResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<DeleteServerResponseSchema>
+     * @use ArrayAccessible<GetActionResponseSchema>
      */
     use ArrayAccessible;
 
     private function __construct(
-        public Action $action,
+        public Action $actions,
     ) {
         //
     }
 
     /**
-     * @param  DeleteServerResponseSchema  $attributes
+     * @param  GetActionResponseSchema  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -39,14 +39,11 @@ final readonly class DeleteServerResponse implements ResponseContract
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     #[Override]
     public function toArray(): array
     {
         return [
-            'action' => $this->action->toArray(),
+            'action' => $this->actions->toArray(),
         ];
     }
 }

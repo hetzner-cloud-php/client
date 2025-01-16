@@ -5,6 +5,8 @@ declare(strict_types=1);
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
+use HetznerCloud\ValueObjects\Actions\Action;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Tests\Fixtures\Servers\CreateServerFixture;
 use Tests\Mocks\ClientMock;
 
@@ -34,9 +36,9 @@ describe('servers', function (): void {
         expect($result)
             ->toBeInstanceOf(CreateServerResponse::class)
             ->rootPassword->toBeString()
-            ->action->toBeArray()
-            ->nextActions->toBeArray()
-            ->server->toBeArray();
+            ->action->toBeInstanceOf(Action::class)
+            ->nextActions->toBeArray()->each->toBeInstanceOf(Action::class)
+            ->server->toBeInstanceOf(Server::class);
     });
 
     it('can create a server with all optional parameters', function (): void {

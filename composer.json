@@ -79,6 +79,10 @@
         "fix": [
             "@refactor",
             "@fmt"
+        ],
+        "prep": [
+            "@fix",
+            "@check"
         ]
     },
     "config": {

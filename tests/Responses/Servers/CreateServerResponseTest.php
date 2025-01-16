@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\CreateServerResponse;
+use HetznerCloud\ValueObjects\Actions\Action;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Tests\Fixtures\Servers\CreateServerFixture;
 
 covers(CreateServerResponse::class);
@@ -16,10 +18,10 @@ describe(CreateServerResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(CreateServerResponse::class)
-            ->nextActions->toBeArray()
-            ->action->toBeArray()
+            ->nextActions->toBeArray()->each->toBeInstanceOf(Action::class)
+            ->action->toBeInstanceOf(Action::class)
             ->rootPassword->tobeString()
-            ->server->toBeArray();
+            ->server->toBeInstanceOf(Server::class);
     });
 
     it('is accessible from an array', function (): void {
@@ -43,6 +45,16 @@ describe(CreateServerResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe($data);
+            ->toHaveKeys(['action', 'next_actions', 'root_password', 'server'])
+            ->and($response['action'])
+            ->toBeArray()
+            ->toHaveKey('id')
+            ->and($response['next_actions'])
+            ->toBeArray()->each->toBeArray()->toHaveKey('id')
+            ->and($response['root_password'])
+            ->toBeString()
+            ->and($response['server'])
+            ->toBeArray()
+            ->toHaveKey('id');
     });
 });

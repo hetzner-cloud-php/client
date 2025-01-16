@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\ValueObjects\Meta;
+use HetznerCloud\ValueObjects\Servers\Server;
 use Tests\Fixtures\Servers\GetServersFixture;
 
 covers(GetServersResponse::class);
@@ -16,8 +18,8 @@ describe(GetServersResponse::class, function (): void {
 
         // Assert
         expect($response)->toBeInstanceOf(GetServersResponse::class)
-            ->meta->toBeArray()
-            ->servers->toBeArray();
+            ->meta->toBeInstanceOf(Meta::class)
+            ->servers->toBeArray()->each->toBeInstanceOf(Server::class);
     });
 
     it('is accessible from an array', function (): void {
@@ -39,6 +41,10 @@ describe(GetServersResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toBe($data);
+            ->toHaveKey('meta')
+            ->toHaveKey('servers')
+            ->and($response['servers'])
+            ->toBeArray()
+            ->each->toBeArray()->toHaveKey('id');
     });
 });
