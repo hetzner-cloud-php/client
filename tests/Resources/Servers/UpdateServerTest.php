@@ -26,13 +26,12 @@ describe('servers', function (): void {
         );
 
         // Act
-        $result = $client->servers()->updateServer(
-            42069,
-            name: 'test-server-1',
-            labels: [
+        $result = $client->servers()->updateServer(42069, [
+            'name' => 'test-server-1',
+            'labels' => [
                 'foo' => 'bar',
-            ]
-        );
+            ],
+        ]);
 
         // Assert
         expect($result)

@@ -64,43 +64,28 @@ final readonly class ServersResource implements ServersResourceContract
         return GetServerResponse::from($data);
     }
 
+    /**
+     * @param array{
+     *     name: string,
+     *     image: string,
+     *     server_type: string,
+     *     automount?: bool,
+     *     datacenter?: bool,
+     *     firewalls?: array<int, array{firewall: int}>,
+     *     labels?: array<string, string>,
+     *     location?: string,
+     *     networks?: int[],
+     *     placement_group?: int,
+     *     public_net?: array{enable_ipv4: bool, enable_ipv6: bool, ipv4?: int, ipv6?: int},
+     *     ssh_keys?: string[],
+     *     start_after_mount?: bool,
+     *     user_data?: string,
+     *     volumes?: int[],
+     * } $payload
+     */
     #[Override]
-    public function createServer(
-        string $name,
-        string $image,
-        string $serverType,
-        ?bool $automount = null,
-        ?bool $startAfterCreate = null,
-        ?array $volumes = null,
-        ?string $datacenter = null,
-        ?array $firewalls = null,
-        ?array $labels = null,
-        ?string $location = null,
-        ?array $networks = null,
-        ?int $placementGroup = null,
-        ?array $publicNet = null,
-        ?array $sshKeys = null,
-        ?string $userData = null,
-    ): CreateServerResponse {
-        $payload = [
-            'name' => $name,
-            'image' => $image,
-            'server_type' => $serverType,
-            'automount' => $automount,
-            'start_after_create' => $automount,
-            'datacenter' => $datacenter,
-            'firewalls' => $firewalls,
-            'labels' => $labels,
-            'location' => $location,
-            'networks' => $networks,
-            'placement_group' => $placementGroup,
-            'public_net' => $publicNet,
-            'ssh_keys' => $sshKeys,
-            'user_data' => $userData,
-            'volumes' => $volumes,
-        ];
-
-        $payload = array_filter($payload, fn (mixed $value): bool => $value !== null);
+    public function createServer(array $payload): CreateServerResponse
+    {
         $request = ClientRequestBuilder::post('servers')
             ->withRequestContent($payload);
 
@@ -126,13 +111,13 @@ final readonly class ServersResource implements ServersResourceContract
         return DeleteServerResponse::from($data);
     }
 
-    public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse
+    /**
+     * @param  array{name?: string, labels?: array<string,string>}  $payload
+     */
+    public function updateServer(int $id, array $payload): GetServerResponse
     {
         $payload = ClientRequestBuilder::put("servers/$id")
-            ->withRequestContent([
-                'name' => $name,
-                'labels' => $labels,
-            ]);
+            ->withRequestContent($payload);
 
         /** @var Response<array<array-key, mixed>> $response */
         $response = $this->connector->sendClientRequest($payload);

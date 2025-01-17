@@ -14,30 +14,25 @@ use HetznerCloud\Responses\Servers\GetServersResponse;
 interface ServersResourceContract
 {
     /**
-     * @param  array<int, array{firewall: int}>|null  $firewalls
-     * @param  array{string, string}|null  $labels
-     * @param  int[]|null  $networks
-     * @param  array{enable_ipv4: bool, enable_ipv6: bool, ipv4: ?string, ipv6: ?string}|null  $publicNet
-     * @param  string[]|null  $sshKeys
-     * @param  int[]|null  $volumes
+     * @param array{
+     *     name: string,
+     *     image: string,
+     *     server_type: string,
+     *     automount?: bool,
+     *     datacenter?: bool,
+     *     firewalls?: array<int, array{firewall: int}>,
+     *     labels?: array<string, string>,
+     *     location?: string,
+     *     networks?: int[],
+     *     placement_group?: int,
+     *     public_net?: array{enable_ipv4: bool, enable_ipv6: bool, ipv4?: int, ipv6?: int},
+     *     ssh_keys?: string[],
+     *     start_after_mount?: bool,
+     *     user_data?: string,
+     *     volumes?: int[],
+     * } $payload
      */
-    public function createServer(
-        string $name,
-        string $image,
-        string $serverType,
-        ?bool $automount = true,
-        ?bool $startAfterCreate = true,
-        ?array $volumes = [],
-        ?string $datacenter = null,
-        ?array $firewalls = null,
-        ?array $labels = null,
-        ?string $location = null,
-        ?array $networks = null,
-        ?int $placementGroup = null,
-        ?array $publicNet = null,
-        ?array $sshKeys = null,
-        ?string $userData = null,
-    ): CreateServerResponse;
+    public function createServer(array $payload): CreateServerResponse;
 
     public function getServers(int $page = 1, int $perPage = 25, ?string $sort = null): GetServersResponse;
 
@@ -46,9 +41,9 @@ interface ServersResourceContract
     public function deleteServer(int $id): DeleteServerResponse;
 
     /**
-     * @param  string[]|null  $labels
+     * @param  array{name?: string, labels?: array<string,string>}  $payload
      */
-    public function updateServer(int $id, ?string $name, ?array $labels): GetServerResponse;
+    public function updateServer(int $id, array $payload): GetServerResponse;
 
     /**
      * @param  string[]  $types

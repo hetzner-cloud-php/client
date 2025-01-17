@@ -26,11 +26,11 @@ describe('servers', function (): void {
         );
 
         // Act
-        $result = $client->servers()->createServer(
-            name: 'test-server',
-            image: 'ubuntu-22.04',
-            serverType: 'cpx11'
-        );
+        $result = $client->servers()->createServer([
+            'name' => 'test-server',
+            'image' => 'ubuntu-22.04',
+            'server_type' => 'cpx11',
+        ]);
 
         // Assert
         expect($result)
@@ -68,23 +68,38 @@ describe('servers', function (): void {
         );
 
         // Act
-        $result = $client->servers()->createServer(
-            name: 'test-server',
-            image: 'ubuntu-22.04',
-            serverType: 'cpx11',
-            automount: true,
-            startAfterCreate: true,
-            volumes: ['vol1', 'vol2'],
-            datacenter: 'nbg1-dc3',
-            firewalls: ['fw1', 'fw2'],
-            labels: ['env' => 'prod'],
-            location: 'nbg1',
-            networks: ['net1', 'net2'],
-            placementGroup: 123,
-            publicNet: ['enable_ipv4' => true],
-            sshKeys: ['key1', 'key2'],
-            userData: 'cloud-init-data'
-        );
+        $result = $client->servers()->createServer([
+            'name' => 'test-server',
+            'image' => 'ubuntu-22.04',
+            'server_type' => 'cpx11',
+            'automount' => true,
+            'start_after_create' => true,
+            'volumes' => [
+                'vol1',
+                'vol2',
+            ],
+            'datacenter' => 'nbg1-dc3',
+            'firewalls' => [
+                'fw1', 'fw2',
+            ],
+            'labels' => [
+                'env' => 'prod',
+            ],
+            'location' => 'nbg1',
+            'networks' => [
+                'net1',
+                'net2',
+            ],
+            'placement_group' => 123,
+            'public_net' => [
+                'enable_ipv4' => true,
+            ],
+            'ssh_keys' => [
+                'key1',
+                'key2',
+            ],
+            'user_data' => 'cloud-init-data',
+        ]);
 
         // Assert
         expect($result)->toBeInstanceOf(CreateServerResponse::class);
