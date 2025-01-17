@@ -6,6 +6,7 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\Responses\Concerns\HasMeta;
 use HetznerCloud\Responses\Meta;
 use HetznerCloud\Responses\Servers\Models\Server;
 use Override;
@@ -27,6 +28,8 @@ final readonly class GetServersResponse implements ResponseContract
      * @use ArrayAccessible<GetServersResponseSchema>
      */
     use ArrayAccessible;
+
+    use HasMeta;
 
     /**
      * @param  Server[]  $servers
@@ -59,7 +62,10 @@ final readonly class GetServersResponse implements ResponseContract
     {
         return [
             'meta' => $this->meta->toArray(),
-            'servers' => array_map(fn (Server $server): array => $server->toArray(), $this->servers),
+            'servers' => array_map(
+                static fn (Server $server): array => $server->toArray(),
+                $this->servers
+            ),
         ];
     }
 }

@@ -6,13 +6,19 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\Responses\Concerns\HasPotentialError;
+use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Errors\ErrorResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
 use Override;
 
 /**
+ * @phpstan-import-type ErrorResponseSchema from ErrorResponse
  * @phpstan-import-type ServerSchema from Server
  *
- * @phpstan-type GetServerResponseSchema array{server: ServerSchema}
+ * @phpstan-type GetServerResponseSchema array{
+ *     server: ?ServerSchema
+ * }|ErrorResponseSchema
  *
  * @implements ResponseContract<GetServerResponseSchema>
  */
@@ -23,8 +29,12 @@ final readonly class GetServerResponse implements ResponseContract
      */
     use ArrayAccessible;
 
-    private function __construct(public Server $server)
-    {
+    use HasPotentialError;
+
+    private function __construct(
+        public ?Server $server,
+        public ?Error $error,
+    ) {
         //
     }
 
@@ -33,14 +43,18 @@ final readonly class GetServerResponse implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        return new self(Server::from($attributes['server']));
+        return new self(
+            server: isset($attributes['server']) ? Server::from($attributes['server']) : null,
+            error: isset($attributes['error']) ? Error::from($attributes['error']) : null,
+        );
     }
 
     #[Override]
     public function toArray(): array
     {
         return [
-            'server' => $this->server->toArray(),
+            'server' => $this->server?->toArray(),
+            'error' => $this->error?->toArray(),
         ];
     }
 }

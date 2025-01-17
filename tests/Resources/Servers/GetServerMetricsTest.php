@@ -5,6 +5,8 @@ declare(strict_types=1);
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
+use HetznerCloud\Responses\Servers\Models\Metrics;
+use HetznerCloud\Responses\Servers\Models\TimeSeries;
 use Tests\Fixtures\Servers\GetServerMetricsFixture;
 use Tests\Mocks\ClientMock;
 
@@ -31,7 +33,8 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServerMetricsResponse::class)
-            ->metrics->toBeArray();
+            ->metrics->toBeInstanceOf(Metrics::class)
+            ->metrics->timeSeries->toBeArray()->each->toBeInstanceOf(TimeSeries::class);
     });
 
     it('can retrieve multiple metrics for a server', function (): void {
@@ -54,7 +57,8 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServerMetricsResponse::class)
-            ->metrics->toBeArray();
+            ->metrics->toBeInstanceOf(Metrics::class)
+            ->metrics->timeSeries->toBeArray()->each->toBeInstanceOf(TimeSeries::class);
     });
 
     it('can retrieve metrics for a server with a step', function (): void {
@@ -78,6 +82,7 @@ describe('servers', function (): void {
         // Assert
         expect($result)
             ->toBeInstanceOf(GetServerMetricsResponse::class)
-            ->metrics->toBeArray();
+            ->metrics->toBeInstanceOf(Metrics::class)
+            ->metrics->timeSeries->toBeArray()->each->toBeInstanceOf(TimeSeries::class);
     });
 });

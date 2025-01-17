@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use Tests\Fixtures\Servers\CreateServerFixture;
 
@@ -38,6 +39,29 @@ describe(DeleteServerResponse::class, function (): void {
         // Assert
         expect($response->toArray())
             ->toBeArray()
-            ->toHaveKey('action');
+            ->toHaveKey('action')
+            ->toHaveKey('error')
+            ->and($response['action'])->toBeArray()
+            ->and($response['error'])->toBeNull();
+    });
+
+    it('returns errors', function (): void {
+        // Arrange
+        $error = CreateServerFixture::error();
+
+        // Act
+        $response = DeleteServerResponse::from($error);
+
+        // Assert
+        expect($response->error)
+            ->not->toBeNull()->toBeInstanceOf(Error::class)
+            ->and($response->toArray())
+            ->toBeArray()
+            ->toHaveKey('action')
+            ->toHaveKey('error')
+            ->and($response['action'])->toBeNull()
+            ->and($response['error'])->toBeArray()
+            ->toHaveKey('message')
+            ->toHaveKey('code');
     });
 });

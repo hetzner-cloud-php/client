@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace HetznerCloud\Contracts\Resources;
 
 use Carbon\Carbon;
+use HetznerCloud\Responses\Errors\ErrorResponse;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
@@ -32,7 +33,7 @@ interface ServersResourceContract
      *     volumes?: int[],
      * } $payload
      */
-    public function createServer(array $payload): CreateServerResponse;
+    public function createServer(array $payload): CreateServerResponse|ErrorResponse;
 
     public function getServers(int $page = 1, int $perPage = 25, ?string $sort = null): GetServersResponse;
 

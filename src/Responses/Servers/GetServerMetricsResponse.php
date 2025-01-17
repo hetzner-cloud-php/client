@@ -6,17 +6,19 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\Responses\Concerns\HasPotentialError;
+use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Errors\ErrorResponse;
+use HetznerCloud\Responses\Servers\Models\Metrics;
 use Override;
 
 /**
+ * @phpstan-import-type ErrorResponseSchema from ErrorResponse
+ * @phpstan-import-type MetricsSchema from Metrics
+ *
  * @phpstan-type GetServerMetricsResponseSchema array{
- *     metrics: array{
- *         start: string,
- *         end: string,
- *         step: float,
- *         time_series: array<array-key, mixed>
- *     }
- * }
+ *     metrics: ?MetricsSchema
+ * }|ErrorResponseSchema
  *
  * @implements ResponseContract<GetServerMetricsResponseSchema>
  */
@@ -27,11 +29,11 @@ final readonly class GetServerMetricsResponse implements ResponseContract
      */
     use ArrayAccessible;
 
-    /**
-     * @param  GetServerMetricsResponseSchema['metrics']  $metrics
-     */
+    use HasPotentialError;
+
     private function __construct(
-        public array $metrics,
+        public ?Metrics $metrics,
+        public ?Error $error,
     ) {
         //
     }
@@ -42,7 +44,8 @@ final readonly class GetServerMetricsResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            $attributes['metrics'],
+            isset($attributes['metrics']) ? Metrics::from($attributes['metrics']) : null,
+            isset($attributes['error']) ? Error::from($attributes['error']) : null,
         );
     }
 
@@ -53,7 +56,8 @@ final readonly class GetServerMetricsResponse implements ResponseContract
     public function toArray(): array
     {
         return [
-            'metrics' => $this->metrics,
+            'metrics' => $this->metrics?->toArray(),
+            'error' => $this->error?->toArray(),
         ];
     }
 }

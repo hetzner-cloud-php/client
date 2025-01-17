@@ -4,10 +4,24 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures\Servers;
 
+use Override;
 use Tests\Fixtures\AbstractDataFixture;
+use Tests\Fixtures\ErrorFixture;
 
 final class GetServerFixture extends AbstractDataFixture
 {
+    /**
+     * @return array<array-key, mixed>
+     */
+    #[Override]
+    public static function error(): array
+    {
+        return [
+            'server' => null,
+            'error' => ErrorFixture::data(),
+        ];
+    }
+
     public static function data(): array
     {
         return [

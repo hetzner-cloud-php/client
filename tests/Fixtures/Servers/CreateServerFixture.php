@@ -4,13 +4,27 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures\Servers;
 
+use Override;
 use Tests\Fixtures\AbstractDataFixture;
 use Tests\Fixtures\Actions\GetActionFixture;
+use Tests\Fixtures\ErrorFixture;
 
 use function Pest\Faker\fake;
 
 final class CreateServerFixture extends AbstractDataFixture
 {
+    #[Override]
+    public static function error(): array
+    {
+        return [
+            'action' => null,
+            'next_actions' => null,
+            'root_password' => null,
+            'server' => null,
+            'error' => ErrorFixture::data(),
+        ];
+    }
+
     /**
      * @return array<array-key, mixed>
      */

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
 use Tests\Fixtures\Servers\CreateServerFixture;
@@ -56,5 +57,48 @@ describe(CreateServerResponse::class, function (): void {
             ->and($response['server'])
             ->toBeArray()
             ->toHaveKey('id');
+    });
+
+    it('returns errors', function (): void {
+        // Arrange
+        $error = CreateServerFixture::error();
+
+        // Act
+        $response = CreateServerResponse::from($error);
+
+        // Assert
+        expect($response->error)
+            ->not->toBeNull()->toBeInstanceOf(Error::class)
+            ->and($response->toArray())
+            ->toBeArray()
+            ->toHaveKey('action')
+            ->toHaveKey('next_actions')
+            ->toHaveKey('root_password')
+            ->toHaveKey('error')
+            ->toHaveKey('server')
+            ->and($response['action'])->toBeNull()
+            ->and($response['next_actions'])->toBeArray()->toBeEmpty()
+            ->and($response['root_password'])->toBeNull()
+            ->and($response['server'])->toBeNull()
+            ->and($response['error'])->toBeArray()
+            ->toHaveKey('message')
+            ->toHaveKey('code');
+    });
+
+    it('transforms response with next actions to array', function (): void {
+        // Arrange
+        $data = CreateServerFixture::data();
+
+        // Act
+        $response = CreateServerResponse::from($data);
+
+        // Assert
+        expect($response->toArray())
+            ->toBeArray()
+            ->toHaveKey('next_actions')
+            ->and($response['next_actions'])
+            ->toBeArray()
+            ->not->toBeEmpty()
+            ->each->toBeArray()->toHaveKey('id');
     });
 });

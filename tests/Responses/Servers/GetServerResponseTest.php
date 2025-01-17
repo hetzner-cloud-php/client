@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
+use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
 use Tests\Fixtures\Servers\GetServerFixture;
@@ -39,5 +40,25 @@ describe(GetServerResponse::class, function (): void {
         expect($response->toArray())
             ->toBeArray()
             ->and($response['server'])->toBeArray();
+    });
+
+    it('returns errors', function (): void {
+        // Arrange
+        $error = GetServerFixture::error();
+
+        // Act
+        $response = GetServerResponse::from($error);
+
+        // Assert
+        expect($response->error)
+            ->not->toBeNull()->toBeInstanceOf(Error::class)
+            ->and($response->toArray())
+            ->toBeArray()
+            ->toHaveKey('server')
+            ->toHaveKey('error')
+            ->and($response['server'])->toBeNull()
+            ->and($response['error'])->toBeArray()
+            ->toHaveKey('message')
+            ->toHaveKey('code');
     });
 });

@@ -4,12 +4,23 @@ declare(strict_types=1);
 
 namespace Tests\Fixtures\Servers;
 
+use Override;
 use Tests\Fixtures\AbstractDataFixture;
+use Tests\Fixtures\ErrorFixture;
 
 use function Pest\Faker\fake;
 
 final class GetServerMetricsFixture extends AbstractDataFixture
 {
+    #[Override]
+    public static function error(): array
+    {
+        return [
+            'metrics' => null,
+            'error' => ErrorFixture::data(),
+        ];
+    }
+
     public static function data(): array
     {
         // Generate a base timestamp for consistent time series

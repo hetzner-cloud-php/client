@@ -68,6 +68,7 @@
         "fmt:test": "./vendor/bin/pint --test",
         "lint": "vendor/bin/phpstan analyze",
         "lint:watch": "find src phpstan.neon.dist | entr -s \"composer run lint\"",
+        "lint:clear": "./vendor/bin/phpstan clear-result-cache",
         "refactor": "vendor/bin/rector process",
         "refactor:test": "vendor/bin/rector process --dry-run",
         "check": [

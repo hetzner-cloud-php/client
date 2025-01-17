@@ -7,12 +7,17 @@ namespace HetznerCloud\Responses\Servers;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Errors\ErrorResponse;
 use Override;
 
 /**
  * @phpstan-import-type ActionSchema from Action
+ * @phpstan-import-type ErrorResponseSchema from ErrorResponse
  *
- * @phpstan-type DeleteServerResponseSchema array{action: ActionSchema}
+ * @phpstan-type DeleteServerResponseSchema array{
+ *     action: ActionSchema
+ * }|ErrorResponseSchema
  *
  * @implements ResponseContract<DeleteServerResponseSchema>
  */
@@ -24,7 +29,8 @@ final readonly class DeleteServerResponse implements ResponseContract
     use ArrayAccessible;
 
     private function __construct(
-        public Action $action,
+        public ?Action $action,
+        public ?Error $error,
     ) {
         //
     }
@@ -35,7 +41,8 @@ final readonly class DeleteServerResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            Action::from($attributes['action']),
+            isset($attributes['action']) ? Action::from($attributes['action']) : null,
+            isset($attributes['error']) ? Error::from($attributes['error']) : null,
         );
     }
 
@@ -46,7 +53,8 @@ final readonly class DeleteServerResponse implements ResponseContract
     public function toArray(): array
     {
         return [
-            'action' => $this->action->toArray(),
+            'action' => $this->action?->toArray(),
+            'error' => $this->error?->toArray(),
         ];
     }
 }
