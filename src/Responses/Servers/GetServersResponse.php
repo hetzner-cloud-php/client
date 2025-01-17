@@ -43,7 +43,7 @@ final readonly class GetServersResponse implements ResponseContract
      */
     public static function from(array $attributes): self
     {
-        $servers = array_map(fn (array $server): \HetznerCloud\ValueObjects\Servers\Server => Server::from($server), $attributes['servers']);
+        $servers = array_map(fn (array $server): Server => Server::from($server), $attributes['servers']);
 
         return new self(
             Meta::from($attributes['meta']),

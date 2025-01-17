@@ -11,10 +11,10 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  * @phpstan-type PaginationSchema array{
  *     page: int,
  *     per_page: int,
- *     previous_page: int,
- *     next_page: int,
- *     last_page: int,
- *     total_entries: int,
+ *     previous_page?: int,
+ *     next_page?: int,
+ *     last_page?: int,
+ *     total_entries?: int,
  * }
  *
  * @implements ResponseContract<PaginationSchema>
@@ -29,10 +29,10 @@ final readonly class Pagination implements ResponseContract
     public function __construct(
         public int $page,
         public int $perPage,
-        public int $previousPage,
-        public int $nextPage,
-        public int $lastPage,
-        public int $totalEntries,
+        public ?int $previousPage,
+        public ?int $nextPage,
+        public ?int $lastPage,
+        public ?int $totalEntries,
     ) {
         //
     }
@@ -45,10 +45,10 @@ final readonly class Pagination implements ResponseContract
         return new self(
             $attributes['page'],
             $attributes['per_page'],
-            $attributes['previous_page'],
-            $attributes['next_page'],
-            $attributes['last_page'],
-            $attributes['total_entries'],
+            $attributes['previous_page'] ?? null,
+            $attributes['next_page'] ?? null,
+            $attributes['last_page'] ?? null,
+            $attributes['total_entries'] ?? null,
         );
     }
 

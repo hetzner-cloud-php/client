@@ -132,11 +132,14 @@ final readonly class ServersResource implements ServersResourceContract
     {
         $request = ClientRequestBuilder::get("servers/$id", 'metrics')
             ->withQueryParams([
-                'type' => $types,
                 'start' => $start->toIso8601String(),
                 'end' => $end->toIso8601String(),
                 'step' => $step,
             ]);
+
+        foreach ($types as $type) {
+            $request = $request->withQueryParam('type', $type);
+        }
 
         /** @var Response<array<array-key, mixed>> $response */
         $response = $this->connector->sendClientRequest($request);

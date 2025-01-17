@@ -14,36 +14,38 @@ $dotenv->load();
 $apiKey = $_ENV['HETZNER_CLOUD_API_KEY'];
 $client = HetznerCloud::client($apiKey);
 
+// Create a server
+$createdServer = $client->servers()->createServer([
+    'name' => 'test-server',
+    'server_type' => 'cpx11',
+    'image' => 'ubuntu-24.04',
+]);
+var_dump($createdServer);
+
 // Get a list of servers
 $servers = $client->servers()->getServers();
 var_dump($servers);
 
 // Get a single server
-$server = $client->servers()->getServer($servers->servers[0]->id);
+$server = $client->servers()->getServer($createdServer->server->id);
 var_dump($server);
 
-// Create a server
-$createdServer = $client->servers()->createServer(
-    name: 'test-server',
-    image: 'ubuntu-24.04',
-    serverType: 'cpx11',
-);
-var_dump($server);
-
-// TODO: Update a server
-$serverId = $createdServer->server->id;
-$updatedServer = $client->servers()->updateServer($serverId, 'test-server-updated', [
-    'foo' => 'bar',
+$serverId = $server->server->id;
+$updatedServer = $client->servers()->updateServer($serverId, [
+    'name' => 'test-server-updated',
+    'labels' => [
+        'foo' => 'bar',
+    ],
 ]);
 var_dump($updatedServer);
 
-// TODO: Get server metrics
 $serverMetrics = $client->servers()->getServerMetrics(
     $serverId,
     ['disk', 'cpu'],
     Carbon::now()->subDays(),
     Carbon::now()
 );
+var_dump($serverMetrics);
 
-// TODO Delete a server
 $deletedServer = $client->servers()->deleteServer($serverId);
+var_dump($deletedServer);

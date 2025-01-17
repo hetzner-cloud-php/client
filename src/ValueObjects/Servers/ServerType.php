@@ -20,7 +20,7 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *     description: string,
  *     disk: int,
  *     id: int,
- *     memory: int,
+ *     memory: float|int,
  *     name: string,
  *     prices: PriceSchema[],
  *     storage_type: string
@@ -47,7 +47,7 @@ final readonly class ServerType implements ResponseContract
         public string $description,
         public int $disk,
         public int $id,
-        public int $memory,
+        public int|float $memory,
         public string $name,
         public array $prices,
         public string $storageType,
