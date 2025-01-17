@@ -27,11 +27,11 @@ $servers = $client->servers()->getServers();
 var_dump($servers);
 
 // Get a single server
-$server = $client->servers()->getServer($createdServer->server->id);
+$serverId = $createdServer->server?->id ?? 1;
+$server = $client->servers()->getServer($serverId);
 var_dump($server);
 
 // Update a server
-$serverId = $server->server->id ?? 1;
 $updatedServer = $client->servers()->updateServer($serverId, [
     'name' => 'test-server-updated',
     'labels' => [
