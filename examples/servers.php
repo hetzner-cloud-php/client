@@ -27,7 +27,7 @@ $servers = $client->servers()->getServers();
 var_dump($servers);
 
 // Get a single server
-$serverId = $createdServer->server?->id ?? 1;
+$serverId = $createdServer->server->id ?? 1;
 $server = $client->servers()->getServer($serverId);
 var_dump($server);
 
