@@ -7,6 +7,8 @@ namespace HetznerCloud\Responses\Actions;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Concerns\HasMeta;
+use HetznerCloud\Responses\Concerns\HasPotentialError;
 use HetznerCloud\Responses\Meta;
 use Override;
 
@@ -28,6 +30,9 @@ final readonly class GetActionsResponse implements ResponseContract
      */
     use ArrayAccessible;
 
+    use HasMeta;
+    use HasPotentialError;
+
     /**
      * @param  Action[]  $actions
      */
@@ -44,7 +49,10 @@ final readonly class GetActionsResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            array_map(fn (array $action): Models\Action => Action::from($action), $attributes['actions']),
+            array_map(
+                static fn (array $action): Models\Action => Action::from($action),
+                $attributes['actions']
+            ),
             Meta::from($attributes['meta']),
         );
     }
@@ -53,7 +61,10 @@ final readonly class GetActionsResponse implements ResponseContract
     public function toArray(): array
     {
         return [
-            'actions' => array_map(fn (Action $action): array => $action->toArray(), $this->actions),
+            'actions' => array_map(
+                static fn (Action $action): array => $action->toArray(),
+                $this->actions
+            ),
             'meta' => $this->meta->toArray(),
         ];
     }
