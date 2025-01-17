@@ -13,10 +13,10 @@ $dotenv->load();
 $apiKey = $_ENV['HETZNER_CLOUD_API_KEY'];
 $client = HetznerCloud::client($apiKey);
 
-// Get a list of servers
+// Get a list of actions
 $actions = $client->actions()->getActions();
 var_dump($actions);
 
-// Get a single server
-$server = $client->actions()->getAction($actions->actions[0]->id);
-var_dump($server);
+// Get a single action
+$action = $client->actions()->getAction($actions->actions[0]->id);
+var_dump($action);
