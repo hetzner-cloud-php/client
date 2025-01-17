@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\ValueObjects\Servers;
+namespace HetznerCloud\Responses\Servers\Models;
 
 use Carbon\CarbonImmutable;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;

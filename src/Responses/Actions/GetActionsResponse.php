@@ -6,8 +6,8 @@ namespace HetznerCloud\Responses\Actions;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
-use HetznerCloud\ValueObjects\Actions\Action;
-use HetznerCloud\ValueObjects\Meta;
+use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Meta;
 use Override;
 
 /**
@@ -44,7 +44,7 @@ final readonly class GetActionsResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            array_map(fn (array $action): \HetznerCloud\ValueObjects\Actions\Action => Action::from($action), $attributes['actions']),
+            array_map(fn (array $action): Models\Action => Action::from($action), $attributes['actions']),
             Meta::from($attributes['meta']),
         );
     }

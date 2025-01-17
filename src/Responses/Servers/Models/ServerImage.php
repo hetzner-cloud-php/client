@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\ValueObjects\Servers;
+namespace HetznerCloud\Responses\Servers\Models;
 
 use Carbon\CarbonImmutable;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
@@ -16,13 +16,13 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *     architecture: string,
  *     bound_to?: ?string,
  *     created: string,
- *     created_from?: CreatedFromSchema,
+ *     created_from: ?CreatedFromSchema,
  *     deleted?: ?string,
  *     deprecated?: ?string,
  *     description: string,
  *     disk_size: int,
  *     id: int,
- *     image_size?: float,
+ *     image_size: ?float,
  *     labels: array<string, string>,
  *     name: string,
  *     os_flavor: string,

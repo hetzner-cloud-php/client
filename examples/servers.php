@@ -30,6 +30,7 @@ var_dump($servers);
 $server = $client->servers()->getServer($createdServer->server->id);
 var_dump($server);
 
+// Update a server
 $serverId = $server->server->id;
 $updatedServer = $client->servers()->updateServer($serverId, [
     'name' => 'test-server-updated',
@@ -39,6 +40,7 @@ $updatedServer = $client->servers()->updateServer($serverId, [
 ]);
 var_dump($updatedServer);
 
+// Get a server's metrics
 $serverMetrics = $client->servers()->getServerMetrics(
     $serverId,
     ['disk', 'cpu'],
@@ -47,5 +49,6 @@ $serverMetrics = $client->servers()->getServerMetrics(
 );
 var_dump($serverMetrics);
 
+// Delete a server
 $deletedServer = $client->servers()->deleteServer($serverId);
 var_dump($deletedServer);

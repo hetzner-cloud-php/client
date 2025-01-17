@@ -6,7 +6,7 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
-use HetznerCloud\ValueObjects\Actions\Action;
+use HetznerCloud\Responses\Actions\Models\Action;
 use Override;
 
 /**

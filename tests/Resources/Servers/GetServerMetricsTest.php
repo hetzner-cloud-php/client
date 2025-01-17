@@ -19,7 +19,7 @@ describe('servers', function (): void {
             'servers/42069/metrics',
             Response::from(GetServerMetricsFixture::data()),
             [
-                'type' => ['disk'],
+                'type' => 'disk',
                 'start' => $start->toIso8601String(),
                 'end' => $end->toIso8601String(),
             ],
@@ -42,7 +42,7 @@ describe('servers', function (): void {
             'servers/42069/metrics',
             Response::from(GetServerMetricsFixture::data()),
             [
-                'type' => ['disk', 'cpu'],
+                'type' => 'disk,cpu',
                 'start' => $start->toIso8601String(),
                 'end' => $end->toIso8601String(),
             ],
@@ -65,7 +65,7 @@ describe('servers', function (): void {
             'servers/420/metrics',
             Response::from(GetServerMetricsFixture::data()),
             [
-                'type' => ['disk', 'cpu'],
+                'type' => 'disk,cpu',
                 'start' => $start->toIso8601String(),
                 'end' => $end->toIso8601String(),
                 'step' => 69,

@@ -6,8 +6,8 @@ namespace HetznerCloud\Responses\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
-use HetznerCloud\ValueObjects\Meta;
-use HetznerCloud\ValueObjects\Servers\Server;
+use HetznerCloud\Responses\Meta;
+use HetznerCloud\Responses\Servers\Models\Server;
 use Override;
 
 /**

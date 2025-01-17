@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\ValueObjects;
+namespace HetznerCloud\Responses;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
@@ -11,10 +11,10 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  * @phpstan-type PaginationSchema array{
  *     page: int,
  *     per_page: int,
- *     previous_page?: int,
- *     next_page?: int,
- *     last_page?: int,
- *     total_entries?: int,
+ *     previous_page: ?int,
+ *     next_page: ?int,
+ *     last_page: ?int,
+ *     total_entries: ?int,
  * }
  *
  * @implements ResponseContract<PaginationSchema>

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
+use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
-use HetznerCloud\ValueObjects\Actions\Action;
-use HetznerCloud\ValueObjects\Servers\Server;
+use HetznerCloud\Responses\Servers\Models\Server;
 use Tests\Fixtures\Servers\CreateServerFixture;
 
 covers(CreateServerResponse::class);

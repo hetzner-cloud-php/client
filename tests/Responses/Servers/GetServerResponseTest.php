@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Servers\GetServerResponse;
-use HetznerCloud\ValueObjects\Servers\Server;
+use HetznerCloud\Responses\Servers\Models\Server;
 use Tests\Fixtures\Servers\GetServerFixture;
 
 covers(GetServerResponse::class);
