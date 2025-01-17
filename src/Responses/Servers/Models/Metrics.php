@@ -13,7 +13,7 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  * @phpstan-type MetricsSchema array{
  *     start: string,
  *     end: string,
- *     step: int,
+ *     step: float,
  *     time_series: array<string, TimeSeriesSchema>
  * }
  *
@@ -32,7 +32,7 @@ final readonly class Metrics implements ResponseContract
     public function __construct(
         public string $start,
         public string $end,
-        public int $step,
+        public float $step,
         public array $timeSeries,
     ) {}
 

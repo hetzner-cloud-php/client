@@ -8,7 +8,6 @@ use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Concerns\HasMeta;
-use HetznerCloud\Responses\Concerns\HasPotentialError;
 use HetznerCloud\Responses\Meta;
 use Override;
 
@@ -31,7 +30,6 @@ final readonly class GetActionsResponse implements ResponseContract
     use ArrayAccessible;
 
     use HasMeta;
-    use HasPotentialError;
 
     /**
      * @param  Action[]  $actions

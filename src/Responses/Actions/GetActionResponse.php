@@ -7,12 +7,17 @@ namespace HetznerCloud\Responses\Actions;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Errors\ErrorResponse;
 use Override;
 
 /**
  * @phpstan-import-type ActionSchema from Action
+ * @phpstan-import-type ErrorResponseSchema from ErrorResponse
  *
- * @phpstan-type GetActionResponseSchema array{action: ActionSchema}
+ * @phpstan-type GetActionResponseSchema array{
+ *     action: ?ActionSchema
+ * }|ErrorResponseSchema
  *
  * @implements ResponseContract<GetActionResponseSchema>
  */
@@ -24,7 +29,8 @@ final readonly class GetActionResponse implements ResponseContract
     use ArrayAccessible;
 
     private function __construct(
-        public Action $actions,
+        public ?Action $action,
+        public ?Error $error,
     ) {
         //
     }
@@ -35,7 +41,8 @@ final readonly class GetActionResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            Action::from($attributes['action']),
+            isset($attributes['action']) ? Action::from($attributes['action']) : null,
+            isset($attributes['error']) ? Error::from($attributes['error']) : null,
         );
     }
 
@@ -43,7 +50,8 @@ final readonly class GetActionResponse implements ResponseContract
     public function toArray(): array
     {
         return [
-            'action' => $this->actions->toArray(),
+            'action' => $this->action?->toArray(),
+            'error' => $this->error?->toArray(),
         ];
     }
 }

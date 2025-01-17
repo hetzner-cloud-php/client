@@ -9,7 +9,7 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
 /**
  * @phpstan-type TimeSeriesSchema array{
- *     values: array<int, array{0: float, 1: string}>
+ *     values: array<int, array{0: int, 1: string}>
  * }
  *
  * @implements ResponseContract<TimeSeriesSchema>
@@ -22,7 +22,7 @@ final readonly class TimeSeries implements ResponseContract
     use ArrayAccessible;
 
     /**
-     * @param  array<int, array{0: float, 1: string}>  $values
+     * @param  array<int, array{0: int, 1: string}>  $values
      */
     public function __construct(
         public array $values

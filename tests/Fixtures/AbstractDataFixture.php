@@ -17,7 +17,7 @@ abstract class AbstractDataFixture
     public static function error(): array
     {
         return [
-            'error' => ErrorFixture::data()['error'],
+            'error' => ErrorFixture::data(),
         ];
     }
 }
