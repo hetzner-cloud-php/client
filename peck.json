@@ -1,0 +1,17 @@
+{
+    "preset": "laravel",
+    "ignore": {
+        "words": [
+            "php",
+            "ipv",
+            "automount",
+            "datacenter",
+            "balancers",
+            "ingoing",
+            "ptr",
+            "ips",
+            "hetzner",
+            "param"
+        ]
+    }
+}
