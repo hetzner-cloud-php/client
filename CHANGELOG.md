@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.3 - 2025-01-18
+
+### What's new?
+
+- Adds the [get action API](https://docs.hetzner.cloud/#actions-get-an-action) to the actions resource
+
 ## v0.1.2 - 2025-01-17
 
 ### What's new?
