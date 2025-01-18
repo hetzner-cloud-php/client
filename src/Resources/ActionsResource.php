@@ -8,10 +8,11 @@ use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
+use HetznerCloud\Responses\Actions\GetActionResponse;
 use HetznerCloud\Responses\Actions\GetActionsResponse;
-use Rector\Exception\NotImplementedYetException;
 
 /**
+ * @phpstan-import-type GetActionResponseSchema from GetActionResponse
  * @phpstan-import-type GetActionsResponseSchema from GetActionsResponse
  */
 final readonly class ActionsResource implements ActionsResourceContract
@@ -34,6 +35,8 @@ final readonly class ActionsResource implements ActionsResourceContract
                 'page' => $page,
                 'per_page' => $perPage,
                 'sort' => $sort,
+                'id' => $id,
+                'status' => $status,
             ]);
 
         /** @var Response<array<array-key, mixed>> $response */
@@ -45,8 +48,16 @@ final readonly class ActionsResource implements ActionsResourceContract
         return GetActionsResponse::from($data);
     }
 
-    public function getAction(int $id): GetActionsResponse
+    public function getAction(int $id): GetActionResponse
     {
-        throw new NotImplementedYetException;
+        $request = ClientRequestBuilder::get("actions/$id");
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var GetActionResponseSchema $data */
+        $data = $response->data();
+
+        return GetActionResponse::from($data);
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
+use HetznerCloud\Responses\Actions\GetActionResponse;
 use HetznerCloud\Responses\Actions\GetActionsResponse;
 
 interface ActionsResourceContract
@@ -16,5 +17,5 @@ interface ActionsResourceContract
         int $perPage = 25
     ): GetActionsResponse;
 
-    public function getAction(int $id): GetActionsResponse;
+    public function getAction(int $id): GetActionResponse;
 }
