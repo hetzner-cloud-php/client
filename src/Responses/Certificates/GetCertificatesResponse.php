@@ -20,7 +20,7 @@ use HetznerCloud\Responses\Meta;
  *
  * @implements ResponseContract<GetCertificateResponseSchema>
  */
-final class GetCertificatesResponse implements ResponseContract
+final readonly class GetCertificatesResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<GetCertificateResponseSchema>
@@ -43,7 +43,7 @@ final class GetCertificatesResponse implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            array_map(fn (array $certificate): \HetznerCloud\Responses\Certificates\Models\Certificate => Certificate::from($certificate), $attributes['certificates']),
+            array_map(fn (array $certificate): Certificate => Certificate::from($certificate), $attributes['certificates']),
             Meta::from($attributes['meta']),
         );
     }

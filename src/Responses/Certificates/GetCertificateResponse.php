@@ -19,7 +19,7 @@ use HetznerCloud\Responses\Errors\ErrorResponse;
  *
  * @implements ResponseContract<GetCertificateResponseSchema>
  */
-final class GetCertificateResponse implements ResponseContract
+final readonly class GetCertificateResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<GetCertificateResponseSchema>

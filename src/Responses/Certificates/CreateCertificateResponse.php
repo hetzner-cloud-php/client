@@ -24,7 +24,7 @@ use Override;
  *
  * @implements ResponseContract<CreateCertificateResponseSchema>
  */
-final class CreateCertificateResponse implements ResponseContract
+final readonly class CreateCertificateResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<CreateCertificateResponseSchema>
