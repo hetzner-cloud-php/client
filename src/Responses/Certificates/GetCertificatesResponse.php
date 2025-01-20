@@ -13,32 +13,32 @@ use HetznerCloud\Responses\Meta;
  * @phpstan-import-type CertificateSchema from Certificate
  * @phpstan-import-type MetaSchema from Meta
  *
- * @phpstan-type GetCertificateResponseSchema array{
+ * @phpstan-type GetCertificatesResponseSchema array{
  *     meta: MetaSchema,
  *     certificates: CertificateSchema[]
  * }
  *
- * @implements ResponseContract<GetCertificateResponseSchema>
+ * @implements ResponseContract<GetCertificatesResponseSchema>
  */
 final readonly class GetCertificatesResponse implements ResponseContract
 {
     /**
-     * @use ArrayAccessible<GetCertificateResponseSchema>
+     * @use ArrayAccessible<GetCertificatesResponseSchema>
      */
     use ArrayAccessible;
 
     /**
-     * @param  Certificate[]  $certificate
+     * @param  Certificate[]  $certificates
      */
     private function __construct(
-        public array $certificate,
+        public array $certificates,
         public Meta $meta,
     ) {
         //
     }
 
     /**
-     * @param  GetCertificateResponseSchema  $attributes
+     * @param  GetCertificatesResponseSchema  $attributes
      */
     public static function from(array $attributes): self
     {
@@ -53,7 +53,7 @@ final readonly class GetCertificatesResponse implements ResponseContract
         return [
             'certificates' => array_map(
                 static fn (Certificate $certificate): array => $certificate->toArray(),
-                $this->certificate
+                $this->certificates
             ),
             'meta' => $this->meta->toArray(),
         ];

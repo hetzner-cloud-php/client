@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace HetznerCloud;
 
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
+use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\Resources\ActionsResource;
+use HetznerCloud\Resources\CertificatesResource;
 use HetznerCloud\Resources\ServersResource;
 
 /**
@@ -37,5 +39,10 @@ final readonly class Client
     public function actions(): ActionsResourceContract
     {
         return new ActionsResource($this->connector);
+    }
+
+    public function certificates(): CertificatesResourceContract
+    {
+        return new CertificatesResource($this->connector);
     }
 }
