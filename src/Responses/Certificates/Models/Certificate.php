@@ -32,7 +32,7 @@ use HetznerCloud\Responses\Errors\Error;
  *
  * @implements ResponseContract<CertificateSchema>
  */
-final class Certificate implements ResponseContract
+final readonly class Certificate implements ResponseContract
 {
     /**
      * @use ArrayAccessible<CertificateSchema>

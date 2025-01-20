@@ -19,7 +19,7 @@ use HetznerCloud\Responses\Errors\Error;
  *
  * @implements ResponseContract<CertificateStatusSchema>
  */
-final class CertificateStatus implements ResponseContract
+final readonly class CertificateStatus implements ResponseContract
 {
     /**
      * @use ArrayAccessible<CertificateStatusSchema>
