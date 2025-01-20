@@ -15,6 +15,7 @@ use HetznerCloud\Responses\Certificates\GetCertificatesResponse;
 
 /**
  * @phpstan-import-type GetCertificatesResponseSchema from GetCertificatesResponse
+ * @phpstan-import-type CreateCertificateResponseSchema from CreateCertificateResponse
  */
 final readonly class CertificatesResource implements CertificatesResourceContract
 {
@@ -51,9 +52,28 @@ final readonly class CertificatesResource implements CertificatesResourceContrac
         return GetCertificatesResponse::from($data);
     }
 
+    /**
+     * @param array{
+     *     name: string,
+     *     certificate?: string,
+     *     domain_names?: string[],
+     *     labels?: array<string, string>,
+     *     private_key?: string,
+     *     type?: string
+     * } $request
+     */
     public function createCertificate(array $request): CreateCertificateResponse
     {
-        throw new NotImplementedException;
+        $request = ClientRequestBuilder::post('certificates')
+            ->withRequestContent($request);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var CreateCertificateResponseSchema $data */
+        $data = $response->data();
+
+        return CreateCertificateResponse::from($data);
     }
 
     public function deleteCertificate(int $id): void
