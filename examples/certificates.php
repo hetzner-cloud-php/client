@@ -23,7 +23,7 @@ if ($certificates->certificates !== []) {
     var_dump($certificate);
 
     // Update a certificate
-    $updatedCertificate = $client->certificates()->updateCertificate($certificate->certificate[0]->id, [
+    $updatedCertificate = $client->certificates()->updateCertificate($certificate->certificate->id ?? 1, [
         'name' => 'test-certificate-updated',
         'labels' => [
             'foo' => 'bar',
