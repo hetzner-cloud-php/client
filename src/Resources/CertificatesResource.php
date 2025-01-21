@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Resources;
 
+use HetznerCloud\Contracts\Resources\CertificateActionsResourceContract;
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
@@ -115,5 +116,10 @@ final readonly class CertificatesResource implements CertificatesResourceContrac
         $data = $response->data();
 
         return GetCertificateResponse::from($data);
+    }
+
+    public function actions(): CertificateActionsResourceContract
+    {
+        return new CertificateActionsResource($this->connector);
     }
 }

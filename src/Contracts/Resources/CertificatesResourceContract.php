@@ -43,4 +43,6 @@ interface CertificatesResourceContract
      * } $request
      */
     public function updateCertificate(int $id, array $request): GetCertificateResponse;
+
+    public function actions(): CertificateActionsResourceContract;
 }

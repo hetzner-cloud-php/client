@@ -39,7 +39,8 @@ arch('Resources should be immutable')
 
 arch('Contracts should be abstract')
     ->expect('HetznerCloud\\Contracts\\')
-    ->toBeInterfaces();
+    ->toBeInterfaces()
+    ->toHaveSuffix('Contract');
 
 arch('All Enums are backed')
     ->expect('HetznerCloud\\Enums\\')
