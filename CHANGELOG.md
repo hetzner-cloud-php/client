@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.4 - 2025-01-21
+
+### What's new?
+
+- Adds [certificates](https://docs.hetzner.cloud/#certificates) APIs
+
 ## v0.1.3 - 2025-01-18
 
 ### What's new?
