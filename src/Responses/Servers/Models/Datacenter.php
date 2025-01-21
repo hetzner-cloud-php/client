@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -21,34 +23,23 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<DatacenterSchema>
  */
-final readonly class Datacenter implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class Datacenter implements ResponseContract
 {
     /**
      * @use ArrayAccessible<DatacenterSchema>
      */
     use ArrayAccessible;
 
-    private function __construct(
-        public ?string $description,
-        public int $id,
-        public Location $location,
-        public string $name,
-        public ServerTypes $serverTypes,
-    ) {}
+    public ?string $description;
 
-    /**
-     * @param  DatacenterSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['description'] ?? null,
-            $attributes['id'],
-            Location::from($attributes['location']),
-            $attributes['name'],
-            ServerTypes::from($attributes['server_types']),
-        );
-    }
+    public int $id;
+
+    public Location $location;
+
+    public string $name;
+
+    public ServerTypes $serverTypes;
 
     public function toArray(): array
     {

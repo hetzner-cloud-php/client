@@ -14,31 +14,15 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ErrorDetailsSchema>
  */
-final readonly class ErrorDetails implements ResponseContract
+final class ErrorDetails implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ErrorDetailsSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  ErrorDetail[]  $fields
-     */
-    public function __construct(
-        public array $fields,
-    ) {
-        //
-    }
-
-    /**
-     * @param  ErrorDetailsSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            array_map(fn (array $detail): \HetznerCloud\Responses\Errors\ErrorDetail => ErrorDetail::from($detail), $attributes['fields']),
-        );
-    }
+    /** @var ErrorDetailSchema[] */
+    public array $fields;
 
     public function toArray(): array
     {

@@ -11,6 +11,7 @@ use HetznerCloud\HttpClientUtilities\Http\Handlers\JsonResponseHandler;
 use HetznerCloud\HttpClientUtilities\ValueObjects\BaseUri;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Headers;
 use HetznerCloud\HttpClientUtilities\ValueObjects\QueryParams;
+use HetznerCloud\Support\JsonResponseSerializer;
 use Http\Discovery\Psr18ClientDiscovery;
 use Psr\Http\Client\ClientInterface;
 
@@ -112,7 +113,8 @@ final class Builder
 
         $client = $this->httpClient;
         $this->connector = new Connector($client, $baseUri, $headers, $queryParams, new JsonResponseHandler);
+        $serializer = new JsonResponseSerializer();
 
-        return new Client($this->connector);
+        return new Client($this->connector, $serializer);
     }
 }

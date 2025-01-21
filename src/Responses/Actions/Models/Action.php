@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Actions\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -27,46 +29,31 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ActionSchema>
  */
-final readonly class Action implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class Action implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ActionSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  array{code: string, message: string}|null  $error
-     * @param  array<int, array{id: int, type: string}>  $resources
-     */
-    public function __construct(
-        public int $id,
-        public string $command,
-        public ?array $error,
-        public ?string $finished,
-        public string $started,
-        public string $status,
-        public int $progress,
-        public array $resources,
-    ) {
-        //
-    }
+    public int $id;
 
-    /**
-     * @param  ActionSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['id'],
-            $attributes['command'],
-            $attributes['error'],
-            $attributes['finished'],
-            $attributes['started'],
-            $attributes['status'],
-            $attributes['progress'],
-            $attributes['resources'],
-        );
-    }
+    public string $command;
+
+    /** @var null|array{code: string, message: string} */
+    public ?array $error;
+
+    public ?string $finished;
+
+    public string $started;
+
+    public string $status;
+
+    public int $progress;
+
+    /** @var array<int, array{id: int, type: string}> */
+    public array $resources;
 
     public function toArray(): array
     {

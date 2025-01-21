@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -21,40 +23,29 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<LocationSchema>
  */
-final readonly class Location implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class Location implements ResponseContract
 {
     /**
      * @use ArrayAccessible<LocationSchema>
      */
     use ArrayAccessible;
 
-    private function __construct(
-        public string $city,
-        public string $country,
-        public string $description,
-        public int $id,
-        public float $latitude,
-        public float $longitude,
-        public string $name,
-        public string $networkZone,
-    ) {}
+    public string $city;
 
-    /**
-     * @param  LocationSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['city'],
-            $attributes['country'],
-            $attributes['description'],
-            $attributes['id'],
-            $attributes['latitude'],
-            $attributes['longitude'],
-            $attributes['name'],
-            $attributes['network_zone'],
-        );
-    }
+    public string $country;
+
+    public string $description;
+
+    public int $id;
+
+    public float $latitude;
+
+    public float $longitude;
+
+    public string $name;
+
+    public string $networkZone;
 
     public function toArray(): array
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -17,35 +19,22 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<PublicNetIpSchema>
  */
-final readonly class PublicNetIp implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class PublicNetIp implements ResponseContract
 {
     /**
      * @use ArrayAccessible<PublicNetIpSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  string|array<int, array{dns_ptr: string, ip: string}>  $dnsPtr
-     */
-    public function __construct(
-        public bool $blocked,
-        public string|array $dnsPtr,
-        public int $id,
-        public string $ip,
-    ) {}
+    public bool $blocked;
 
-    /**
-     * @param  PublicNetIpSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['blocked'],
-            $attributes['dns_ptr'],
-            $attributes['id'],
-            $attributes['ip'],
-        );
-    }
+    /** @var string|array<int, array{dns_ptr: string, ip: string}> */
+    public string|array $dnsPtr;
+
+    public int $id;
+
+    public string $ip;
 
     public function toArray(): array
     {

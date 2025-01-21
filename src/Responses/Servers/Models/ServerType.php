@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -28,51 +30,38 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ServerTypeSchema>
  */
-final readonly class ServerType implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class ServerType implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ServerTypeSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  PriceSchema[]  $prices
-     */
-    public function __construct(
-        public string $architecture,
-        public int $cores,
-        public string $cpuType,
-        public bool $deprecated,
-        public ?Deprecation $deprecation,
-        public string $description,
-        public int $disk,
-        public int $id,
-        public int|float $memory,
-        public string $name,
-        public array $prices,
-        public string $storageType,
-    ) {}
+    public string $architecture;
 
-    /**
-     * @param  ServerTypeSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['architecture'],
-            $attributes['cores'],
-            $attributes['cpu_type'],
-            $attributes['deprecated'],
-            isset($attributes['deprecation']) ? Deprecation::from($attributes['deprecation']) : null,
-            $attributes['description'],
-            $attributes['disk'],
-            $attributes['id'],
-            $attributes['memory'],
-            $attributes['name'],
-            $attributes['prices'],
-            $attributes['storage_type'],
-        );
-    }
+    public int $cores;
+
+    public string $cpuType;
+
+    public bool $deprecated;
+
+    public ?Deprecation $deprecation;
+
+    public string $description;
+
+    public int $disk;
+
+    public int $id;
+
+    public int|float $memory;
+
+    public string $name;
+
+    /** @var PriceSchema[] */
+    public array $prices;
+
+    public string $storageType;
 
     public function toArray(): array
     {

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
-use Carbon\CarbonImmutable;
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -41,79 +42,66 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *     rescue_enabled: bool,
  *     server_type: ServerTypeSchema,
  *     status: string,
- *     volumes?: array<int, int>
+ *     volumes?: int[]
  * }
  *
  * @implements ResponseContract<ServerSchema>
  */
-final readonly class Server implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class Server implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ServerSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  array<string, string>  $labels
-     * @param  array<int, int>  $loadBalancers
-     * @param  PrivateNetSchema[]  $privateNet
-     * @param  array<int, int>  $volumes
-     */
-    public function __construct(
-        public ?string $backupWindow,
-        public CarbonImmutable $created,
-        public Datacenter $datacenter,
-        public int $id,
-        public ?ServerImage $image,
-        public ?int $includedTraffic,
-        public ?int $ingoingTraffic,
-        public ?ServerIso $iso,
-        public array $labels,
-        public array $loadBalancers,
-        public bool $locked,
-        public string $name,
-        public int $outgoingTraffic,
-        public ?PlacementGroup $placementGroup,
-        public int $primaryDiskSize,
-        public array $privateNet,
-        public Protection $protection,
-        public PublicNet $publicNet,
-        public bool $rescueEnabled,
-        public ServerType $serverType,
-        public string $status,
-        public array $volumes,
-    ) {}
+    public ?string $backupWindow;
 
-    /**
-     * @param  ServerSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['backup_window'] ?? null,
-            CarbonImmutable::parse($attributes['created']),
-            Datacenter::from($attributes['datacenter']),
-            $attributes['id'],
-            isset($attributes['image']) ? ServerImage::from($attributes['image']) : null,
-            $attributes['included_traffic'] ?? null,
-            $attributes['ingoing_traffic'] ?? null,
-            isset($attributes['iso']) ? ServerIso::from($attributes['iso']) : null,
-            $attributes['labels'],
-            $attributes['load_balancers'] ?? [],
-            $attributes['locked'],
-            $attributes['name'],
-            $attributes['outgoing_traffic'],
-            isset($attributes['placement_group']) ? PlacementGroup::from($attributes['placement_group']) : null,
-            $attributes['primary_disk_size'],
-            $attributes['private_net'],
-            Protection::from($attributes['protection']),
-            PublicNet::from($attributes['public_net']),
-            $attributes['rescue_enabled'],
-            ServerType::from($attributes['server_type']),
-            $attributes['status'],
-            $attributes['volumes'] ?? [],
-        );
-    }
+    public string $created;
+
+    public Datacenter $datacenter;
+
+    public int $id;
+
+    public ?ServerImage $image;
+
+    public ?int $includedTraffic;
+
+    public ?int $ingoingTraffic;
+
+    public ?ServerIso $iso;
+
+    /** @var array<string, string> */
+    public array $labels;
+
+    /** @var array<int, int> */
+    public array $loadBalancers;
+
+    public bool $locked;
+
+    public string $name;
+
+    public int $outgoingTraffic;
+
+    public ?PlacementGroup $placementGroup;
+
+    public int $primaryDiskSize;
+
+    /** @var PrivateNet[] */
+    public array $privateNet;
+
+    public Protection $protection;
+
+    public PublicNet $publicNet;
+
+    public bool $rescueEnabled;
+
+    public ServerType $serverType;
+
+    public string $status;
+
+    /** @var int[] */
+    public array $volumes;
 
     /**
      * @return ServerSchema
@@ -122,7 +110,7 @@ final readonly class Server implements ResponseContract
     {
         return [
             'backup_window' => $this->backupWindow,
-            'created' => $this->created->toIso8601String(),
+            'created' => $this->created,
             'status' => $this->status,
             'datacenter' => $this->datacenter->toArray(),
             'id' => $this->id,

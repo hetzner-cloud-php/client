@@ -13,6 +13,12 @@ $dotenv->load();
 $apiKey = $_ENV['HETZNER_CLOUD_API_KEY'];
 $client = HetznerCloud::client($apiKey);
 
+// Create a certificate
+$createdCertificate = $client->certificates()->createCertificate([
+    'name' => 'test-certificate',
+]);
+var_dump($createdCertificate);
+
 // Get a list of certificates
 $certificates = $client->certificates()->getCertificates();
 var_dump($certificates);

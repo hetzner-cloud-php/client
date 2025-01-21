@@ -68,7 +68,7 @@ final readonly class CertificatesResource implements CertificatesResourceContrac
             ->withRequestContent($request);
 
         /** @var Response<array<array-key, mixed>> $response */
-        $response = $this->connector->sendClientRequest($request);
+        $response = $this->connector->sendClientRequest($request, CreateCertificateResponse::class);
 
         /** @var CreateCertificateResponseSchema $data */
         $data = $response->data();

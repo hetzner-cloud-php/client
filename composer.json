@@ -34,7 +34,8 @@
         "psr/http-factory-implementation": "^1.0",
         "psr/http-message": "^2.0",
         "hetzner-cloud-php/http-client-utilities": "^0.1",
-        "nesbot/carbon": "^3.8"
+        "nesbot/carbon": "^3.8",
+        "crell/serde": "^1.3"
     },
     "require-dev": {
         "pestphp/pest": "^3.7",

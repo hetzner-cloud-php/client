@@ -18,32 +18,18 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ErrorSchema>
  */
-final readonly class Error implements ResponseContract
+final class Error implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ErrorSchema>
      */
     use ArrayAccessible;
 
-    public function __construct(
-        public string $code,
-        public string $message,
-        public ?ErrorDetails $details,
-    ) {
-        //
-    }
+    public string $code;
 
-    /**
-     * @param  ErrorSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['code'],
-            $attributes['message'],
-            isset($attributes['details']) ? ErrorDetails::from($attributes['details']) : null,
-        );
-    }
+    public string $message;
+
+    public ?ErrorDetails $details;
 
     public function toArray(): array
     {

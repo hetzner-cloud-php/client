@@ -16,7 +16,7 @@ $client = HetznerCloud::client($apiKey);
 
 // Create a server
 $createdServer = $client->servers()->createServer([
-    'name' => 'test-server',
+    'name' => 'test-server'.Carbon::now()->timestamp,
     'server_type' => 'cpx11',
     'image' => 'ubuntu-24.04',
 ]);

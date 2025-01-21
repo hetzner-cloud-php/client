@@ -14,6 +14,7 @@ use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\Support\JsonResponseSerializer;
 use Override;
 
 /**
@@ -26,7 +27,8 @@ use Override;
 final readonly class ServersResource implements ServersResourceContract
 {
     public function __construct(
-        public ConnectorContract $connector
+        public ConnectorContract $connector,
+        public JsonResponseSerializer $serializer,
     ) {
         //
     }
@@ -86,16 +88,13 @@ final readonly class ServersResource implements ServersResourceContract
     #[Override]
     public function createServer(array $payload): CreateServerResponse
     {
-        $request = ClientRequestBuilder::post('servers')
-            ->withRequestContent($payload);
+        $request = ClientRequestBuilder::post('servers')->withRequestContent($payload);
+        $response = $this->connector->sendStandardClientRequest($request);
 
-        /** @var Response<array<array-key, mixed>> $response */
-        $response = $this->connector->sendClientRequest($request);
+        /** @var CreateServerResponse $data */
+        $data = $this->serializer->deserialize($response, CreateServerResponse::class);
 
-        /** @var CreateServerResponseSchema $data */
-        $data = $response->data();
-
-        return CreateServerResponse::from($data);
+        return $data;
     }
 
     public function deleteServer(int $id): DeleteServerResponse

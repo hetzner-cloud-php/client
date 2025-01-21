@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -16,35 +18,22 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ServerTypesSchema>
  */
-final readonly class ServerTypes implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class ServerTypes implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ServerTypesSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  int[]  $available
-     * @param  int[]  $availableForMigration
-     * @param  int[]  $supported
-     */
-    private function __construct(
-        public array $available,
-        public array $availableForMigration,
-        public array $supported,
-    ) {}
+    /** @var int[] */
+    public array $available;
 
-    /**
-     * @param  ServerTypesSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['available'],
-            $attributes['available_for_migration'],
-            $attributes['supported'],
-        );
-    }
+    /** @var int[] */
+    public array $availableForMigration;
+
+    /** @var int[] */
+    public array $supported;
 
     public function toArray(): array
     {

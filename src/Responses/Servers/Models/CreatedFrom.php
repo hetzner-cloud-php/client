@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -12,28 +14,17 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<CreatedFromSchema>
  */
-final readonly class CreatedFrom implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class CreatedFrom implements ResponseContract
 {
     /**
      * @use ArrayAccessible<CreatedFromSchema>
      */
     use ArrayAccessible;
 
-    public function __construct(
-        public int $id,
-        public string $name,
-    ) {}
+    public int $id;
 
-    /**
-     * @param  CreatedFromSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['id'],
-            $attributes['name'],
-        );
-    }
+    public string $name;
 
     public function toArray(): array
     {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Actions\Models\Action;
@@ -28,7 +30,8 @@ use Override;
  *
  * @implements ResponseContract<CreateServerResponseSchema>
  */
-final readonly class CreateServerResponse implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class CreateServerResponse implements ResponseContract
 {
     /**
      * @use ArrayAccessible<CreateServerResponseSchema>
@@ -37,35 +40,16 @@ final readonly class CreateServerResponse implements ResponseContract
 
     use HasPotentialError;
 
-    /**
-     * @param  Action[]  $nextActions
-     */
-    private function __construct(
-        public ?Action $action = null,
-        public ?array $nextActions = null,
-        public ?string $rootPassword = null,
-        public ?Server $server = null,
-        public ?Error $error = null,
-    ) {
-        //
-    }
+    public ?Action $action;
 
-    /**
-     * @param  CreateServerResponseSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            isset($attributes['action']) ? Action::from($attributes['action']) : null,
-            isset($attributes['next_actions']) ? array_map(
-                static fn (array $action): Action => Action::from($action),
-                $attributes['next_actions']
-            ) : null,
-            $attributes['root_password'] ?? null,
-            isset($attributes['server']) ? Server::from($attributes['server']) : null,
-            isset($attributes['error']) ? Error::from($attributes['error']) : null,
-        );
-    }
+    /** @var null|ActionSchema[] */
+    public ?array $nextActions;
+
+    public ?string $rootPassword;
+
+    public ?Server $server;
+
+    public ?Error $error;
 
     /**
      * {@inheritDoc}

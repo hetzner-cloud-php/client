@@ -7,6 +7,7 @@ namespace HetznerCloud;
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
+use HetznerCloud\Contracts\Support\ResponseSerializerContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\Resources\ActionsResource;
 use HetznerCloud\Resources\CertificatesResource;
@@ -26,14 +27,15 @@ final readonly class Client
      * Creates a client instance with the provided client transport abstraction.
      */
     public function __construct(
-        public ConnectorContract $connector
+        public ConnectorContract $connector,
+        public ResponseSerializerContract $serializer
     ) {
         //
     }
 
     public function servers(): ServersResourceContract
     {
-        return new ServersResource($this->connector);
+        return new ServersResource($this->connector, $this->serializer);
     }
 
     public function actions(): ActionsResourceContract

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -21,36 +23,25 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ServerIsoSchema>
  */
-final readonly class ServerIso implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class ServerIso implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ServerIsoSchema>
      */
     use ArrayAccessible;
 
-    public function __construct(
-        public string $architecture,
-        public ?Deprecation $deprecation,
-        public string $description,
-        public int $id,
-        public string $name,
-        public string $type,
-    ) {}
+    public string $architecture;
 
-    /**
-     * @param  ServerIsoSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['architecture'],
-            isset($attributes['deprecation']) ? Deprecation::from($attributes['deprecation']) : null,
-            $attributes['description'],
-            $attributes['id'],
-            $attributes['name'],
-            $attributes['type']
-        );
-    }
+    public ?Deprecation $deprecation;
+
+    public string $description;
+
+    public int $id;
+
+    public string $name;
+
+    public string $type;
 
     public function toArray(): array
     {

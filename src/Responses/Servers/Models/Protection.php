@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -12,28 +14,17 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ProtectionSchema>
  */
-final readonly class Protection implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class Protection implements ResponseContract
 {
     /**
      * @use ArrayAccessible<ProtectionSchema>
      */
     use ArrayAccessible;
 
-    private function __construct(
-        public bool $delete,
-        public bool $rebuild = false,
-    ) {}
+    public bool $delete;
 
-    /**
-     * @param  ProtectionSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['delete'],
-            $attributes['rebuild'] ?? false,
-        );
-    }
+    public ?bool $rebuild;
 
     public function toArray(): array
     {

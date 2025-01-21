@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -17,22 +19,22 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<PrivateNetSchema>
  */
-final readonly class PrivateNet implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class PrivateNet implements ResponseContract
 {
     /**
      * @use ArrayAccessible<PrivateNetSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param  string[]  $aliasIps
-     */
-    public function __construct(
-        public array $aliasIps,
-        public string $ip,
-        public string $macAddress,
-        public int $network,
-    ) {}
+    /** @var string[] */
+    public array $aliasIps;
+
+    public string $ip;
+
+    public string $macAddress;
+
+    public int $network;
 
     public function toArray(): array
     {

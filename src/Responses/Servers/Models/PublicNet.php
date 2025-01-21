@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Servers\Models;
 
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -22,36 +24,23 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<PublicNetSchema>
  */
-final readonly class PublicNet implements ResponseContract
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
+final class PublicNet implements ResponseContract
 {
     /**
      * @use ArrayAccessible<PublicNetSchema>
      */
     use ArrayAccessible;
 
-    /**
-     * @param PublicNetSchema['firewalls']  $firewalls
-     * @param PublicNetSchema['floating_ips']  $floatingIps
-     */
-    public function __construct(
-        public array $firewalls,
-        public array $floatingIps,
-        public PublicNetIp $ipv4,
-        public PublicNetIp $ipv6,
-    ) {}
+    /** @var array<int, array{id: int, status: string}> */
+    public array $firewalls;
 
-    /**
-     * @param  PublicNetSchema  $attributes
-     */
-    public static function from(array $attributes): self
-    {
-        return new self(
-            $attributes['firewalls'],
-            $attributes['floating_ips'],
-            PublicNetIp::from($attributes['ipv4']),
-            PublicNetIp::from($attributes['ipv6']),
-        );
-    }
+    /** @var array<int, int> */
+    public array $floatingIps;
+
+    public PublicNetIp $ipv4;
+
+    public PublicNetIp $ipv6;
 
     public function toArray(): array
     {

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace HetznerCloud\Responses\Servers\Models;
 
 use Carbon\CarbonImmutable;
+use Crell\Serde\Attributes as Serde;
+use Crell\Serde\Renaming\Cases;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 
@@ -35,6 +37,7 @@ use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
  *
  * @implements ResponseContract<ServerImageSchema>
  */
+#[Serde\ClassSettings(renameWith: Cases::snake_case)]
 final readonly class ServerImage implements ResponseContract
 {
     /**
@@ -48,10 +51,10 @@ final readonly class ServerImage implements ResponseContract
     public function __construct(
         public string $architecture,
         public ?string $boundTo,
-        public CarbonImmutable $created,
+        public string $created,
         public ?CreatedFrom $createdFrom,
-        public ?CarbonImmutable $deleted,
-        public ?CarbonImmutable $deprecated,
+        public ?string $deleted,
+        public ?string $deprecated,
         public string $description,
         public int $diskSize,
         public int $id,
