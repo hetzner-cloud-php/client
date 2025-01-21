@@ -7,6 +7,7 @@ namespace HetznerCloud\Responses\Certificates;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
 use HetznerCloud\Responses\Certificates\Models\Certificate;
+use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Errors\ErrorResponse;
 
 /**
@@ -28,7 +29,7 @@ final readonly class GetCertificateResponse implements ResponseContract
 
     private function __construct(
         public ?Certificate $certificate,
-        public ?ErrorResponse $error,
+        public ?Error $error,
     ) {
         //
     }
@@ -40,7 +41,7 @@ final readonly class GetCertificateResponse implements ResponseContract
     {
         return new self(
             isset($attributes['certificate']) ? Certificate::from($attributes['certificate']) : null,
-            isset($attributes['error']) ? ErrorResponse::from($attributes['error']) : null,
+            isset($attributes['error']) ? Error::from($attributes['error']) : null,
         );
     }
 

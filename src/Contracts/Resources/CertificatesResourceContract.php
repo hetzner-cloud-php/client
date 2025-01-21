@@ -7,6 +7,7 @@ namespace HetznerCloud\Contracts\Resources;
 use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
 use HetznerCloud\Responses\Certificates\GetCertificateResponse;
 use HetznerCloud\Responses\Certificates\GetCertificatesResponse;
+use Psr\Http\Message\ResponseInterface;
 
 interface CertificatesResourceContract
 {
@@ -31,7 +32,7 @@ interface CertificatesResourceContract
      */
     public function createCertificate(array $request): CreateCertificateResponse;
 
-    public function deleteCertificate(int $id): void;
+    public function deleteCertificate(int $id): ResponseInterface;
 
     public function getCertificate(int $id): GetCertificateResponse;
 

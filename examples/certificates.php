@@ -30,3 +30,17 @@ if ($certificates->certificates !== []) {
         ],
     ]);
 }
+
+// Create a certificate
+$createdCertificate = $client->certificates()->createCertificate([
+    'name' => 'test-certificate-created',
+    'labels' => [
+        'foo' => 'bar',
+    ],
+]);
+var_dump($createdCertificate);
+
+// Delete a certificate
+$response = $client->certificates()->deleteCertificate($createdCertificate->certificate->id);
+assert($response->getStatusCode() === 204);
+var_dump($response);

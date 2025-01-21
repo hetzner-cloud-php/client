@@ -38,10 +38,11 @@ final class ClientMock
         array $params,
         Response|ResponseInterface|string|null $response,
         bool $validateParams = true,
+        string $methodName = 'sendClientRequest'
     ): Client {
         $connector = Mockery::mock(ConnectorContract::class);
         $connector
-            ->shouldReceive('sendClientRequest')
+            ->shouldReceive($methodName)
             ->once()
             ->withArgs(fn (ClientRequestBuilder $requestBuilder): bool => self::validateRequest($requestBuilder, $method, $resource, $params, $validateParams))
             ->andReturn($response);
@@ -70,8 +71,9 @@ final class ClientMock
         string $resource,
         Response|ResponseInterface|string|null $response,
         bool $validateParams = true,
+        string $methodName = 'sendClientRequest'
     ): Client {
-        return self::create(HttpMethod::DELETE, $resource, [], $response, $validateParams);
+        return self::create(HttpMethod::DELETE, $resource, [], $response, $validateParams, $methodName);
     }
 
     public static function get(

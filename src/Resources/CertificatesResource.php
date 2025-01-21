@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace HetznerCloud\Resources;
 
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
-use HetznerCloud\Exceptions\NotImplementedException;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
 use HetznerCloud\Responses\Certificates\GetCertificateResponse;
 use HetznerCloud\Responses\Certificates\GetCertificatesResponse;
+use Psr\Http\Message\ResponseInterface;
 
 /**
+ * @phpstan-import-type GetCertificateResponseSchema from GetCertificateResponse
  * @phpstan-import-type GetCertificatesResponseSchema from GetCertificatesResponse
  * @phpstan-import-type CreateCertificateResponseSchema from CreateCertificateResponse
  */
@@ -76,18 +77,43 @@ final readonly class CertificatesResource implements CertificatesResourceContrac
         return CreateCertificateResponse::from($data);
     }
 
-    public function deleteCertificate(int $id): void
+    public function deleteCertificate(int $id): ResponseInterface
     {
-        throw new NotImplementedException;
+        $request = ClientRequestBuilder::delete("certificates/$id");
+
+        return $this->connector->sendStandardClientRequest($request);
     }
 
     public function getCertificate(int $id): GetCertificateResponse
     {
-        throw new NotImplementedException;
+        $request = ClientRequestBuilder::get("certificates/$id");
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var GetCertificateResponseSchema $data */
+        $data = $response->data();
+
+        return GetCertificateResponse::from($data);
     }
 
+    /**
+     * @param array{
+     *     name?: string,
+     *     labels?: array<string, string>
+     * } $request
+     */
     public function updateCertificate(int $id, array $request): GetCertificateResponse
     {
-        throw new NotImplementedException;
+        $request = ClientRequestBuilder::put("certificates/$id")
+            ->withRequestContent($request);
+
+        /** @var Response<array<array-key, mixed>> $response */
+        $response = $this->connector->sendClientRequest($request);
+
+        /** @var GetCertificateResponseSchema $data */
+        $data = $response->data();
+
+        return GetCertificateResponse::from($data);
     }
 }
