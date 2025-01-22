@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 use HetznerCloud\Client;
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
+use HetznerCloud\Contracts\Resources\CertificateActionsResourceContract;
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\Resources\ActionsResource;
+use HetznerCloud\Resources\CertificateActionsResource;
 use HetznerCloud\Resources\CertificatesResource;
 use HetznerCloud\Resources\ServersResource;
 
 covers(Client::class);
+covers(CertificatesResource::class);
 
 describe('Client', function (): void {
     it('can be instantiated with a connector', function (): void {
@@ -67,6 +70,20 @@ describe('Client', function (): void {
         expect($serversResource)
             ->toBeInstanceOf(CertificatesResourceContract::class)
             ->toBeInstanceOf(CertificatesResource::class);
+    });
+
+    it('provides access to the certificate actions resources', function (): void {
+        // Arrange
+        $connector = Mockery::mock(ConnectorContract::class);
+        $client = new Client($connector);
+
+        // Act
+        $certificateActions = $client->certificates()->actions();
+
+        // Assert
+        expect($certificateActions)
+            ->toBeInstanceOf(CertificateActionsResourceContract::class)
+            ->toBeInstanceOf(CertificateActionsResource::class);
     });
 
     it('provides a consistent servers resource instance with the same connector', function (): void {

@@ -12,7 +12,7 @@ use Tests\Mocks\ClientMock;
 
 covers(CertificateActionsResource::class);
 
-describe('certificate actions', function (): void {
+describe('actions for certificates', function (): void {
     it('can retrieve all actions for certificates for a project', function (): void {
         // Arrange
         $client = ClientMock::get(
