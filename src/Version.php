@@ -10,7 +10,7 @@ final readonly class Version
 
     private const int MINOR = 1;
 
-    private const int PATCH = 4;
+    private const int PATCH = 5;
 
     public static function getVersion(): string
     {
