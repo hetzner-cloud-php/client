@@ -7,6 +7,7 @@ namespace HetznerCloud\Responses\Servers\Models;
 use Carbon\CarbonImmutable;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\Responses\Datacenters\Models\Datacenter;
 
 /**
  * @phpstan-import-type DeprecationSchema from Deprecation

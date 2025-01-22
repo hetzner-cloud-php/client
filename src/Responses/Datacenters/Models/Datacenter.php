@@ -2,10 +2,12 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\Responses\Servers\Models;
+namespace HetznerCloud\Responses\Datacenters\Models;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\Responses\Servers\Models\ServerTypes;
+use HetznerCloud\Responses\Shared\Models\Location;
 
 /**
  * @phpstan-import-type LocationSchema from Location
