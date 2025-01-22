@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.5 - 2025-01-22
+
+### What's new?
+
+- Adds support for [datacenters](https://docs.hetzner.cloud/#datacenters)
+
 ## v0.1.4 - 2025-01-21
 
 ### What's new?
