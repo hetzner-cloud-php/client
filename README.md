@@ -8,6 +8,41 @@
     </div>
 </div>
 
-# Hetzner Cloud PHP
+## Hetzner Cloud PHP
 
 A PHP client for the Hetzner Cloud API. Description coming soon™️...
+
+## Table of Contents
+
+- [Getting started](#get-started)
+
+## Usage
+
+### Firewalls
+
+#### Get a firewall
+
+Retrieves a single firewall for a project.
+
+```php
+$response = $client->firewalls()->getFirewall(1337);
+$response->firewall; // Firewall::class
+$response->toArray(); // ['firewall' => ['id => 1337', ...]]
+```
+
+#### Get firewalls
+
+Retrieves all firewalls for a project, with a few optional query parameters.
+
+```php
+$response = $client->firewalls()->getFirewalls(name: 'coolify', labelSelector: 'foo');
+$response->firewalls; // array<int, Firewall::class>
+
+foreach ($response->firewalls as $firewall) {
+    $firewall->id;
+    $firewall->name;
+    // ...
+}
+
+$response->toArray(); // ['firewalls' => [...], 'meta' => [...]]
+```

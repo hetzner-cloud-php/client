@@ -7,11 +7,13 @@ namespace HetznerCloud;
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\Contracts\Resources\DatacentersResourceContract;
+use HetznerCloud\Contracts\Resources\FirewallsResourceContract;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\Resources\ActionsResource;
 use HetznerCloud\Resources\CertificatesResource;
 use HetznerCloud\Resources\DatacentersResource;
+use HetznerCloud\Resources\FirewallsResource;
 use HetznerCloud\Resources\ServersResource;
 
 /**
@@ -51,5 +53,10 @@ final readonly class Client
     public function datacenters(): DatacentersResourceContract
     {
         return new DatacentersResource($this->connector);
+    }
+
+    public function firewalls(): FirewallsResourceContract
+    {
+        return new FirewallsResource($this->connector);
     }
 }
