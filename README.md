@@ -23,6 +23,7 @@ PHP client for projects and applications interacting with Hetzner Cloud. Some us
 - [Usage](#usage)
     - [Actions](#actions)
     - [Certificates](#certificates)
+    - [Certificates actions](#certificate-actions)
     - [Firewalls](#firewalls)
 
 ## Getting started
@@ -78,10 +79,10 @@ Retrieves a single action for a project.
 ```php
 $response = $client->actions()->getAction(1337);
 $response->action; // Action::class
-$response->toArray(); // ['action' => 'id => 1337', ...]
+$response->toArray(); // ['action' => 'id' => 1337, ...]
 ```
 
-### Certificates
+### `Certificates`
 
 #### Create a certificate
 
@@ -98,8 +99,8 @@ $managed = $client->certificates()->createCertificate([
    'type' => 'managed',
 ]);
 
-echo $managed->action // Action::class
-echo $managed->certificate // Certificate::class
+echo $managed->action; // Action::class
+echo $managed->certificate; // Certificate::class
 
 // Upload a cert
 $uploaded = $client->certificates()->createCertificate([
@@ -109,8 +110,129 @@ $uploaded = $client->certificates()->createCertificate([
    'type' => 'uploaded',
 ]);
 
-echo $uploaded->action // Action::class
-echo $uploaded->certificate // Certificate::class
+echo $uploaded->action; // Action::class
+echo $uploaded->certificate; // Certificate::class
+```
+
+### Get a certificate
+
+Get a certificate for a project by an ID.
+
+```php
+$response = $client->certificates()->getCertificate(42);
+
+echo $response->certificate // Certificate::class
+echo $response->toArray() // ['certificate' => ['id' => 42, ...]
+```
+
+### Get all certificates
+
+Get all certificates for a projects with optional query parameters.
+
+```php
+$response = $client->certificates()->getCertificates(name: 'name:asc');
+
+echo $response->certificates // array<int, Certificate>
+echo $response->meta // Meta::class
+echo $response->toArray() // ['certificates' => ['id' => 42, ...], 'meta' => [...]]
+```
+
+### Update a certificate
+
+```php
+$response = $client->certificates()->updateCertificate(42, [
+        'name' => 'test-certificate-updated',
+        'labels' => [
+            'foo' => 'bar',
+        ],
+    ]);
+
+echo $response->certificate // Certificate::class
+echo $response->toArray() // ['certificate' => ['id' => 42, 'name' => 'test-certificate-updated', ...]
+```
+
+### Delete a certificate
+
+Delete a certificate, with the response being an instance of a PSR-7 response.
+
+```php
+$response = $client->certificates()->deleteCertificate(42);
+assert($response->getStatusCode() === 204);
+```
+
+### `Certificate Actions`
+
+#### Get all actions
+
+Get a list of all actions associated to certificates for a project.
+
+```php
+$response = $client
+    ->certificates()
+    ->actions()
+    ->getActions(status: 'pending');
+
+echo $response->actions // array<int, Action>
+echo $response->meta // Meta::class
+echo $response->toArray() // ['actions' => ['id' => 42, ...], 'meta' => [...]]
+```
+
+#### Get an action
+
+Get an action associated to certificates for a project.
+
+```php
+$response = $client
+    ->certificates()
+    ->actions()
+    ->getAction(42);
+
+echo $response->action // Action::class
+echo $response->toArray() // ['action' => ['id' => 42, ...], 'error' => null]
+```
+
+#### Get all actions for a certificate
+
+Get a list of all actions associated to a single certificate. Allows for optional query parameters.
+
+```php
+$response = $client
+    ->certificates()
+    ->actions()
+    ->getCertificateActions(42, perPage: 5, sort: 'pending');
+
+echo $response->actions // array<int, Action>
+echo $response->meta // Meta::class
+echo $response->toArray() // ['actions' => ['id' => 42, ...], 'meta' => [...]]
+```
+
+#### Get an action for a certificate
+
+Get an action associated to a certificate. Requires both the certificate and action ID.
+
+```php
+$response = $client
+    ->certificates()
+    ->actions()
+    ->getCertificateAction(420, 69);
+
+echo $response->action // Action::class
+echo $response->toArray() // ['action' => ['id' => 420, ...], 'error' => null]
+```
+
+#### Retry issuance or renewal
+
+Retry a failed Certificate issuance or renewal. Only applicable if the type of the Certificate is `managed` and the
+issuance or renewal status is `failed`.
+
+```php
+$response = $client
+    ->certificates()
+    ->actions()
+    ->retryIssuanceOrRenewal(42); // Takes the certificate ID
+
+echo $response->action // Action::class
+echo $response->toArray() // ['action' => ['id' => 69, ...], 'error' => null]
 ```
 
 ### Firewalls
