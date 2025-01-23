@@ -24,6 +24,7 @@ PHP client for projects and applications interacting with Hetzner Cloud. Some us
     - [Actions](#actions)
     - [Certificates](#certificates)
     - [Certificates actions](#certificate-actions)
+    - [Database](#database)
     - [Firewalls](#firewalls)
 
 ## Getting started
@@ -233,6 +234,31 @@ $response = $client
 
 echo $response->action // Action::class
 echo $response->toArray() // ['action' => ['id' => 69, ...], 'error' => null]
+```
+
+### Datacenters
+
+#### Get all datacenters
+
+Gets a list of available datacenters.
+
+```php
+$response = $client->datacenters()->getDatacenters(sort: 'name:desc');
+
+echo $response->datacenters // array<int, Datacenter>
+echo $response->meta // Meta::class
+echo $response->toArray() // ['datacenter' => ['id' => 42, ...], 'meta' => [...]]
+```
+
+#### Get a datacenter
+
+Gets a single datacenter.
+
+```php
+$response = $client->datacenters()->getDatacenter(42);
+
+echo $response->datacenter // Datacenter::class
+echo $response->toArray() // ['datacenter' => ['id' => 42, ...], 'error' => null]
 ```
 
 ### Firewalls
