@@ -15,7 +15,7 @@ jobs:
           node-version: latest
 
       - name: Install dependencies
-        run: npm install netlify-cli -g
+        run: npm install
 
       - name: Build
         run: npm run docs:build
@@ -23,7 +23,7 @@ jobs:
           NODE_ENV: production
 
       - name: Deploy to Netlify
-        run: netlify deploy --dir=./.vitepress/dist --prod --message="Production deploy from ${{ github.sha }}"
+        run: npm run deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
