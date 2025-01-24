@@ -3,6 +3,7 @@
 build
 composer.lock
 coverage
+docs/.vitepress
 phpunit.xml
 phpstan.neon
 testbench.yaml
