@@ -2,8 +2,10 @@
 .phpunit.cache
 build
 composer.lock
+package-lock.json
 coverage
-docs/.vitepress
+docs/.vitepress/cache
+docs/.vitepress/dist
 phpunit.xml
 phpstan.neon
 testbench.yaml
