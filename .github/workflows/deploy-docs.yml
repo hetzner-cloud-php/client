@@ -13,9 +13,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
+          cache: "npm"
 
       - name: Install dependencies
-        run: npm install --save-dev
+        run: npm ci
 
       - name: Build
         run: npm run docs:build
@@ -23,9 +24,7 @@ jobs:
           NODE_ENV: production
 
       - name: Deploy to Netlify
-        run: |
-          npx netlify deploy --prod  \
-            --dir=./docs/.vitepress/dist \
-            --message="Production deploy from ${{ github.sha }}" \
-            --site ${{ secrets.NETLIFY_SITE_ID }} \
-            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: npx netlify deploy --prod --dir=./docs/.vitepress/dist --message="Production deploy from ${{ github.sha }}"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
