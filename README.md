@@ -55,6 +55,8 @@ $response = $createdServer = $client->servers()->createServer([
 echo $response->server->name; // 'test-server'
 ```
 
+For a comprehensive set of examples, take a look at the [examples](/examples) directory.
+
 ## Usage
 
 ### Actions
