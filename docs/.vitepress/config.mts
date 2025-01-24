@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 export default defineConfig({
-    title: 'Hetzner Cloud PHP',
+    title: '☁ Hetzner Cloud PHP',
     description: 'Documentation for the Hetzner Cloud PHP client.',
     themeConfig: {
         nav: [
@@ -10,30 +10,46 @@ export default defineConfig({
                 link: '/',
             },
             {
-                text: 'Examples',
-                link: '/markdown-examples',
+                text: 'Getting Started',
+                link: '/installation',
+            },
+            {
+                text: 'Usage',
+                link: '/usage',
             },
         ],
         sidebar: [
             {
-                text: 'Examples',
+                text: 'Getting Started',
                 items: [
                     {
-                        text: 'Markdown Examples',
-                        link: '/markdown-examples',
+                        text: 'Installation',
+                        link: '/installation',
+                    },
+                ],
+            },
+            {
+                text: 'Usage',
+                items: [
+                    {
+                        text: 'Actions',
+                        link: '/resources/actions',
                     },
                     {
-                        text: 'Runtime API Examples',
-                        link: '/api-examples',
+                        text: 'Certificates',
+                        link: '/resources/certificates',
+                    },
+                    {
+                        text: 'Certificate Actions',
+                        link: '/resources/certificate-actions',
                     },
                 ],
             },
         ],
-
         socialLinks: [
             {
                 icon: 'github',
-                link: 'https://github.com/vuejs/vitepress',
+                link: 'https://github.com/hetzner-cloud-php/client',
             },
         ],
     },

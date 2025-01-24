@@ -3,16 +3,15 @@
 layout: home
 
 hero:
-    name: 'Hetzner Cloud PHP Client'
-    text: 'Documentation for the Hetzner Cloud PHP client.'
-    tagline: My great project tagline
+    name: Hetzner Cloud PHP
+    tagline: Plug 'n play PHP client for Hetzner's Cloud API ☁️
     actions:
         - theme: brand
-          text: Markdown Examples
-          link: /markdown-examples
+          text: Getting Started
+          link: /getting-started
         - theme: alt
-          text: API Examples
-          link: /api-examples
+          text: Usage
+          link: /usage
 
 features:
     - title: Feature A
