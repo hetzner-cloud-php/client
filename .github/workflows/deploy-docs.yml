@@ -1,7 +1,10 @@
 name: Deploy docs to Netlify
+
 on:
   push:
-    branches: [ main ]
+    paths:
+      - '**.md'
+      - 'docs/config.mts'
 
 jobs:
   deploy:
