@@ -15,9 +15,7 @@ jobs:
           node-version: latest
 
       - name: Install dependencies
-        run: |
-          npm ci
-          npm install netlify-cli -g
+        run: npm install netlify-cli -g
 
       - name: Build
         run: npm run docs:build
