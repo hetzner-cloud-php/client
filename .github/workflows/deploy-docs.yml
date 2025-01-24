@@ -23,7 +23,9 @@ jobs:
           NODE_ENV: production
 
       - name: Deploy to Netlify
-        run: npm run deploy
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          netlify deploy \
+            --dir=./docs/.vitepress/dist \
+            --prod --message="Production deploy from ${{ github.sha }}" \
+            --site ${{ secrets.NETLIFY_SITE_ID }}
+            --auth ${{ secrets.NETLIFY_AUTH_TOKEN }}
