@@ -7,7 +7,7 @@ use HetznerCloud\Resources\CertificatesResource;
 use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
 use HetznerCloud\Responses\Certificates\Models\Certificate;
-use Tests\Fixtures\Certificates\CreateCertificateFixture;
+use HetznerCloud\Testing\Fixtures\Certificates\CreateCertificateFixture;
 use Tests\Mocks\ClientMock;
 
 covers(CertificatesResource::class);

@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Actions\GetActionsResponse;
 use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Meta;
-use Tests\Fixtures\Actions\GetActionsFixture;
+use HetznerCloud\Testing\Fixtures\Actions\GetActionsFixture;
 
 covers(GetActionsResponse::class);
 

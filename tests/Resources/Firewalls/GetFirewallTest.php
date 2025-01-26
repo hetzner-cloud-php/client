@@ -6,7 +6,7 @@ use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\FirewallsResource;
 use HetznerCloud\Responses\Firewalls\GetFirewallResponse;
 use HetznerCloud\Responses\Firewalls\Models\Firewall;
-use Tests\Fixtures\Firewalls\GetFirewallFixture;
+use HetznerCloud\Testing\Fixtures\Firewalls\GetFirewallFixture;
 use Tests\Mocks\ClientMock;
 
 covers(FirewallsResource::class);

@@ -7,7 +7,7 @@ use HetznerCloud\Resources\DatacentersResource;
 use HetznerCloud\Responses\Datacenters\GetDatacentersResponse;
 use HetznerCloud\Responses\Datacenters\Models\Datacenter;
 use HetznerCloud\Responses\Meta;
-use Tests\Fixtures\Datacenters\GetDatacentersFixture;
+use HetznerCloud\Testing\Fixtures\Datacenters\GetDatacentersFixture;
 use Tests\Mocks\ClientMock;
 
 covers(DatacentersResource::class);

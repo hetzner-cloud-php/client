@@ -8,7 +8,7 @@ use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\Models\Metrics;
 use HetznerCloud\Responses\Servers\Models\TimeSeries;
-use Tests\Fixtures\Servers\GetServerMetricsFixture;
+use HetznerCloud\Testing\Fixtures\Servers\GetServerMetricsFixture;
 
 covers(GetServerMetricsResponse::class);
 

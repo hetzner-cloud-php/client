@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
+use HetznerCloud\Contracts\HetznerResourceContract;
 use HetznerCloud\Responses\Actions\GetActionResponse;
 use HetznerCloud\Responses\Actions\GetActionsResponse;
 
-interface ActionsResourceContract
+interface ActionsResourceContract extends HetznerResourceContract
 {
     public function getActions(
         ?int $id = null,

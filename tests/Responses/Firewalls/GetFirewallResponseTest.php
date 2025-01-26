@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Firewalls\GetFirewallResponse;
 use HetznerCloud\Responses\Firewalls\Models\Firewall;
-use Tests\Fixtures\Firewalls\GetFirewallFixture;
+use HetznerCloud\Testing\Fixtures\Firewalls\GetFirewallFixture;
 
 covers(GetFirewallResponse::class);
 

@@ -3,3 +3,7 @@ parameters:
     paths:
         - src
         - examples
+    excludePaths:
+            analyse:
+                - src/Testing
+    reportUnmatchedIgnoredErrors: true

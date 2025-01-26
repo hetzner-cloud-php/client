@@ -7,7 +7,7 @@ use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\Models\Metrics;
 use HetznerCloud\Responses\Servers\Models\TimeSeries;
-use Tests\Fixtures\Servers\GetServerMetricsFixture;
+use HetznerCloud\Testing\Fixtures\Servers\GetServerMetricsFixture;
 use Tests\Mocks\ClientMock;
 
 covers(ServersResource::class);

@@ -6,7 +6,7 @@ use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
-use Tests\Fixtures\Servers\CreateServerFixture;
+use HetznerCloud\Testing\Fixtures\Servers\CreateServerFixture;
 use Tests\Mocks\ClientMock;
 
 covers(ServersResource::class);

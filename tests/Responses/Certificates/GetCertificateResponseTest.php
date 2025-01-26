@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Certificates\GetCertificateResponse;
 use HetznerCloud\Responses\Certificates\Models\Certificate;
 use HetznerCloud\Responses\Errors\Error;
-use Tests\Fixtures\Certificates\GetCertificateFixture;
+use HetznerCloud\Testing\Fixtures\Certificates\GetCertificateFixture;
 
 covers(GetCertificateResponse::class);
 

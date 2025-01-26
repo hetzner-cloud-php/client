@@ -7,7 +7,7 @@ use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Meta;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
-use Tests\Fixtures\Servers\GetServersFixture;
+use HetznerCloud\Testing\Fixtures\Servers\GetServersFixture;
 use Tests\Mocks\ClientMock;
 
 covers(ServersResource::class);

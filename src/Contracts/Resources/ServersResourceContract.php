@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace HetznerCloud\Contracts\Resources;
 
 use Carbon\Carbon;
+use HetznerCloud\Contracts\HetznerResourceContract;
 use HetznerCloud\Responses\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 
-interface ServersResourceContract
+interface ServersResourceContract extends HetznerResourceContract
 {
     /**
      * @param array{

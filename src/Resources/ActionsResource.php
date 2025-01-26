@@ -60,4 +60,9 @@ final readonly class ActionsResource implements ActionsResourceContract
 
         return GetActionResponse::from($data);
     }
+
+    public function resource(): string
+    {
+        return self::class;
+    }
 }

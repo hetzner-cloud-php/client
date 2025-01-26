@@ -6,7 +6,7 @@ use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\CertificateActionsResource;
 use HetznerCloud\Responses\Actions\GetActionResponse;
 use HetznerCloud\Responses\Actions\Models\Action;
-use Tests\Fixtures\Actions\GetActionFixture;
+use HetznerCloud\Testing\Fixtures\Actions\GetActionFixture;
 use Tests\Mocks\ClientMock;
 
 covers(CertificateActionsResource::class);

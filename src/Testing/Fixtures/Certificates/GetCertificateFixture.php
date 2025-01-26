@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Certificates;
+namespace HetznerCloud\Testing\Fixtures\Certificates;
 
-use Tests\Fixtures\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
 
 final class GetCertificateFixture extends AbstractDataFixture
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Firewalls;
+namespace HetznerCloud\Testing\Fixtures\Firewalls;
 
-use Tests\Fixtures\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
 
 final class GetFirewallFixture extends AbstractDataFixture
 {

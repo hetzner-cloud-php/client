@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Meta;
 use HetznerCloud\Responses\Servers\GetServersResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
-use Tests\Fixtures\Servers\GetServersFixture;
+use HetznerCloud\Testing\Fixtures\Servers\GetServersFixture;
 
 covers(GetServersResponse::class);
 

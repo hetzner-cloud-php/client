@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures;
+namespace HetznerCloud\Testing\Fixtures;
 
 abstract class AbstractDataFixture
 {

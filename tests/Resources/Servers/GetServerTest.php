@@ -6,7 +6,7 @@ use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Servers\GetServerResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
-use Tests\Fixtures\Servers\GetServerFixture;
+use HetznerCloud\Testing\Fixtures\Servers\GetServerFixture;
 use Tests\Mocks\ClientMock;
 
 covers(ServersResource::class);

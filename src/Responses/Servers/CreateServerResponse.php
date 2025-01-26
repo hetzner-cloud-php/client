@@ -11,6 +11,7 @@ use HetznerCloud\Responses\Concerns\HasPotentialError;
 use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Errors\ErrorResponse;
 use HetznerCloud\Responses\Servers\Models\Server;
+use HetznerCloud\Testing\Responses\Concerns\Fakeable;
 use Override;
 
 /**
@@ -35,7 +36,7 @@ final readonly class CreateServerResponse implements ResponseContract
      */
     use ArrayAccessible;
 
-    use HasPotentialError;
+    use Fakeable, HasPotentialError;
 
     /**
      * @param  Action[]  $nextActions

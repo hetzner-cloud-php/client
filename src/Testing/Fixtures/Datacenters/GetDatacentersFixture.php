@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Datacenters;
+namespace HetznerCloud\Testing\Fixtures\Datacenters;
 
-use Tests\Fixtures\AbstractDataFixture;
-use Tests\Fixtures\PaginationFixture;
+use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\PaginationFixture;
 
 use function Pest\Faker\fake;
 

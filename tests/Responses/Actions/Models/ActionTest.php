@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Actions\Models\Action;
-use Tests\Fixtures\Actions\GetActionFixture;
+use HetznerCloud\Testing\Fixtures\Actions\GetActionFixture;
 
 covers(Action::class);
 

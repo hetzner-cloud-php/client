@@ -31,6 +31,11 @@ final readonly class ServersResource implements ServersResourceContract
         //
     }
 
+    public function resource(): string
+    {
+        return ServersResource::class;
+    }
+
     #[Override]
     public function getServers(int $page = 1, int $perPage = 25, ?string $sort = null): GetServersResponse
     {

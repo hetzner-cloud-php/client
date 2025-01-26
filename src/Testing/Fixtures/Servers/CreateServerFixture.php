@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Tests\Fixtures\Servers;
+namespace HetznerCloud\Testing\Fixtures\Servers;
 
+use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\Actions\GetActionFixture;
+use HetznerCloud\Testing\Fixtures\ErrorFixture;
 use Override;
-use Tests\Fixtures\AbstractDataFixture;
-use Tests\Fixtures\Actions\GetActionFixture;
-use Tests\Fixtures\ErrorFixture;
 
 use function Pest\Faker\fake;
 

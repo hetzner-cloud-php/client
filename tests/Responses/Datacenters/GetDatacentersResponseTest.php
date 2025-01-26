@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Datacenters\GetDatacentersResponse;
 use HetznerCloud\Responses\Datacenters\Models\Datacenter;
 use HetznerCloud\Responses\Meta;
-use Tests\Fixtures\Datacenters\GetDatacentersFixture;
+use HetznerCloud\Testing\Fixtures\Datacenters\GetDatacentersFixture;
 
 covers(GetDatacentersResponse::class);
 

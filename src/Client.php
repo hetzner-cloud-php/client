@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud;
 
+use HetznerCloud\Contracts\ClientContract;
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\Contracts\Resources\DatacentersResourceContract;
@@ -19,7 +20,7 @@ use HetznerCloud\Resources\ServersResource;
 /**
  * The primary client gateway for connecting to Hetzner Cloud's API containing all connections to the available resources.
  */
-final readonly class Client
+final readonly class Client implements ClientContract
 {
     /**
      * The base URL for the Hetzner Cloud API, requires authentication by default.

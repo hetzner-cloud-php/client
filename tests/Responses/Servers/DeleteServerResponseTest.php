@@ -7,7 +7,7 @@ namespace Tests\Responses;
 use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Servers\DeleteServerResponse;
-use Tests\Fixtures\Servers\CreateServerFixture;
+use HetznerCloud\Testing\Fixtures\Servers\CreateServerFixture;
 
 covers(DeleteServerResponse::class);
 
