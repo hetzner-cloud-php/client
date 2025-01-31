@@ -12,7 +12,8 @@
             "ptr",
             "ips",
             "hetzner",
-            "param"
+            "param",
+            "args"
         ]
     }
 }
