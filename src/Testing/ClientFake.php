@@ -26,19 +26,11 @@ final class ClientFake implements ClientContract
     private array $requests = [];
 
     /**
-     * @var array<int, ResponseContract<array<array-key, mixed>>|Throwable>
-     */
-    private array $responses;
-
-    /**
      * @template TResponse of ResponseContract<array<array-key, mixed>>
      *
      * @param  array<int, TResponse|Throwable>  $responses
      */
-    public function __construct(array $responses = [])
-    {
-        $this->responses = $responses;
-    }
+    public function __construct(private array $responses = []) {}
 
     /**
      * @template TResponse of ResponseContract
@@ -63,6 +55,26 @@ final class ClientFake implements ClientContract
         PHPUnit::assertTrue(
             $this->sent($resource, $callback) !== [],
             "The expected resource [$resource] request was not sent."
+        );
+    }
+
+    /**
+     * @param  null|callable(string, mixed...): bool  $callback
+     * @return array<array-key, TestRequest>
+     */
+    public function sent(string $resource, ?callable $callback = null): array
+    {
+        if (! $this->hasSent($resource)) {
+            return []; // @pest-mutate-ignore
+        }
+
+        if ($callback === null) {
+            $callback = fn (): bool => true;
+        }
+
+        return array_filter( // @pest-mutate-ignore
+            $this->resourcesOf($resource),
+            fn (TestRequest $resource): bool => $callback($resource->method(), ...$resource->args())
         );
     }
 
@@ -129,7 +141,7 @@ final class ClientFake implements ClientContract
         throw new RuntimeException('Method firewalls() not implemented.');
     }
 
-    private function assertSentTimes(string $resource, int $times = 1): void
+    private function assertSentTimes(string $resource, int $times): void
     {
         $count = count($this->sent($resource));
 
@@ -137,24 +149,6 @@ final class ClientFake implements ClientContract
             $times,
             $count,
             "The expected [$resource] resource was sent $count times instead of $times times."
-        );
-    }
-
-    /**
-     * @param  null|callable(string, mixed...): bool  $callback
-     * @return array<array-key, TestRequest>
-     */
-    private function sent(string $resource, ?callable $callback = null): array
-    {
-        if (! $this->hasSent($resource)) {
-            return [];
-        }
-
-        $callback ??= fn (): bool => true;
-
-        return array_filter(
-            $this->resourcesOf($resource),
-            fn (TestRequest $resource): bool => $callback($resource->method(), ...$resource->args())
         );
     }
 
@@ -168,6 +162,9 @@ final class ClientFake implements ClientContract
      */
     private function resourcesOf(string $type): array
     {
-        return array_filter($this->requests, fn (TestRequest $request): bool => $request->resource() === $type);
+        return array_filter(
+            $this->requests,
+            static fn (TestRequest $request): bool => $request->resource() === $type
+        );
     }
 }

@@ -36,7 +36,10 @@ final readonly class ErrorDetails implements ResponseContract
     public static function from(array $attributes): self
     {
         return new self(
-            array_map(fn (array $detail): \HetznerCloud\Responses\Errors\ErrorDetail => ErrorDetail::from($detail), $attributes['fields']),
+            array_map(
+                static fn (array $detail): ErrorDetail => ErrorDetail::from($detail),
+                $attributes['fields']
+            ),
         );
     }
 
