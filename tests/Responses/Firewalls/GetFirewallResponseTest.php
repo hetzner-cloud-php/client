@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Errors\Error;
-use HetznerCloud\Responses\Firewalls\GetFirewallResponse;
-use HetznerCloud\Responses\Firewalls\Models\Firewall;
+use HetznerCloud\Responses\Models\Firewall;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallResponse;
 use HetznerCloud\Testing\Fixtures\Firewalls\GetFirewallFixture;
 
 covers(GetFirewallResponse::class);

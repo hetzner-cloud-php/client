@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
-use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
-use HetznerCloud\Responses\Certificates\GetCertificateResponse;
-use HetznerCloud\Responses\Certificates\GetCertificatesResponse;
+use HetznerCloud\Responses\Resources\Certificates\CreateCertificateResponse;
+use HetznerCloud\Responses\Resources\Certificates\GetCertificateResponse;
+use HetznerCloud\Responses\Resources\Certificates\GetCertificatesResponse;
 use Psr\Http\Message\ResponseInterface;
 
 interface CertificatesResourceContract

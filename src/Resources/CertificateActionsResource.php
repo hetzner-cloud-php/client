@@ -8,8 +8,8 @@ use HetznerCloud\Contracts\Resources\CertificateActionsResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
-use HetznerCloud\Responses\Actions\GetActionResponse;
-use HetznerCloud\Responses\Actions\GetActionsResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionsResponse;
 
 /**
  * @phpstan-import-type GetActionResponseSchema from GetActionResponse

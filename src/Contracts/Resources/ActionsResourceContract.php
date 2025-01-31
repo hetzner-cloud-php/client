@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace HetznerCloud\Contracts\Resources;
 
 use HetznerCloud\Contracts\HetznerResourceContract;
-use HetznerCloud\Responses\Actions\GetActionResponse;
-use HetznerCloud\Responses\Actions\GetActionsResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionsResponse;
 
 interface ActionsResourceContract extends HetznerResourceContract
 {

@@ -17,7 +17,7 @@ trait Fakeable
     public static function fake(array $override = []): static
     {
         /** @var class-string<AbstractDataFixture> $class */
-        $class = str_replace('Responses\\', 'Testing\\Fixtures\\', static::class).'Fixture';
+        $class = str_replace('Responses\\Resources\\', 'Testing\\Fixtures\\', static::class).'Fixture';
         $class = str_replace('ResponseFixture', 'Fixture', $class);
 
         /** @var array<string, mixed> $currentAttributes */

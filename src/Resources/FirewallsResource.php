@@ -8,8 +8,8 @@ use HetznerCloud\Contracts\Resources\FirewallsResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
-use HetznerCloud\Responses\Firewalls\GetFirewallResponse;
-use HetznerCloud\Responses\Firewalls\GetFirewallsResponse;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallResponse;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallsResponse;
 
 /**
  * @phpstan-import-type GetFirewallResponseSchema from GetFirewallResponse

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Certificates\GetCertificateResponse;
-use HetznerCloud\Responses\Certificates\Models\Certificate;
 use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Models\Certificate;
+use HetznerCloud\Responses\Resources\Certificates\GetCertificateResponse;
 use HetznerCloud\Testing\Fixtures\Certificates\GetCertificateFixture;
 
 covers(GetCertificateResponse::class);

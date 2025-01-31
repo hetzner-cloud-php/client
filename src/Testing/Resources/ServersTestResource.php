@@ -7,11 +7,11 @@ namespace HetznerCloud\Testing\Resources;
 use Carbon\Carbon;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\Resources\ServersResource;
-use HetznerCloud\Responses\Servers\CreateServerResponse;
-use HetznerCloud\Responses\Servers\DeleteServerResponse;
-use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
-use HetznerCloud\Responses\Servers\GetServerResponse;
-use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
+use HetznerCloud\Responses\Resources\Servers\DeleteServerResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServerResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServersResponse;
 use HetznerCloud\Testing\Resources\Concerns\Testable;
 
 /**

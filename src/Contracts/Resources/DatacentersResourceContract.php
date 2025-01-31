@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
-use HetznerCloud\Responses\Datacenters\GetDatacenterResponse;
-use HetznerCloud\Responses\Datacenters\GetDatacentersResponse;
+use HetznerCloud\Responses\Resources\Datacenters\GetDatacenterResponse;
+use HetznerCloud\Responses\Resources\Datacenters\GetDatacentersResponse;
 
 interface DatacentersResourceContract
 {

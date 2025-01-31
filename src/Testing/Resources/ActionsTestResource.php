@@ -6,8 +6,8 @@ namespace HetznerCloud\Testing\Resources;
 
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\Resources\ActionsResource;
-use HetznerCloud\Responses\Actions\GetActionResponse;
-use HetznerCloud\Responses\Actions\GetActionsResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionsResponse;
 use HetznerCloud\Testing\Resources\Concerns\Testable;
 
 /**

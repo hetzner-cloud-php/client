@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing;
 
-final class TestRequest
+final readonly class TestRequest
 {
     /**
      * @param  list<mixed>  $args
      */
     public function __construct(
-        protected string $resource,
-        protected string $method,
-        protected array $args)
+        private string $resource,
+        private string $method,
+        private array $args)
     {
         //
     }

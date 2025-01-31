@@ -33,15 +33,16 @@ final class ClientFake implements ClientContract
     public function __construct(private array $responses = []) {}
 
     /**
-     * @template TResponse of ResponseContract
+     * @template TResponse of ResponseContract<array<array-key, mixed>>
      *
-     * @param  array<array-key, TResponse>  $responses
+     * @param  array<int, TResponse|Throwable>  $responses
      */
     public function addResponses(array $responses): void
     {
-        /** @var array<int, ResponseContract<array<array-key, mixed>>|Throwable> $merged */
-        $merged = array_merge($this->responses, $responses);
-        $this->responses = $merged;
+        $this->responses = [ // @phpstan-ignore-line
+            ...$this->responses, // @pest-mutate-ignore
+            ...$responses,
+        ];
     }
 
     public function assertSent(string $resource, callable|int|null $callback = null): void

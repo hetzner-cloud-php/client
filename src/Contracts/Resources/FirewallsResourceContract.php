@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Contracts\Resources;
 
-use HetznerCloud\Responses\Firewalls\GetFirewallResponse;
-use HetznerCloud\Responses\Firewalls\GetFirewallsResponse;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallResponse;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallsResponse;
 
 interface FirewallsResourceContract
 {

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\CertificatesResource;
-use HetznerCloud\Responses\Actions\Models\Action;
-use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
-use HetznerCloud\Responses\Certificates\Models\Certificate;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Models\Certificate;
+use HetznerCloud\Responses\Resources\Certificates\CreateCertificateResponse;
 use HetznerCloud\Testing\Fixtures\Certificates\CreateCertificateFixture;
 use Tests\Mocks\ClientMock;
 

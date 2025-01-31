@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Actions\GetActionResponse;
-use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
 use HetznerCloud\Testing\Fixtures\Actions\GetActionFixture;
 
 covers(GetActionResponse::class);

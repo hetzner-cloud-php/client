@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Actions\Models\Action;
-use HetznerCloud\Responses\Certificates\CreateCertificateResponse;
-use HetznerCloud\Responses\Certificates\Models\Certificate;
 use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Models\Certificate;
+use HetznerCloud\Responses\Resources\Certificates\CreateCertificateResponse;
 use HetznerCloud\Testing\Fixtures\Certificates\CreateCertificateFixture;
 
 covers(CreateCertificateResponse::class);

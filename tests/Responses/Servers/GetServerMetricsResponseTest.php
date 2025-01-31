@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Responses;
 
 use HetznerCloud\Responses\Errors\Error;
-use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
-use HetznerCloud\Responses\Servers\Models\Metrics;
-use HetznerCloud\Responses\Servers\Models\TimeSeries;
+use HetznerCloud\Responses\Models\Metrics;
+use HetznerCloud\Responses\Models\TimeSeries;
+use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
 use HetznerCloud\Testing\Fixtures\Servers\GetServerMetricsFixture;
 
 covers(GetServerMetricsResponse::class);

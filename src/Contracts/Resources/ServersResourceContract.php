@@ -6,11 +6,11 @@ namespace HetznerCloud\Contracts\Resources;
 
 use Carbon\Carbon;
 use HetznerCloud\Contracts\HetznerResourceContract;
-use HetznerCloud\Responses\Servers\CreateServerResponse;
-use HetznerCloud\Responses\Servers\DeleteServerResponse;
-use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
-use HetznerCloud\Responses\Servers\GetServerResponse;
-use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
+use HetznerCloud\Responses\Resources\Servers\DeleteServerResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServerResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServersResponse;
 
 interface ServersResourceContract extends HetznerResourceContract
 {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Responses\Concerns;
 
-use HetznerCloud\Responses\Meta;
+use HetznerCloud\Responses\Models\Meta;
 
 /**
  * @property-read Meta $meta

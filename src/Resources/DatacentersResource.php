@@ -8,8 +8,8 @@ use HetznerCloud\Contracts\Resources\DatacentersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
-use HetznerCloud\Responses\Datacenters\GetDatacenterResponse;
-use HetznerCloud\Responses\Datacenters\GetDatacentersResponse;
+use HetznerCloud\Responses\Resources\Datacenters\GetDatacenterResponse;
+use HetznerCloud\Responses\Resources\Datacenters\GetDatacentersResponse;
 
 /**
  * @phpstan-import-type GetDatacenterResponseSchema from GetDatacenterResponse

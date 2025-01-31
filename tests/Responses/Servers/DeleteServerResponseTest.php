@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Errors\Error;
-use HetznerCloud\Responses\Servers\DeleteServerResponse;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Resources\Servers\DeleteServerResponse;
 use HetznerCloud\Testing\Fixtures\Servers\CreateServerFixture;
 
 covers(DeleteServerResponse::class);

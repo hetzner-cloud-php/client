@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Datacenters\GetDatacenterResponse;
-use HetznerCloud\Responses\Datacenters\Models\Datacenter;
 use HetznerCloud\Responses\Errors\Error;
+use HetznerCloud\Responses\Models\Datacenter;
+use HetznerCloud\Responses\Resources\Datacenters\GetDatacenterResponse;
 use HetznerCloud\Testing\Fixtures\Datacenters\GetDatacenterFixture;
 
 covers(GetDatacenterResponse::class);

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Meta;
-use HetznerCloud\Responses\Servers\GetServersResponse;
-use HetznerCloud\Responses\Servers\Models\Server;
+use HetznerCloud\Responses\Models\Meta;
+use HetznerCloud\Responses\Models\Server;
+use HetznerCloud\Responses\Resources\Servers\GetServersResponse;
 use HetznerCloud\Testing\Fixtures\Servers\GetServersFixture;
 
 covers(GetServersResponse::class);

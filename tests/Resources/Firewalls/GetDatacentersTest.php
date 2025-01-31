@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\FirewallsResource;
-use HetznerCloud\Responses\Firewalls\GetFirewallsResponse;
-use HetznerCloud\Responses\Firewalls\Models\Firewall;
-use HetznerCloud\Responses\Meta;
+use HetznerCloud\Responses\Models\Firewall;
+use HetznerCloud\Responses\Models\Meta;
+use HetznerCloud\Responses\Resources\Firewalls\GetFirewallsResponse;
 use HetznerCloud\Testing\Fixtures\Firewalls\GetFirewallsFixture;
 use Tests\Mocks\ClientMock;
 

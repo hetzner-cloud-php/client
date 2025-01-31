@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ActionsResource;
-use HetznerCloud\Responses\Actions\GetActionResponse;
-use HetznerCloud\Responses\Actions\Models\Action;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
 use HetznerCloud\Testing\Fixtures\Actions\GetActionFixture;
 use Tests\Mocks\ClientMock;
 

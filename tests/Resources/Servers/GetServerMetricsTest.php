@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
-use HetznerCloud\Responses\Servers\GetServerMetricsResponse;
-use HetznerCloud\Responses\Servers\Models\Metrics;
-use HetznerCloud\Responses\Servers\Models\TimeSeries;
+use HetznerCloud\Responses\Models\Metrics;
+use HetznerCloud\Responses\Models\TimeSeries;
+use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
 use HetznerCloud\Testing\Fixtures\Servers\GetServerMetricsFixture;
 use Tests\Mocks\ClientMock;
 

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
 use HetznerCloud\Resources\ServersResource;
-use HetznerCloud\Responses\Servers\GetServerResponse;
-use HetznerCloud\Responses\Servers\Models\Server;
+use HetznerCloud\Responses\Models\Server;
+use HetznerCloud\Responses\Resources\Servers\GetServerResponse;
 use HetznerCloud\Testing\Fixtures\Servers\GetServerFixture;
 use Tests\Mocks\ClientMock;
 

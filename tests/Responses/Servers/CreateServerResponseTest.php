@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Responses;
 
-use HetznerCloud\Responses\Actions\Models\Action;
 use HetznerCloud\Responses\Errors\Error;
-use HetznerCloud\Responses\Servers\CreateServerResponse;
-use HetznerCloud\Responses\Servers\Models\Server;
+use HetznerCloud\Responses\Models\Action;
+use HetznerCloud\Responses\Models\Server;
+use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
 use HetznerCloud\Testing\Fixtures\Servers\CreateServerFixture;
 
 covers(CreateServerResponse::class);

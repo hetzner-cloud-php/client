@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Servers;
 
-use HetznerCloud\Responses\Servers\GetServersResponse;
+use HetznerCloud\Responses\Resources\Servers\GetServersResponse;
 use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
 use HetznerCloud\Testing\Fixtures\PaginationFixture;
 

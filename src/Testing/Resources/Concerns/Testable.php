@@ -43,7 +43,7 @@ trait Testable
             throw new RuntimeException(sprintf(
                 'Expected response of type %s, got %s',
                 $expectedType,
-                get_class($response)
+                $response::class
             ));
         }
 

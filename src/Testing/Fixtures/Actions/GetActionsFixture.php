@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Actions;
 
-use HetznerCloud\Responses\Actions\GetActionsResponse;
+use HetznerCloud\Responses\Resources\Actions\GetActionsResponse;
 use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
 use HetznerCloud\Testing\Fixtures\PaginationFixture;
 
