@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\Testing\Responses;
+namespace HetznerCloud\Testing\Resources;
 
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
 use HetznerCloud\Resources\ActionsResource;
@@ -10,8 +10,17 @@ use HetznerCloud\Responses\Actions\GetActionResponse;
 use HetznerCloud\Responses\Actions\GetActionsResponse;
 use HetznerCloud\Testing\Resources\Concerns\Testable;
 
+/**
+ * @phpstan-import-type GetActionsResponseSchema from GetActionsResponse
+ * @phpstan-import-type GetActionResponseSchema from GetActionResponse
+ *
+ * @phpstan-type ActionsResponseSchema GetActionsResponseSchema|GetActionResponseSchema
+ */
 final class ActionsTestResource implements ActionsResourceContract
 {
+    /**
+     * @use Testable<ActionsResponseSchema>
+     */
     use Testable;
 
     public function getActions(
@@ -21,12 +30,18 @@ final class ActionsTestResource implements ActionsResourceContract
         int $page = 1,
         int $perPage = 25
     ): GetActionsResponse {
-        return $this->record(__FUNCTION__, func_get_args());
+        /** @var GetActionsResponse $response */
+        $response = $this->record(__FUNCTION__, func_get_args());
+
+        return $response;
     }
 
     public function getAction(int $id): GetActionResponse
     {
-        return $this->record(__FUNCTION__, func_get_args());
+        /** @var GetActionResponse $response */
+        $response = $this->record(__FUNCTION__, func_get_args());
+
+        return $response;
     }
 
     public function resource(): string

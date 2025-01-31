@@ -12,10 +12,10 @@ use HetznerCloud\Contracts\Resources\DatacentersResourceContract;
 use HetznerCloud\Contracts\Resources\FirewallsResourceContract;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
-use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
-use HetznerCloud\Testing\Responses\ActionsTestResource;
-use HetznerCloud\Testing\Responses\ServersTestResource;
+use HetznerCloud\Testing\Resources\ActionsTestResource;
+use HetznerCloud\Testing\Resources\ServersTestResource;
 use PHPUnit\Framework\Assert as PHPUnit;
+use RuntimeException;
 use Throwable;
 
 final class ClientFake implements ClientContract
@@ -26,19 +26,30 @@ final class ClientFake implements ClientContract
     private array $requests = [];
 
     /**
-     * @param  ResponseContract[]  $responses
+     * @var array<int, ResponseContract<array<array-key, mixed>>|Throwable>
      */
-    public function __construct(protected array $responses = []) {}
+    private array $responses;
 
     /**
-     * @param  Response[]  $responses
+     * @template TResponse of ResponseContract<array<array-key, mixed>>
+     *
+     * @param  array<int, TResponse|Throwable>  $responses
+     */
+    public function __construct(array $responses = [])
+    {
+        $this->responses = $responses;
+    }
+
+    /**
+     * @template TResponse of ResponseContract
+     *
+     * @param  array<array-key, TResponse>  $responses
      */
     public function addResponses(array $responses): void
     {
-        $this->responses = [
-            ...$this->responses,
-            ...$responses,
-        ];
+        /** @var array<int, ResponseContract<array<array-key, mixed>>|Throwable> $merged */
+        $merged = array_merge($this->responses, $responses);
+        $this->responses = $merged;
     }
 
     public function assertSent(string $resource, callable|int|null $callback = null): void
@@ -58,7 +69,8 @@ final class ClientFake implements ClientContract
     public function assertNotSent(string $resource, ?callable $callback = null): void
     {
         PHPUnit::assertCount(
-            0, $this->sent($resource, $callback),
+            0,
+            $this->sent($resource, $callback),
             "The unexpected [$resource] request was sent."
         );
     }
@@ -73,6 +85,9 @@ final class ClientFake implements ClientContract
         PHPUnit::assertEmpty($this->requests, 'The following requests were sent unexpectedly: '.$resourceNames);
     }
 
+    /**
+     * @return ResponseContract<array<array-key, mixed>>
+     */
     public function record(TestRequest $request): ResponseContract
     {
         $this->requests[] = $request;
@@ -101,17 +116,17 @@ final class ClientFake implements ClientContract
 
     public function certificates(): CertificatesResourceContract
     {
-        // TODO: Implement certificates() method.
+        throw new RuntimeException('Method certificates() not implemented.');
     }
 
     public function datacenters(): DatacentersResourceContract
     {
-        // TODO: Implement datacenters() method.
+        throw new RuntimeException('Method datacenters() not implemented.');
     }
 
     public function firewalls(): FirewallsResourceContract
     {
-        // TODO: Implement firewalls() method.
+        throw new RuntimeException('Method firewalls() not implemented.');
     }
 
     private function assertSentTimes(string $resource, int $times = 1): void
@@ -119,13 +134,15 @@ final class ClientFake implements ClientContract
         $count = count($this->sent($resource));
 
         PHPUnit::assertSame(
-            $times, $count,
+            $times,
+            $count,
             "The expected [$resource] resource was sent $count times instead of $times times."
         );
     }
 
     /**
-     * @return array<array-key, mixed>
+     * @param  null|callable(string, mixed...): bool  $callback
+     * @return array<array-key, TestRequest>
      */
     private function sent(string $resource, ?callable $callback = null): array
     {
@@ -133,9 +150,12 @@ final class ClientFake implements ClientContract
             return [];
         }
 
-        $callback = $callback ?: fn (): bool => true;
+        $callback ??= fn (): bool => true;
 
-        return array_filter($this->resourcesOf($resource), fn (TestRequest $resource) => $callback($resource->method(), ...$resource->args()));
+        return array_filter(
+            $this->resourcesOf($resource),
+            fn (TestRequest $resource): bool => $callback($resource->method(), ...$resource->args())
+        );
     }
 
     private function hasSent(string $resource): bool

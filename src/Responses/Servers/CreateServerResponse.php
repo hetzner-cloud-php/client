@@ -36,7 +36,12 @@ final readonly class CreateServerResponse implements ResponseContract
      */
     use ArrayAccessible;
 
-    use Fakeable, HasPotentialError;
+    /**
+     * @use Fakeable<CreateServerResponseSchema>
+     */
+    use Fakeable;
+
+    use HasPotentialError;
 
     /**
      * @param  Action[]  $nextActions

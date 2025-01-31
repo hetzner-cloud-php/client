@@ -33,7 +33,7 @@ final class CreateServerFixture extends AbstractDataFixture
         return [
             'action' => GetActionFixture::data()['action'],
             'next_actions' => array_map(
-                fn () => GetActionFixture::data()['action'],
+                static fn () => GetActionFixture::data()['action'],
                 range(1, fake()->numberBetween(1, 3))
             ),
             'root_password' => fake()->password(20, 20),

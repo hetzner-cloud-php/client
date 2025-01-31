@@ -46,7 +46,7 @@ final class GetServerMetricsFixture extends AbstractDataFixture
                     ],
                     'memory' => [
                         'values' => array_map(
-                            fn (array $entry): array => [
+                            static fn (array $entry): array => [
                                 $entry[0],
                                 (string) fake()->numberBetween(512, 4096),
                             ],
@@ -55,7 +55,7 @@ final class GetServerMetricsFixture extends AbstractDataFixture
                     ],
                     'disk_bandwidth' => [
                         'values' => array_map(
-                            fn (array $entry): array => [
+                            static fn (array $entry): array => [
                                 $entry[0],
                                 (string) fake()->numberBetween(1000, 50000),
                             ],
@@ -64,7 +64,7 @@ final class GetServerMetricsFixture extends AbstractDataFixture
                     ],
                     'network_bandwidth' => [
                         'values' => array_map(
-                            fn (array $entry): array => [
+                            static fn (array $entry): array => [
                                 $entry[0],
                                 (string) fake()->numberBetween(100, 1000),
                             ],

@@ -101,4 +101,48 @@ describe(CreateServerResponse::class, function (): void {
             ->not->toBeEmpty()
             ->each->toBeArray()->toHaveKey('id');
     });
+
+    it('generates fake responses', function (): void {
+        // Arrange & Act
+        $fake = CreateServerResponse::fake();
+
+        // Assert
+        expect($fake)->toBeInstanceOf(CreateServerResponse::class)
+            ->nextActions->toBeArray()->each->toBeInstanceOf(Action::class)
+            ->action->toBeInstanceOf(Action::class)
+            ->rootPassword->toBeString()
+            ->server->toBeInstanceOf(Server::class);
+    });
+
+    it('can override properties on fakes', function (): void {
+        // Arrange & Act
+        $fake = CreateServerResponse::fake([
+            'root_password' => 'password123',
+        ]);
+
+        // Assert
+        expect($fake)->toBeInstanceOf(CreateServerResponse::class)
+            ->nextActions->toBeArray()->each->toBeInstanceOf(Action::class)
+            ->action->toBeInstanceOf(Action::class)
+            ->rootPassword->toBeString('password123')
+            ->server->toBeInstanceOf(Server::class);
+    });
+
+    it('can override nested properties on fakes', function (): void {
+        // Arrange & Act
+        $fake = CreateServerResponse::fake([
+            'root_password' => 'password123',
+            'action' => [
+                'command' => 'stop_resource',
+            ],
+        ]);
+
+        // Assert
+        expect($fake)->toBeInstanceOf(CreateServerResponse::class)
+            ->nextActions->toBeArray()->each->toBeInstanceOf(Action::class)
+            ->rootPassword->toBe('password123')
+            ->server->toBeInstanceOf(Server::class)
+            ->action->toBeInstanceOf(Action::class)
+            ->and($fake->action?->command)->toBe('stop_resource');
+    });
 });

@@ -7,7 +7,7 @@ namespace HetznerCloud\Testing;
 final class TestRequest
 {
     /**
-     * @param  array<string, mixed>  $args
+     * @param  list<mixed>  $args
      */
     public function __construct(
         protected string $resource,
@@ -28,7 +28,7 @@ final class TestRequest
     }
 
     /**
-     * @return array<string, mixed>
+     * @return list<mixed>
      */
     public function args(): array
     {
