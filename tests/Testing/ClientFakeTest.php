@@ -12,6 +12,7 @@ use HetznerCloud\Responses\Models\Server;
 use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
 use HetznerCloud\Testing\ClientFake;
 use HetznerCloud\Testing\Fixtures\ErrorFixture;
+use HetznerCloud\Testing\Fixtures\Servers\CreateServerFixture;
 use PHPUnit\Framework\ExpectationFailedException;
 
 covers(ClientFake::class);
@@ -20,7 +21,7 @@ describe(ClientFake::class, function (): void {
     it('returns fake data', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -57,7 +58,7 @@ describe(ClientFake::class, function (): void {
     it('throws an exception if there are no more fake responses', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -78,7 +79,7 @@ describe(ClientFake::class, function (): void {
     it('allows to add more responses', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake([
+            CreateServerResponse::fake(CreateServerFixture::class, [
                 'server' => [
                     'name' => 'fake-server',
                 ],
@@ -101,8 +102,8 @@ describe(ClientFake::class, function (): void {
             ->and($response->server?->name)->toBe('fake-server');
 
         // Act again, simulate another response going through
-        $fake->addResponses([
-            CreateServerResponse::fake([
+        $fake->proxy->addResponses([
+            CreateServerResponse::fake(CreateServerFixture::class, [
                 'server' => [
                     'name' => 'another-fake-server',
                 ],
@@ -127,7 +128,7 @@ describe(ClientFake::class, function (): void {
     it('asserts a request was sent', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -138,7 +139,7 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        $fake->assertSent(ServersResource::class, fn (string $method, array $parameters): bool => $method === 'createServer' &&
+        $fake->proxy->assertSent(ServersResource::class, fn (string $method, array $parameters): bool => $method === 'createServer' &&
             $parameters['name'] === 'fake-server' &&
             $parameters['image'] === 'Ubuntu 24.04' &&
             $parameters['server_type'] === 'cpx11');
@@ -147,11 +148,11 @@ describe(ClientFake::class, function (): void {
     it('throws an exception if a request was not sent', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act & Assert
-        $fake->assertSent(ServersResource::class, fn (string $method, array $parameters): bool => $method === 'createServer' &&
+        $fake->proxy->assertSent(ServersResource::class, fn (string $method, array $parameters): bool => $method === 'createServer' &&
             $parameters['name'] === 'fake-server' &&
             $parameters['image'] === 'Ubuntu 24.04' &&
             $parameters['server_type'] === 'cpx11');
@@ -160,7 +161,7 @@ describe(ClientFake::class, function (): void {
     it('asserts a request was sent on the resource', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -180,8 +181,8 @@ describe(ClientFake::class, function (): void {
     it('asserts a request was sent any number of times', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -198,14 +199,14 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        $fake->assertSent(ServersResource::class, 2);
+        $fake->proxy->assertSent(ServersResource::class, 2);
     });
 
     it('throws an exception if a request was not sent any number of times', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -216,7 +217,7 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        $fake->assertSent(ServersResource::class, 2);
+        $fake->proxy->assertSent(ServersResource::class, 2);
     })->throws(ExpectationFailedException::class);
 
     it('asserts a request was not sent', function (): void {
@@ -224,13 +225,13 @@ describe(ClientFake::class, function (): void {
         $fake = new ClientFake;
 
         // Act & Assert
-        $fake->assertNotSent(ServersResource::class);
+        $fake->proxy->assertNotSent(ServersResource::class);
     });
 
     it('throws an exception if an unexpected request was sent', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -241,13 +242,13 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        $fake->assertNotSent(ServersResource::class);
+        $fake->proxy->assertNotSent(ServersResource::class);
     })->throws(ExpectationFailedException::class);
 
     it('asserts a request was not sent on the resource', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act & Assert
@@ -259,13 +260,13 @@ describe(ClientFake::class, function (): void {
         $fake = new ClientFake;
 
         // Act & Assert
-        $fake->assertNothingSent();
+        $fake->proxy->assertNothingSent();
     });
 
     it('throws an exception if any request was sent when non was expected', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -276,14 +277,14 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        $fake->assertNothingSent();
+        $fake->proxy->assertNothingSent();
     })->throws(ExpectationFailedException::class);
 
     it('throws an exception with proper message when assertNothingSent fails', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act - Create two different resource requests
@@ -300,15 +301,23 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert - Verify the exact error message format
-        expect(fn () => $fake->assertNothingSent())
+        expect(fn () => $fake->proxy->assertNothingSent())
             ->toThrow(ExpectationFailedException::class, 'The following requests were sent unexpectedly: '.ServersResource::class.', '.ServersResource::class);
     });
 
     it('uses responses in FIFO order', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(['server' => ['name' => 'first-server']]),
-            CreateServerResponse::fake(['server' => ['name' => 'second-server']]),
+            CreateServerResponse::fake(CreateServerFixture::class, [
+                'server' => [
+                    'name' => 'first-server',
+                ],
+            ]),
+            CreateServerResponse::fake(CreateServerFixture::class, [
+                'server' => [
+                    'name' => 'second-server',
+                ],
+            ]),
         ]);
 
         // Act & Assert - First request should get first response
@@ -331,7 +340,7 @@ describe(ClientFake::class, function (): void {
     it('asserts a request was sent exactly once by default', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -342,17 +351,17 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert - Using the default parameter
-        $fake->assertSent(ServersResource::class);
+        $fake->proxy->assertSent(ServersResource::class);
 
         // Should fail if we try to assert it was sent twice
-        expect(fn () => $fake->assertSent(ServersResource::class, 2))
+        expect(fn () => $fake->proxy->assertSent(ServersResource::class, 2))
             ->toThrow(ExpectationFailedException::class, 'was sent 1 times instead of 2 times');
     });
 
     it('handles null callback in sent verification', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -363,13 +372,13 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert - Call assertSent with null callback (default behavior)
-        $fake->assertSent(ServersResource::class);
+        $fake->proxy->assertSent(ServersResource::class);
     });
 
     it('returns empty array for non-existent resource without checking callback', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act
@@ -380,28 +389,17 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert
-        expect($fake->sent(ServersResource::class))
+        expect($fake->proxy->sent(ServersResource::class))
             ->toBeArray()
             ->not->toBeEmpty()
-            ->and(fn () => $fake->assertSent(ServersResource::class));
-    });
-
-    it('returns non-empty array for existing resource without checking callback', function (): void {
-        // Arrange
-        $fake = new ClientFake;
-
-        // Act & Assert
-        expect($fake->sent('NonExistentResource'))
-            ->toBeArray()
-            ->toBeEmpty()
-            ->and(fn () => $fake->assertNotSent('NonExistentResource'))->not->toThrow(ExpectationFailedException::class);
+            ->and(fn () => $fake->proxy->assertSent(ServersResource::class));
     });
 
     it('correctly filters requests by resource type', function (): void {
         // Arrange
         $fake = new ClientFake([
-            CreateServerResponse::fake(),
-            CreateServerResponse::fake(),
+            CreateServerResponse::fake(CreateServerFixture::class),
+            CreateServerResponse::fake(CreateServerFixture::class),
         ]);
 
         // Act - Create a server and perform another action
@@ -412,9 +410,9 @@ describe(ClientFake::class, function (): void {
         ]);
 
         // Assert - Should only count ServerResource requests
-        $fake->assertSent(ServersResource::class, 1);
+        $fake->proxy->assertSent(ServersResource::class, 1);
 
         // Verify filtering works by asserting no requests for a different resource
-        $fake->assertNotSent('DifferentResource');
+        $fake->proxy->assertNotSent('DifferentResource');
     });
 });

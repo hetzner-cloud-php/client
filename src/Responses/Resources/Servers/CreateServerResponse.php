@@ -6,12 +6,12 @@ namespace HetznerCloud\Responses\Resources\Servers;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\HttpClientUtilities\Testing\Concerns\Fakeable;
 use HetznerCloud\Responses\Concerns\HasPotentialError;
 use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Errors\ErrorResponse;
 use HetznerCloud\Responses\Models\Action;
 use HetznerCloud\Responses\Models\Server;
-use HetznerCloud\Testing\Responses\Concerns\Fakeable;
 use Override;
 
 /**

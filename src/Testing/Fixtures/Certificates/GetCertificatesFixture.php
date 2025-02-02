@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Certificates;
 
-use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
 use HetznerCloud\Testing\Fixtures\PaginationFixture;
 
 final class GetCertificatesFixture extends AbstractDataFixture

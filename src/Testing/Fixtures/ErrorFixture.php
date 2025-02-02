@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures;
 
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
+
 final class ErrorFixture extends AbstractDataFixture
 {
     public static function data(): array

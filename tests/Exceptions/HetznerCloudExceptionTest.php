@@ -33,7 +33,9 @@ describe(HetznerCloudException::class, function (): void {
 
     it('creates from error response array', function (): void {
         // Arrange
-        $errorData = ErrorFixture::error();
+        $errorData = [
+            'error' => ErrorFixture::data(),
+        ];
 
         // Act
         $exception = HetznerCloudException::from($errorData, 429);
@@ -55,7 +57,7 @@ describe(HetznerCloudException::class, function (): void {
         ];
 
         // Act & Assert
-        expect(fn (): \HetznerCloud\Exceptions\HetznerCloudException => HetznerCloudException::from($invalidErrorData, 400))
+        expect(fn (): HetznerCloudException => HetznerCloudException::from($invalidErrorData, 400))
             ->toThrow(RuntimeException::class, 'Response error is not set.');
     });
 
@@ -66,13 +68,15 @@ describe(HetznerCloudException::class, function (): void {
         ];
 
         // Act & Assert
-        expect(fn (): \HetznerCloud\Exceptions\HetznerCloudException => HetznerCloudException::from($invalidErrorData, 400))
+        expect(fn (): HetznerCloudException => HetznerCloudException::from($invalidErrorData, 400))
             ->toThrow(RuntimeException::class, 'Response error is not set.');
     });
 
     it('preserves complete error information', function (): void {
         // Arrange
-        $errorData = ErrorFixture::error();
+        $errorData = [
+            'error' => ErrorFixture::data(),
+        ];
 
         // Act
         $exception = HetznerCloudException::from($errorData, 404);

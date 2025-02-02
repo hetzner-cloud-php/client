@@ -65,4 +65,29 @@ describe(GetActionResponse::class, function (): void {
             ->toHaveKey('message')
             ->toHaveKey('code');
     });
+
+    it('generates fake responses', function (): void {
+        // Arrange & Act
+        $fake = GetActionResponse::fake(GetActionFixture::class);
+
+        // Assert
+        expect($fake)->toBeInstanceOf(GetActionResponse::class)
+            ->action->not->toBeNull()->toBeInstanceOf(Action::class)
+            ->error->toBeNull();
+    });
+
+    it('can override nested properties on fakes', function (): void {
+        // Arrange & Act
+        $fake = GetActionResponse::fake(GetActionFixture::class, [
+            'action' => [
+                'command' => 'stop_resource',
+            ],
+        ]);
+
+        // Assert
+        expect($fake)->toBeInstanceOf(GetActionResponse::class)
+            ->action->not->toBeNull()->toBeInstanceOf(Action::class)
+            ->error->toBeNull()
+            ->and($fake->action->command)->toBe('stop_resource');
+    });
 });

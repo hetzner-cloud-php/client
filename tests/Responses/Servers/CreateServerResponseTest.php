@@ -104,7 +104,7 @@ describe(CreateServerResponse::class, function (): void {
 
     it('generates fake responses', function (): void {
         // Arrange & Act
-        $fake = CreateServerResponse::fake();
+        $fake = CreateServerResponse::fake(CreateServerFixture::class);
 
         // Assert
         expect($fake)->toBeInstanceOf(CreateServerResponse::class)
@@ -116,7 +116,7 @@ describe(CreateServerResponse::class, function (): void {
 
     it('can override properties on fakes', function (): void {
         // Arrange & Act
-        $fake = CreateServerResponse::fake([
+        $fake = CreateServerResponse::fake(CreateServerFixture::class, [
             'root_password' => 'password123',
         ]);
 
@@ -130,7 +130,7 @@ describe(CreateServerResponse::class, function (): void {
 
     it('can override nested properties on fakes', function (): void {
         // Arrange & Act
-        $fake = CreateServerResponse::fake([
+        $fake = CreateServerResponse::fake(CreateServerFixture::class, [
             'root_password' => 'password123',
             'action' => [
                 'command' => 'stop_resource',

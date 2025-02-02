@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace HetznerCloud\Testing\Resources;
 
 use HetznerCloud\Contracts\Resources\ActionsResourceContract;
+use HetznerCloud\HttpClientUtilities\Testing\Concerns\Testable;
 use HetznerCloud\Resources\ActionsResource;
 use HetznerCloud\Responses\Resources\Actions\GetActionResponse;
 use HetznerCloud\Responses\Resources\Actions\GetActionsResponse;
-use HetznerCloud\Testing\Resources\Concerns\Testable;
 
 /**
  * @phpstan-import-type GetActionsResponseSchema from GetActionsResponse

@@ -6,6 +6,7 @@ namespace HetznerCloud\Responses\Resources\Actions;
 
 use HetznerCloud\HttpClientUtilities\Contracts\ResponseContract;
 use HetznerCloud\HttpClientUtilities\Responses\Concerns\ArrayAccessible;
+use HetznerCloud\HttpClientUtilities\Testing\Concerns\Fakeable;
 use HetznerCloud\Responses\Errors\Error;
 use HetznerCloud\Responses\Errors\ErrorResponse;
 use HetznerCloud\Responses\Models\Action;
@@ -27,6 +28,11 @@ final readonly class GetActionResponse implements ResponseContract
      * @use ArrayAccessible<GetActionResponseSchema>
      */
     use ArrayAccessible;
+
+    /**
+     * @use Fakeable<GetActionResponseSchema>
+     */
+    use Fakeable;
 
     private function __construct(
         public ?Action $action,

@@ -6,13 +6,13 @@ namespace HetznerCloud\Testing\Resources;
 
 use Carbon\Carbon;
 use HetznerCloud\Contracts\Resources\ServersResourceContract;
+use HetznerCloud\HttpClientUtilities\Testing\Concerns\Testable;
 use HetznerCloud\Resources\ServersResource;
 use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Resources\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
 use HetznerCloud\Responses\Resources\Servers\GetServerResponse;
 use HetznerCloud\Responses\Resources\Servers\GetServersResponse;
-use HetznerCloud\Testing\Resources\Concerns\Testable;
 
 /**
  * @phpstan-import-type CreateServerResponseSchema from CreateServerResponse
@@ -23,13 +23,16 @@ use HetznerCloud\Testing\Resources\Concerns\Testable;
  *
  * @phpstan-type ServersResponseSchemas CreateServerResponseSchema|DeleteServerResponseSchema|GetServerResponseSchema|GetServersResponseSchema|GetServerMetricsResponseSchema
  */
-final class ServersTestResource implements ServersResourceContract
+final readonly class ServersTestResource implements ServersResourceContract
 {
     /**
      * @use Testable<ServersResponseSchemas>
      */
     use Testable;
 
+    /**
+     * @return class-string
+     */
     public function resource(): string
     {
         return ServersResource::class;

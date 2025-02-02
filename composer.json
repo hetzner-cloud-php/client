@@ -24,7 +24,13 @@
             "email": "joey.mckenzie27@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../http-client-utilities"
+        }
+    ],
+    "minimum-stability": "dev",
     "require": {
         "php": "^8.4",
         "php-http/discovery": "^1.20",
@@ -33,7 +39,7 @@
         "psr/http-client-implementation": "^1.0",
         "psr/http-factory-implementation": "^1.0",
         "psr/http-message": "^2.0",
-        "hetzner-cloud-php/http-client-utilities": "^0.1",
+        "hetzner-cloud-php/http-client-utilities": "*",
         "nesbot/carbon": "^3.8"
     },
     "require-dev": {

@@ -4,22 +4,14 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Servers;
 
-use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
-use HetznerCloud\Testing\Fixtures\ErrorFixture;
-use Override;
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\Concerns\HasErrorFixture;
 
 use function Pest\Faker\fake;
 
 final class GetServerMetricsFixture extends AbstractDataFixture
 {
-    #[Override]
-    public static function error(): array
-    {
-        return [
-            'metrics' => null,
-            'error' => ErrorFixture::data(),
-        ];
-    }
+    use HasErrorFixture;
 
     public static function data(): array
     {

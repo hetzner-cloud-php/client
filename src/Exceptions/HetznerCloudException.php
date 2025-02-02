@@ -6,11 +6,10 @@ namespace HetznerCloud\Exceptions;
 
 use Exception;
 use HetznerCloud\Responses\Errors\Error;
-use HetznerCloud\Responses\Errors\ErrorResponse;
 use RuntimeException;
 
 /**
- * @phpstan-import-type ErrorResponseSchema from ErrorResponse
+ * @phpstan-import-type ErrorResponseSchema from Error
  */
 final class HetznerCloudException extends Exception
 {

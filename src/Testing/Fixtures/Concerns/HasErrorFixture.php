@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace HetznerCloud\Testing\Fixtures;
+namespace HetznerCloud\Testing\Fixtures\Concerns;
 
-abstract class AbstractDataFixture
+use HetznerCloud\Testing\Fixtures\ErrorFixture;
+
+trait HasErrorFixture
 {
-    /**
-     * @return array<array-key, mixed>
-     */
-    abstract public static function data(): array;
-
     /**
      * @return array<array-key, mixed>
      */

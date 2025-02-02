@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures;
 
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
+
 use function Pest\Faker\fake;
 
 final class PaginationFixture extends AbstractDataFixture

@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Certificates;
 
-use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
+use HetznerCloud\Testing\Fixtures\Concerns\HasErrorFixture;
 
 final class GetCertificateFixture extends AbstractDataFixture
 {
+    use HasErrorFixture;
+
     public static function data(): array
     {
         return [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace HetznerCloud\Testing\Fixtures\Firewalls;
 
-use HetznerCloud\Testing\Fixtures\AbstractDataFixture;
+use HetznerCloud\HttpClientUtilities\Testing\AbstractDataFixture;
 use HetznerCloud\Testing\Fixtures\PaginationFixture;
 
 use function Pest\Faker\fake;
