@@ -8,6 +8,7 @@ use HetznerCloud\Contracts\Resources\DatacentersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
+use HetznerCloud\Resources\Concerns\SelfIdentifiedResource;
 use HetznerCloud\Responses\Resources\Datacenters\GetDatacenterResponse;
 use HetznerCloud\Responses\Resources\Datacenters\GetDatacentersResponse;
 
@@ -17,6 +18,8 @@ use HetznerCloud\Responses\Resources\Datacenters\GetDatacentersResponse;
  */
 final readonly class DatacentersResource implements DatacentersResourceContract
 {
+    use SelfIdentifiedResource;
+
     public function __construct(
         public ConnectorContract $connector
     ) {

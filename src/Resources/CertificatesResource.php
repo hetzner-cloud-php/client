@@ -9,6 +9,7 @@ use HetznerCloud\Contracts\Resources\CertificatesResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
+use HetznerCloud\Resources\Concerns\SelfIdentifiedResource;
 use HetznerCloud\Responses\Resources\Certificates\CreateCertificateResponse;
 use HetznerCloud\Responses\Resources\Certificates\GetCertificateResponse;
 use HetznerCloud\Responses\Resources\Certificates\GetCertificatesResponse;
@@ -21,6 +22,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 final readonly class CertificatesResource implements CertificatesResourceContract
 {
+    use SelfIdentifiedResource;
+
     public function __construct(
         public ConnectorContract $connector
     ) {

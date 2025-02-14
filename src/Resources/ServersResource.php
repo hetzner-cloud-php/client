@@ -9,6 +9,7 @@ use HetznerCloud\Contracts\Resources\ServersResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
+use HetznerCloud\Resources\Concerns\SelfIdentifiedResource;
 use HetznerCloud\Responses\Resources\Servers\CreateServerResponse;
 use HetznerCloud\Responses\Resources\Servers\DeleteServerResponse;
 use HetznerCloud\Responses\Resources\Servers\GetServerMetricsResponse;
@@ -25,15 +26,12 @@ use Override;
  */
 final readonly class ServersResource implements ServersResourceContract
 {
+    use SelfIdentifiedResource;
+
     public function __construct(
         public ConnectorContract $connector
     ) {
         //
-    }
-
-    public function resource(): string
-    {
-        return ServersResource::class;
     }
 
     #[Override]

@@ -8,6 +8,7 @@ use HetznerCloud\Contracts\Resources\FirewallsResourceContract;
 use HetznerCloud\HttpClientUtilities\Contracts\ConnectorContract;
 use HetznerCloud\HttpClientUtilities\Support\ClientRequestBuilder;
 use HetznerCloud\HttpClientUtilities\ValueObjects\Response;
+use HetznerCloud\Resources\Concerns\SelfIdentifiedResource;
 use HetznerCloud\Responses\Resources\Firewalls\GetFirewallResponse;
 use HetznerCloud\Responses\Resources\Firewalls\GetFirewallsResponse;
 
@@ -17,6 +18,8 @@ use HetznerCloud\Responses\Resources\Firewalls\GetFirewallsResponse;
  */
 final readonly class FirewallsResource implements FirewallsResourceContract
 {
+    use SelfIdentifiedResource;
+
     public function __construct(
         public ConnectorContract $connector
     ) {}
