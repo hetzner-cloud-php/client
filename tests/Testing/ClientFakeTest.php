@@ -140,9 +140,9 @@ describe(ClientFake::class, function (): void {
 
         // Assert
         $fake->proxy->assertSent(ServersResource::class, fn (string $method, array $parameters): bool => $method === 'createServer' &&
-            $parameters['name'] === 'fake-server' &&
-            $parameters['image'] === 'Ubuntu 24.04' &&
-            $parameters['server_type'] === 'cpx11');
+            $parameters[0]['name'] === 'fake-server' &&
+            $parameters[0]['image'] === 'Ubuntu 24.04' &&
+            $parameters[0]['server_type'] === 'cpx11');
     });
 
     it('throws an exception if a request was not sent', function (): void {
@@ -173,9 +173,9 @@ describe(ClientFake::class, function (): void {
 
         // Assert
         $fake->servers()->assertSent(fn (string $method, array $parameters): bool => $method === 'createServer' &&
-            $parameters['name'] === 'fake-server' &&
-            $parameters['image'] === 'Ubuntu 24.04' &&
-            $parameters['server_type'] === 'cpx11');
+            $parameters[0]['name'] === 'fake-server' &&
+            $parameters[0]['image'] === 'Ubuntu 24.04' &&
+            $parameters[0]['server_type'] === 'cpx11');
     });
 
     it('asserts a request was sent any number of times', function (): void {
