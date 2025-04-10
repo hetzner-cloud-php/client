@@ -1,5 +1,5 @@
 <div align="center" style="padding-top: 2rem;">
-    <img src="assets/sample.svg" height="500" width="600" alt="logo"/>
+    <img src="docs/public/hetzner_cloud_php_logo.png" height="256" width="256" alt="logo"/>
     <div style="display: inline-block; padding-top: 2rem">
         <img src="https://img.shields.io/packagist/v/hetzner-cloud-php/client.svg?style=flat-square" alt="packgist downloads" />
         <img src="https://img.shields.io/github/actions/workflow/status/hetzner-cloud-php/client/run-tests.yml?branch=main&label=tests&style=flat-square" alt="tests ci" />
