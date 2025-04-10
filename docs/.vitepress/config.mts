@@ -13,10 +13,6 @@ export default defineConfig({
                 text: 'Getting Started',
                 link: '/installation',
             },
-            {
-                text: 'Usage',
-                link: '/usage',
-            },
         ],
         sidebar: [
             {
@@ -29,7 +25,7 @@ export default defineConfig({
                 ],
             },
             {
-                text: 'Usage',
+                text: 'Resources',
                 items: [
                     {
                         text: 'Actions',
@@ -42,6 +38,10 @@ export default defineConfig({
                     {
                         text: 'Certificate Actions',
                         link: '/resources/certificate-actions',
+                    },
+                    {
+                        text: 'Servers',
+                        link: '/resources/servers',
                     },
                 ],
             },

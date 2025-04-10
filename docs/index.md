@@ -9,15 +9,12 @@ hero:
         - theme: brand
           text: Getting Started
           link: /installation
-        - theme: alt
-          text: Usage
-          link: /usage
 
 features:
-    - title: Feature A
-      details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-    - title: Feature B
-      details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-    - title: Feature C
-      details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+    - title: Easy to use
+      details: An API maximized for developer happiness, no frills
+    - title: Standards compliant
+      details: PSR-17 and PSR-18 compliant, B.Y.O.H.C. (bring your own HTTP client)
+    - title: Reliably tested
+      details: Strictly typed, tested everywhere
 ---
