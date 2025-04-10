@@ -1,8 +1,12 @@
 pre-push:
+  parallel: true
   commands:
     vendors-audit:
       tags: backend security
       run: composer audit
+    npm-audit:
+      tags: docs security
+      run: npm audit
     checks:
       tags: backend code quality checks
       run: composer run check
